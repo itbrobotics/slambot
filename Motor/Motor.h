@@ -1,5 +1,5 @@
 /**
-* File: motor.h
+* File: Motor.h
 *
 * Defines the basic motor functionality for SLAM Robot built 
 * using the adafruit motor shield. The robot contains 4

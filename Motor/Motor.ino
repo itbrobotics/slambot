@@ -1,5 +1,5 @@
 /**
-* File: motor.ino
+* File: Motor.ino
 *
 * Provides basic motor functionality for SLAM Robot built 
 * using the adafruit motor shield. The robot contains 4
