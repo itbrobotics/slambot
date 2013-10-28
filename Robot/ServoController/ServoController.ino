@@ -15,7 +15,6 @@
 * @version 27/10/2013
 */
 
-
 #include <Servo.h>
 
 // Cannot be included until boolean problem with headers is

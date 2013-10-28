@@ -14,22 +14,6 @@
 * @version 27/10/2013
 */
 
-/**
-* File: motor.ino
-*
-* Provides basic motor functionality for SLAM Robot built 
-* using the adafruit motor shield. The robot contains 4
-* standard DC motors.
-*
-* It is possible to drive forward and backwards, turn left and 
-* turn right when travelling forward or backwards. All of these 
-* actions can be run for an optional set duration or for an
-* indefinite provide of time.
-*
-* @author Joshua Michael Daly
-* @version 27/10/2013
-*/
-
 #include <AFMotor.h>
 
 #define MOTOR_1_SPEED 200
