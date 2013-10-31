@@ -1,5 +1,5 @@
 /**
-* File: SharpIR.ino
+* File: SharpIR.cpp
 *
 * 
 *

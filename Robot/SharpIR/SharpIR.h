@@ -31,7 +31,7 @@ class SharpIR
   SharpIR();
 
   /**
-  * Constructors a SharpIR object attached to a defined pin.
+  * Creates a SharpIR object attached to a defined pin.
   *
   * @param pinNumber pin number the sensor is connected to
   */

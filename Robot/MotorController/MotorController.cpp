@@ -1,5 +1,5 @@
 /**
-* File: Motor.ino
+* File: MotorController.cpp
 *
 * Provides basic motor functionality for SLAM Robot built 
 * using the adafruit motor shield. The robot contains 4
@@ -15,62 +15,35 @@
 */
 
 #include <AFMotor.h>
-#include "motor.h"
+#include "MotorController.h"
 
-/************************************************************
-* System Functions
-************************************************************/
-
-void setup() 
-{
-  Serial.begin(9600); // set up Serial library at 9600 bps
-  Serial.println("Motor test!");
-  
-  setMotorSpeeds();
-}
-
-void loop() 
-{
-  driveForward();
-  delay(1000);
-  
-  driveBackward();
-  delay(1000);
-  
-  turnRight(FORWARD);
-  delay(1000);
-  
-  turnRight(BACKWARD);
-  delay(1000);
-  
-  turnLeft(FORWARD);
-  delay(1000);
-  
-  turnLeft(BACKWARD);
-  delay(1000);
-  
-  driveForward(2000);
-  
-  driveBackward(2000);
-  
-  turnRight(FORWARD, 2000);
-  turnRight(BACKWARD, 2000);
-  
-  turnLeft(FORWARD, 2000);
-  turnLeft(BACKWARD, 2000);
-  
-  releaseAllMotors();
-  delay(5000);
-}
+/*
+* Create the 4 motors on the rover, 64KHZ PWN on motor 1 and 2 
+* uses more power but generates less electrical noise. Motors 
+* 3 and 4 will only run a 1KHZ and will ignore any setting 
+* given.
+*/
+AF_DCMotor motor1(1, MOTOR12_64KHZ); 
+AF_DCMotor motor2(2, MOTOR12_64KHZ); 
+AF_DCMotor motor3(3); 
+AF_DCMotor motor4(4);
 
 /************************************************************
 * Motor Functions
 ************************************************************/
 
 /**
+* Default constructor.
+*/ 
+MotorController::MotorController()
+{
+
+}
+
+/**
 * Sets the speed for all 4 motors.
 */
-void setMotorSpeeds()
+void MotorController::setMotorSpeeds()
 {
   motor1.setSpeed(MOTOR_1_SPEED);
   motor2.setSpeed(MOTOR_2_SPEED);
@@ -81,7 +54,7 @@ void setMotorSpeeds()
 /**
 * Releases all 4 motors.
 */
-void releaseAllMotors()
+void MotorController::releaseAllMotors()
 {
   motor1.run(RELEASE);
   motor2.run(RELEASE);
@@ -92,7 +65,7 @@ void releaseAllMotors()
 /**
 * Drives all 4 motors forward.
 */
-void driveForward()
+void MotorController::driveForward()
 {
   motor1.run(FORWARD);
   motor2.run(FORWARD);
@@ -105,7 +78,7 @@ void driveForward()
 *
 * @param duration time to drive forwards in milliseconds
 */
-void driveForward(unsigned long duration)
+void MotorController::driveForward(unsigned long duration)
 {
   driveForward();
   delay(duration);
@@ -115,7 +88,7 @@ void driveForward(unsigned long duration)
 /**
 * Drives all 4 Motors backward.
 */
-void driveBackward()
+void MotorController::driveBackward()
 {
   motor1.run(BACKWARD);
   motor2.run(BACKWARD);
@@ -128,7 +101,7 @@ void driveBackward()
 *
 * @param duration duration time to drive backwards in milliseconds
 */
-void driveBackward(unsigned long duration)
+void MotorController::driveBackward(unsigned long duration)
 {
   driveBackward();
   delay(duration);
@@ -139,7 +112,7 @@ void driveBackward(unsigned long duration)
 * Turns the robot right using motors 1 and 2. Shuts motors 3 
 * and 4 down.
 */
-boolean turnRight(unsigned short path)
+boolean MotorController::turnRight(unsigned short path)
 {
   if (path != FORWARD && path != BACKWARD)
   {
@@ -163,7 +136,7 @@ boolean turnRight(unsigned short path)
 *
 * @param duration duration time to turn right in milliseconds
 */
-void turnRight(unsigned short path, unsigned long duration)
+void MotorController::turnRight(unsigned short path, unsigned long duration)
 {
   boolean result = turnRight(path);
   Serial.println(result);
@@ -180,7 +153,7 @@ void turnRight(unsigned short path, unsigned long duration)
 * Turns the robot left using motors 3 and 4. Shuts motors 1
 * and 2 down.
 */
-boolean turnLeft(unsigned short path)
+boolean MotorController::turnLeft(unsigned short path)
 {
   if (path != FORWARD && path != BACKWARD)
   {
@@ -204,7 +177,7 @@ boolean turnLeft(unsigned short path)
 *
 * @param duration duration time to turn left for in milliseconds
 */
-void turnLeft(unsigned short path, unsigned long duration)
+void MotorController::turnLeft(unsigned short path, unsigned long duration)
 {
   boolean result = turnLeft(path);
   Serial.println(result);

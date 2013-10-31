@@ -18,51 +18,82 @@
 * @version 27/10/2013
 */
 
+#ifndef ServoController_h
+
+#define ServoController_h
+
+#include <Arduino.h>
 #include <Servo.h>
 
-/*
-* Create servo object to control a servo a maximum of eight 
-* servo objects can be created.
-*/
-Servo servo;
- 
-int servoPostion = 0; // Variable to store the servo position. 
+class ServoController
+{
+  public:
 
-/************************************************************
-* Servo Functions
-************************************************************/
+  /************************************************************
+  * Public ServoController Constructors
+  ************************************************************/
 
-/**
-* Resets the servo to 0 degrees.
-*/ 
-void reset();
+  /**
+  * Default constructor.
+  */
+  ServoController();
 
-/**
-* Resets the servo to 0 degrees optionally waiting for the 
-* servo to reach its position.
-*
-* @param wait  if true the function will not return until the
-*              servo has reached 0 degrees.
-*/
-void reset(boolean wait);
+  /**
+  * Creates a ServoController object attached to a defined pin.
+  *
+  * @param pinNumber pin number the sensor is connected to
+  */
+  ServoController(int pin);
 
-/**
-* Rotates the servo to the angle specified without waiting for
-* the servo to reach it.
-*
-* @param angle  position to move the servo to
-*/
-void rotate(unsigned short angle);
+  /************************************************************
+  * Public SharpIR Function Prototypes
+  ************************************************************/
 
-/**
-* Rotates the servo to the angle specified optionally waiting for
-* the servo to reach its position.
-*
-* @param angle  position to move the servo to
-* @param wait   if true the function will not return until the
-*               servo has reached angle.
-*/
-void rotate(unsigned short angle, boolean wait);
+  /**
+  * Resets the servo to 0 degrees.
+  */ 
+  void reset();
+
+  /**
+  * Resets the servo to 0 degrees optionally waiting for the 
+  * servo to reach its position.
+  *
+  * @param wait  if true the function will not return until the
+  *              servo has reached 0 degrees.
+  */
+  void reset(boolean wait);
+
+  /**
+  * Rotates the servo to the angle specified without waiting for
+  * the servo to reach it.
+  *
+  * @param angle  position to move the servo to
+  */
+  void rotate(unsigned short angle);
+
+  /**
+  * Rotates the servo to the angle specified optionally waiting for
+  * the servo to reach its position.
+  *
+  * @param angle  position to move the servo to
+  * @param wait   if true the function will not return until the
+  *               servo has reached angle.
+  */
+  void rotate(unsigned short angle, boolean wait);
+
+  private:
+
+  /*
+  * Create servo object to control a servo a maximum of eight 
+  * servo objects can be created.
+  */
+  Servo servo;
+
+  int servoPosition;
+};
+
+#endif
+
 
 
 

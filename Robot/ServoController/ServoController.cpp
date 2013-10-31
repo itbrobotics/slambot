@@ -16,55 +16,34 @@
 */
 
 #include <Servo.h>
-
-// Cannot be included until boolean problem with headers is
-// resolved.
-//#include "ServoController.h"
-
-/*
-* Create servo object to control a servo a maximum of eight 
-* servo objects can be created.
-*/
-Servo servo;
- 
-int servoPosition = 0; // Variable to store the servo position. 
+#include "ServoController.h"
 
 /************************************************************
-* System Functions
+* Public ServoController Constructors
 ************************************************************/
 
-void setup()
+ServoController::ServoController()
 {
-  servo.attach(10);
+  this->servo.attach(0); // Assume pin 0.
+  this->servoPosition = this->servo.read();  
 }
 
-void loop()
+ServoController::ServoController(int pin)
 {
-  reset(true);
-  delay(5000);
-  
-  for(servoPosition = 0; servoPosition < 180; servoPosition += 1)  // goes from 0 degrees to 180 degrees 
-  {                                  // in steps of 1 degree 
-    rotate(servoPosition);              // tell servo to go to position in variable 'pos' 
-    delay(15);                       // waits 15ms for the servo to reach the position 
-  } 
-  
-  for(servoPosition = 180; servoPosition >= 1; servoPosition -= 1)     // goes from 180 degrees to 0 degrees 
-  {                                
-    rotate(servoPosition, true);
-  } 
+  this->servo.attach(pin); // Assume pin 0.
+  this->servoPosition = this->servo.read();  
 }
 
 /************************************************************
-* Servo Functions
+* Public SharpIR Functions
 ************************************************************/
 
 /**
 * Resets the servo to 0 degrees.
 */ 
-void reset()
+void ServoController::reset()
 {
-  servo.write(0);
+  this->servo.write(0);
 }
 
 /**
@@ -74,11 +53,11 @@ void reset()
 * @param wait  if true the function will not return until the
 *              servo has reached 0 degrees.
 */
-void reset(boolean wait)
+void ServoController::reset(boolean wait)
 {
   reset();
   
-  while (servo.read() != 0)
+  while (this->servo.read() != 0)
   {
     // Busy waiting.
   } 
@@ -90,7 +69,7 @@ void reset(boolean wait)
 *
 * @param angle  position to move the servo to
 */
-void rotate(unsigned short angle)
+void ServoController::rotate(unsigned short angle)
 {
   servo.write(angle); 
 }
@@ -103,7 +82,7 @@ void rotate(unsigned short angle)
 * @param wait   if true the function will not return until the
 *               servo has reached angle.
 */
-void rotate(unsigned short angle, boolean wait)
+void ServoController::rotate(unsigned short angle, boolean wait)
 {
   servo.write(angle);
   
