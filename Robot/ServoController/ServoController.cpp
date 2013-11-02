@@ -24,19 +24,32 @@
 
 ServoController::ServoController()
 {
-  this->servo.attach(0); // Assume pin 0.
-  this->servoPosition = this->servo.read();  
-}
-
-ServoController::ServoController(int pin)
-{
-  this->servo.attach(pin); // Assume pin 0.
-  this->servoPosition = this->servo.read();  
+  
 }
 
 /************************************************************
 * Public SharpIR Functions
 ************************************************************/
+
+/**
+* Sets the digital pin of the servo.
+*
+* @ param pin digital pin servo is attached to
+*/
+void ServoController::setPin(int pin)
+{
+  this->servo.attach(pin);
+}
+
+/**
+* Gets the current position of the servo.
+*
+* @return servo position
+*/
+ int ServoController::getPosition()
+{
+  return this->servo.read();
+}
 
 /**
 * Resets the servo to 0 degrees.
@@ -55,11 +68,11 @@ void ServoController::reset()
 */
 void ServoController::reset(boolean wait)
 {
-  reset();
+  this->reset();
   
   while (this->servo.read() != 0)
   {
-    // Busy waiting.
+    delay(100);
   } 
 }
 
@@ -71,7 +84,7 @@ void ServoController::reset(boolean wait)
 */
 void ServoController::rotate(unsigned short angle)
 {
-  servo.write(angle); 
+  this->servo.write(angle); 
 }
 
 /**
@@ -84,10 +97,10 @@ void ServoController::rotate(unsigned short angle)
 */
 void ServoController::rotate(unsigned short angle, boolean wait)
 {
-  servo.write(angle);
+  this->servo.write(angle);
   
-  while (servo.read() != angle)
+  while (this->servo.read() != angle)
   { 
-    // Busy waiting. 
+    delay(100); 
   }
 }

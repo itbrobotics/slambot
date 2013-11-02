@@ -38,16 +38,23 @@ class ServoController
   */
   ServoController();
 
-  /**
-  * Creates a ServoController object attached to a defined pin.
-  *
-  * @param pinNumber pin number the sensor is connected to
-  */
-  ServoController(int pin);
-
   /************************************************************
   * Public SharpIR Function Prototypes
   ************************************************************/
+  
+  /**
+  * Sets the digital pin of the servo.
+  *
+  * @ param pin digital pin servo is attached to
+  */
+  void setPin(int pin);
+
+  /**
+  * Gets the current position of the servo.
+  *
+  * @return servo position
+  */
+  int getPosition();
 
   /**
   * Resets the servo to 0 degrees.
@@ -84,7 +91,7 @@ class ServoController
   private:
 
   /*
-  * Create servo object to control a servo a maximum of eight 
+  * Create servo object to control a servo, a maximum of eight 
   * servo objects can be created.
   */
   Servo servo;
