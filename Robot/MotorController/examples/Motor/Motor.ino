@@ -15,10 +15,8 @@
 */
 
 #include <AFMotor.h>
-#include <SharpIR.h>
-#include "Motor.h"
+#include <MotorController.h>
 
-SharpIR rangeFinder;
 
 /************************************************************
 * System Functions
@@ -34,51 +32,37 @@ void setup()
 }
 
 void loop() 
-{
-  int distance = rangeFinder.getDistance();
+{ 
+  driveForward();
+  delay(1000);
   
-  Serial.println(distance);
-  delay(100);
+  driveBackward();
+  delay(1000);
   
-  if (distance > 3000)
-  {
-   driveForward(); 
-  }
-  else 
-  {
-    releaseAllMotors();
-  }
+  turnRight(FORWARD);
+  delay(1000);
   
-//  driveForward();
-//  delay(1000);
-//  
-//  driveBackward();
-//  delay(1000);
-//  
-//  turnRight(FORWARD);
-//  delay(1000);
-//  
-//  turnRight(BACKWARD);
-//  delay(1000);
-//  
-//  turnLeft(FORWARD);
-//  delay(1000);
-//  
-//  turnLeft(BACKWARD);
-//  delay(1000);
-//  
-//  driveForward(2000);
-//  
-//  driveBackward(2000);
-//  
-//  turnRight(FORWARD, 2000);
-//  turnRight(BACKWARD, 2000);
-//  
-//  turnLeft(FORWARD, 2000);
-//  turnLeft(BACKWARD, 2000);
-//  
-//  releaseAllMotors();
-//  delay(5000);
+  turnRight(BACKWARD);
+  delay(1000);
+  
+  turnLeft(FORWARD);
+  delay(1000);
+  
+  turnLeft(BACKWARD);
+  delay(1000);
+  
+  driveForward(2000);
+  
+  driveBackward(2000);
+  
+  turnRight(FORWARD, 2000);
+  turnRight(BACKWARD, 2000);
+  
+  turnLeft(FORWARD, 2000);
+  turnLeft(BACKWARD, 2000);
+  
+  releaseAllMotors();
+  delay(5000);
 }
 
 /************************************************************

@@ -37,7 +37,7 @@ AF_DCMotor motor4(4);
 */ 
 MotorController::MotorController()
 {
-
+  this->setMotorSpeeds();
 }
 
 /**
@@ -122,11 +122,11 @@ boolean MotorController::turnRight(unsigned short path)
   }
   
   // May need to check state of these and enclose in "if".
+  motor2.run(RELEASE);
   motor3.run(RELEASE);
-  motor4.run(RELEASE);
   
   motor1.run(path);
-  motor2.run(path);
+  motor4.run(path);
   
   return true;
 }
@@ -145,7 +145,7 @@ void MotorController::turnRight(unsigned short path, unsigned long duration)
   {
     delay(duration);
     motor1.run(RELEASE);
-    motor2.run(RELEASE); 
+    motor4.run(RELEASE); 
   }
 }
 
@@ -164,10 +164,10 @@ boolean MotorController::turnLeft(unsigned short path)
   
   // May need to check state of these and enclose in "if".
   motor1.run(RELEASE);
-  motor2.run(RELEASE);
+  motor4.run(RELEASE);
   
+  motor2.run(path);
   motor3.run(path);
-  motor4.run(path);
   
   return true;
 }
@@ -185,8 +185,8 @@ void MotorController::turnLeft(unsigned short path, unsigned long duration)
   if (result)
   {
     delay(duration);
-    motor3.run(RELEASE);
-    motor4.run(RELEASE); 
+    motor2.run(RELEASE);
+    motor3.run(RELEASE); 
   }
 }
 
