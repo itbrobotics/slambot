@@ -14,7 +14,7 @@
 #include <Arduino.h>
 
 #define EXPONENT -1
-#define THERETICAL_DISTANCE 280
+#define THERETICAL_DISTANCE 27
 #define VALUE_PER_STEP 0.0048828125
 
 class SharpIR

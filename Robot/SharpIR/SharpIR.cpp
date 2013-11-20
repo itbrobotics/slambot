@@ -59,14 +59,14 @@ void SharpIR::setPin(int pinNumber)
 /**
 * Gets the distance reading from the Sharp range finder in millimetres.
 *
-* @return distance in millimetres
+* @return distance in centimetres
 */
 double SharpIR::getDistance()
 {
   double volts = analogRead(this->pin) * VALUE_PER_STEP;
   double distance = THERETICAL_DISTANCE * pow(volts, EXPONENT);
   
-  return distance * 10;
+  return distance;
 }
 
 /**

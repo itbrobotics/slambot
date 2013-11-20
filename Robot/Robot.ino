@@ -1,8 +1,8 @@
 /**
 * File: Robot.ino
-*
 * 
-*
+* 
+* 
 * @author Joshua Michael Daly
 * @version 28/10/2013
 */
@@ -13,7 +13,7 @@
 #include <MotorController.h>
 #include <ServoController.h>
 
-#define DEBUG true
+#define DEBUG 1
 
 SharpIR rangeFinder(5);
 MotorController motorController;
@@ -27,7 +27,7 @@ int nearestObject;
 
 void setup()
 {
-  #if DEBUG
+  #ifdef DEBUG
     Serial.begin(9600);
   #endif
   
@@ -37,21 +37,29 @@ void setup()
 void loop()
 { 
   nearestObject = 0;
-  
   // Don't accept a negative value for the distance.
+  
   while (nearestObject <= 0)
   {
-    nearestObject = rangeFinder.getDistance();
-  }
-  
+    nearestObject += rangeFinder.getDistance();
+  }     
+
   #if DEBUG
     Serial.print("Distance to object: ");
-    Serial.println(nearestObject);
+    Serial.print(nearestObject);
+    Serial.println("cm");
   #endif
   
-  if (nearestObject > 3000)
+  if (nearestObject > 30)
   {
     motorController.driveForward();
+    
+    #if !DEBUG
+      // Give the Sharp sensor time to respond, this is not
+      // needed when sending serial data because of the
+      // delay created by those functions.
+      delay(10); 
+    #endif
   }
   else
   {
@@ -63,9 +71,11 @@ void loop()
     
     #if DEBUG
       Serial.print("Left Distance: ");
-      Serial.println(distanceLeft);
+      Serial.print(distanceLeft);
+      Serial.println("cm");
       Serial.print("Right Distance: ");
-      Serial.println(distanceRight);
+      Serial.print(distanceRight);
+      Serial.println("cm");
     #endif
     
     if (distanceLeft > distanceRight)
