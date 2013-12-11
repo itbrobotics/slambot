@@ -4,7 +4,7 @@
 * 
 *
 * @author Joshua Michael Daly
-* @version 27/10/2013
+* @version 04/12/2013
 */
 
 #include <Arduino.h>
@@ -19,22 +19,56 @@
 */
 SharpIR::SharpIR()
 {
-  this->pin = 0; // Assume analog pin 0.
+  this->init();
 }
 
 /**
-* Constructors a SharpIR object attached to a defined pin.
+* Creates a SharpIR object attached to a defined pin.
 *
 * @param pinNumber pin number the sensor is connected to
 */
 SharpIR::SharpIR(int pinNumber)
 {
+  this->init();
   this->pin = pinNumber;
 }
 
+/**
+* Creates a SharpIR object with a user specified pin number 
+* and theretical distance.
+*
+* @param pinNumber pin number the sensor is connected to
+* @param distance theretical distance to use for calculations.
+*/
+SharpIR::SharpIR(int pinNumber, int distance)
+{
+  this->init();
+  this->thereticalDistance = distance;
+}
+
 /************************************************************
-* Public SharpIR Functions
+* Public Getters and Setters
 ************************************************************/
+
+/**
+* Gets the theretical distance being used for distance calculations.
+* 
+* @return the current theretical distance
+*/ 
+int SharpIR::getThereticalDistance()
+{
+  return this->thereticalDistance;
+}
+
+/**
+* Sets the theretical distance to be used for distance calculations.
+*
+* @param distance the theretical distance to use
+*/
+void SharpIR::setThereticalDistance(int distance)
+{
+  this->thereticalDistance = distance;
+}
 
 /**
 * Gets the pin number the Sharp sensor is connected to.
@@ -64,7 +98,7 @@ void SharpIR::setPin(int pinNumber)
 double SharpIR::getDistance()
 {
   double volts = analogRead(this->pin) * VALUE_PER_STEP;
-  double distance = THERETICAL_DISTANCE * pow(volts, EXPONENT);
+  double distance = this->thereticalDistance * pow(volts, EXPONENT);
   
   return distance;
 }
@@ -77,4 +111,14 @@ double SharpIR::getDistance()
 int SharpIR::getRawDistance()
 {
   return analogRead(this->pin); 
+}
+
+/************************************************************
+* Private Methods
+************************************************************/
+
+void SharpIR::init()
+{
+  this->thereticalDistance = 27; // Suggested theretical distance.
+  this->pin = 0; // Assume analog pin 0.
 }
