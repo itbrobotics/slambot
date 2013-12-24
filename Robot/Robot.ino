@@ -8,6 +8,8 @@
 * forward if able.
 * 
 * @author Joshua Michael Daly
+* @author Patrick Butterly
+* @author Leigh Morrish
 * @version 12/12/2013
 */
 
@@ -80,12 +82,17 @@ void loop()
     }     
   
     #if DEBUG
+      if (nearestObject > 80)
+      {
+         nearestObject = -1; 
+      }
+    
       Serial.print("Distance to object: ");
       Serial.print(nearestObject);
       Serial.println("cm");
     #endif
     
-    if (nearestObject > 30) // Object is further than 30cm away.
+    if (nearestObject > 30 || nearestObject == -1) // Object is further than 30cm away.
     {
       motorController.driveForward();
       
@@ -103,6 +110,16 @@ void loop()
       
       int distanceLeft = lookLeft();
       int distanceRight = lookRight();
+      
+      if (distanceLeft > 80)
+      {
+         distanceLeft = -1; 
+      }
+      
+      if (distanceRight > 80)
+      {
+         distanceRight = -1; 
+      }
       
       #if DEBUG
         Serial.print("Left Distance: ");
