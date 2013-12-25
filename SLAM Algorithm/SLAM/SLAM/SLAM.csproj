@@ -38,5 +38,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Landmarks.cs" />
+    <Compile Include="SLAM.cs" />
+    <Compile Include="Landmark.cs" />
   </ItemGroup>
 </Project>

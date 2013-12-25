@@ -9,55 +9,48 @@ namespace SLAM
 	{
 		double conv = Math.PI / 180.0; // Convert to radians
 		const int MAXLANDMARKS = 3000;
-		const double MAXERROR = 0.5; // if a landmark is within 20 cm of another landmark its the same landmark
-		public int MINOBSERVATIONS = 15; // Number of times a landmark must be observed to be recognized as a landmark
+		const double MAXERROR = 0.5; // If a landmark is within 20 cm of another landmark its the same landmark.
+		public int MINOBSERVATIONS = 15; // Number of times a landmark must be observed to be recognized as a landmark.
 		const int LIFE = 40;
 		const double MAX_RANGE = 1;
-		const int MAXTRIALS = 1000; //RANSAC: max times to run algorithm
-		const int MAXSAMPLE = 10; //RANSAC: randomly select X points
-		const int MINLINEPOINTS = 30; //RANSAC: if less than 40 points left don't bother trying to find consensus (stop algorithm)
-		const double RANSAC_TOLERANCE = 0.05; //RANSAC: if point is within x distance of line its part of line
-		const int RANSAC_CONSENSUS = 30; //RANSAC: at least 30 votes required to determine if a line
+		const int MAXTRIALS = 1000; // RANSAC: max times to run algorithm.
+		const int MAXSAMPLE = 10; // RANSAC: randomly select X points.
+		const int MINLINEPOINTS = 30; // RANSAC: if less than 40 points left don't bother trying to find consensus (stop algorithm).
+		const double RANSAC_TOLERANCE = 0.05; // RANSAC: if point is within x distance of line its part of line.
+		const int RANSAC_CONSENSUS = 30; // RANSAC: at least 30 votes required to determine if a line.
 		double degreesPerScan = 0.5;
 
-		public class landmark
-		{
-			public double[] pos; //landmarks (x,y) position relative to map
-			public int id; //the landmarks unique ID
-			public int life; //a life counter used to determine whether to discard a landmark
-			public int totalTimesObserved; //the number of times we have seen landmark
-			public double range; //last observed range to landmark
-			public double bearing; //last observed bearing to landmark
-
-			//RANSAC: Now store equation of a line
-			public double a;
-			public double b;
-			public double rangeError; //distance from robot position to the wall we are using as a landmark (to calculate error)
-			public double bearingError; //bearing from robot position to the wall we are using as a landmark (to calculate error)
-
-			public landmark()
-			{
-				totalTimesObserved = 0;
-				id = -1;
-				life = LIFE;
-				pos = new double[2];
-				a = -1;
-				b = -1;
-			}
-			//keep track of bad landmarks?
-		}
-
-		landmark[] landmarkDB = new landmark[MAXLANDMARKS];
+		Landmark[] landmarkDB = new Landmark[MAXLANDMARKS];
 		int DBSize = 0;
 		int[,] IDtoID = new int[MAXLANDMARKS,2];
 		int EKFLandmarks = 0;
 
+		/************************************************************
+		 * Public Constructors
+	     ***********************************************************/
+
+		public Landmarks(double degreesPerScan)
+		{
+			this.degreesPerScan = degreesPerScan;
+
+			for (int i = 0; i < landmarkDB.Length; i++)
+			{
+				landmarkDB[i] = new Landmark();
+			}
+		}
+
+		/************************************************************
+		 * TBD Sorted
+	     ***********************************************************/
+
 		public int GetSlamID(int id)
 		{
-			for(int i=0; i<EKFLandmarks; i++)
+			for (int i = 0; i < EKFLandmarks; i++)
 			{
-				if(IDtoID[i, 0] == id)
+				if (IDtoID[i, 0] == id)
+				{
 					return IDtoID[i,1];
+				} 
 			}
 
 			return -1;
@@ -68,53 +61,58 @@ namespace SLAM
 			IDtoID[EKFLandmarks, 0] = landmarkID;
 			IDtoID[EKFLandmarks, 1] = slamID;
 			EKFLandmarks++;
-			return 0;
-		}
 
-		public Landmarks(double degreesPerScan)
-		{
-			this.degreesPerScan = degreesPerScan;
-			for(int i=0; i<landmarkDB.Length; i++)
-			{
-				landmarkDB[i] = new landmark();
-			}
+			return 0;
 		}
 
 		public int RemoveBadLandmarks(double[] laserdata, double[] robotPosition)
 		{
 			double maxrange = 0;
 
-			for(int i=1; i<laserdata.Length-1; i++)
+			for (int i = 1; i < laserdata.Length - 1; i++)
 			{
-				//distance further away than 8.1m we assume are failed returns
-				//we get the laser data with max range
-			if (laserdata[i-1] < 8.1)
-				if (laserdata[i+1] < 8.1)
-					if (laserdata[i] > maxrange)
-						maxrange = laserdata[i];
+				// Distance further away than 8.1m we assume are failed returns
+				// we get the laser data with max range.
+				if (laserdata[i - 1] < 8.1)
+				{
+					if (laserdata[i + 1] < 8.1)
+					{
+						if (laserdata[i] > maxrange)
+						{
+							maxrange = laserdata[i];
+						}
+					}
+				}
 			}
 
 			maxrange = MAX_RANGE;
 			double[] Xbounds = new double[4];
 			double[] Ybounds = new double[4];
 
-			//get bounds of rectangular box to remove bad landmarks from
-			Xbounds[0] =Math.Cos((1 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange+robotPosition[0];
-			Ybounds[0] =Math.Sin((1 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange+robotPosition[1];
-			Xbounds[1] =Xbounds[0]+Math.Cos((180 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange;
-			Ybounds[1] =Ybounds[0]+Math.Sin((180 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange;
-			Xbounds[2] =Math.Cos((359 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange+robotPosition[0];
-			Ybounds[2] =Math.Sin((359 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange+robotPosition[1];
-			Xbounds[3] =Xbounds[2]+Math.Cos((180 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange;
-			Ybounds[3] =Ybounds[2]+Math.Sin((180 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange;
+			// Get bounds of rectangular box to remove bad landmarks from.
+			Xbounds[0] = Math.Cos((1 * degreesPerScan * conv) + (robotPosition[2] * Math.PI / 180)) * 
+				maxrange+robotPosition[0];
+
+			Ybounds[0] = Math.Sin((1 * degreesPerScan * conv) + (robotPosition[2] * Math.PI / 180)) *
+				maxrange+robotPosition[1];
+
+			Xbounds[1] = Xbounds[0] + Math.Cos((180 * degreesPerScan * conv) + (robotPosition[2] * 
+				Math.PI / 180)) * maxrange;
+
+			Ybounds[1] = Ybounds[0] + Math.Sin((180 * degreesPerScan * conv) + (robotPosition[2] * 
+				Math.PI / 180)) * maxrange;
+
+			Xbounds[2] = Math.Cos((359 * degreesPerScan * conv) + (robotPosition[2] * Math.PI / 180)) *
+				maxrange + robotPosition[0];
+
+			Ybounds[2] = Math.Sin((359 * degreesPerScan * conv) + (robotPosition[2] * Math.PI / 180)) *
+				maxrange + robotPosition[1];
+
+			Xbounds[3] = Xbounds[2] + Math.Cos((180 * degreesPerScan * conv) + (robotPosition[2] * 
+				Math.PI / 180)) * maxrange;
+
+			Ybounds[3] = Ybounds[2] + Math.Sin((180 * degreesPerScan * conv) + (robotPosition[2] * 
+				Math.PI / 180)) * maxrange;
 
 			/*
 			// the below code starts the box 1 meter in front of robot
@@ -144,11 +142,11 @@ namespace SLAM
 			//make box start 1 meter ahead of robot
 			*/
 
-			//now check DB for landmarks that are within this box
-			//decrease life of all landmarks in box. If the life reaches zero, remove landmark
+			// Now check DB for landmarks that are within this box
+			// decrease life of all landmarks in box. If the life reaches zero, remove landmark.
 			double pntx, pnty;
 
-			for(int k=0; k<DBSize+1; k++)
+			for (int k = 0; k < DBSize + 1; k++)
 			{
 				pntx = landmarkDB[k].pos[0];
 				pnty = landmarkDB[k].pos[1];
@@ -158,72 +156,82 @@ namespace SLAM
 
 				//if(robotPosition[2]>0 && robotPosition[2]<180)
 
-				if(robotPosition[0]<0 || robotPosition[1]<0)
-					inRectangle = false;
-				else
-					inRectangle = true;
-
-				for(i=0; i < 4; i++)
+				if (robotPosition[0] < 0 || robotPosition[1] < 0)
 				{
-					if (((((Ybounds[i] <= pnty) && (pnty < Ybounds[j])) || ((Ybounds[j] <= pnty) && (pnty
-						< Ybounds[i]))) && (pntx < (Xbounds[j] - Xbounds[i]) * (pnty - Ybounds[i]) / (Ybounds[j] - Ybounds[i]) +
-						Xbounds[i])))
-					{
-						if(inRectangle==false)
-							inRectangle=true;
-						else
-							inRectangle=false;
-					}
-					j = i;
-					i = i + 1;
+					inRectangle = false;
+				}
+				else
+				{
+					inRectangle = true;
 				}
 
-				if(inRectangle)
+				for (i = 0; i < 4; i++)
 				{
-					//in rectangle so decrease life and maybe remove
-					landmarkDB[k].life--;
-					if(landmarkDB[k].life<=0)
+					if (((((Ybounds[i] <= pnty) && (pnty < Ybounds[j])) || ((Ybounds[j] <= pnty) && (pnty
+						< Ybounds[i]))) && (pntx < (Xbounds[j] - Xbounds[i]) * (pnty - Ybounds[i]) / 
+						(Ybounds[j] - Ybounds[i]) + Xbounds[i])))
 					{
-						for(int kk=k; kk<DBSize; kk++)
-						//remove landmark by copying down rest of DB
+						if (inRectangle == false)
 						{
-							if(kk==DBSize-1)
+							inRectangle = true;
+						}
+						else
+						{ 
+							inRectangle = false;
+						}
+					}
+
+					j = i;
+					i++;
+				}
+
+				if (inRectangle)
+				{
+					// In rectangle so decrease life and maybe remove.
+					landmarkDB[k].life--;
+
+					if (landmarkDB[k].life <= 0)
+					{
+						for (int kk = k; kk < DBSize; kk++) // Remove landmark by copying down rest of DB.
+						{
+							if (kk == DBSize - 1)
 							{
-							landmarkDB[kk].pos[0] = landmarkDB[kk+1].pos[0];
-							landmarkDB[kk].pos[1] = landmarkDB[kk+1].pos[1];
-							landmarkDB[kk].life = landmarkDB[kk+1].life;
-							landmarkDB[kk].id = landmarkDB[kk+1].id;
-							landmarkDB[kk].totalTimesObserved =
-							landmarkDB[kk+1].totalTimesObserved;
+								landmarkDB[kk].pos[0] = landmarkDB[kk + 1].pos[0];
+								landmarkDB[kk].pos[1] = landmarkDB[kk + 1].pos[1];
+								landmarkDB[kk].life = landmarkDB[kk + 1].life;
+								landmarkDB[kk].id = landmarkDB[kk + 1].id;
+								landmarkDB[kk].totalTimesObserved = landmarkDB[kk + 1].totalTimesObserved;
 							}
 							else
 							{
-							landmarkDB[kk+1].id--;
-							landmarkDB[kk].pos[0] = landmarkDB[kk+1].pos[0];
-							landmarkDB[kk].pos[1] = landmarkDB[kk+1].pos[1];
-							landmarkDB[kk].life = landmarkDB[kk+1].life;
-							landmarkDB[kk].id = landmarkDB[kk+1].id;
-							landmarkDB[kk].totalTimesObserved =
-							landmarkDB[kk+1].totalTimesObserved;
+								landmarkDB[kk + 1].id--;
+								landmarkDB[kk].pos[0] = landmarkDB[kk + 1].pos[0];
+								landmarkDB[kk].pos[1] = landmarkDB[kk + 1].pos[1];
+								landmarkDB[kk].life = landmarkDB[kk + 1].life;
+								landmarkDB[kk].id = landmarkDB[kk + 1].id;
+								landmarkDB[kk].totalTimesObserved = landmarkDB[kk + 1].totalTimesObserved;
 							}
 						}
-					DBSize--;
 
+						DBSize--;
 					}
 				}
 			}
+
 			return 0;
 		}
 
-		public landmark[] UpdateAndAddLineLandmarks(landmark[] extractedLandmarks)
+		public Landmark[] UpdateAndAddLineLandmarks (Landmark[] extractedLandmarks)
 		{
-			//returns the found landmarks
-			landmark[] tempLandmarks = new landmark[extractedLandmarks.Length];
+			// Returns the found landmarks.
+			Landmark[] tempLandmarks = new Landmark[extractedLandmarks.Length];
 
-			for(int i=0; i<extractedLandmarks.Length; i++)
+			for (int i = 0; i < extractedLandmarks.Length; i++)
+			{
 				tempLandmarks[i] = UpdateLandmark(extractedLandmarks[i]);
+			}
 
-			return tempLandmarks;
+			return tempLandmarks; 
 		}
 
 		/*
@@ -267,94 +275,104 @@ namespace SLAM
 		}
 		*/
 
-		public landmark[] UpdateAndAddLandmarksUsingEKFResults(bool[] matched, int[] id, double[] ranges,
-		double[] bearings, double[] robotPosition)
+		public Landmark[] UpdateAndAddLandmarksUsingEKFResults(bool[] matched, int[] id, double[] ranges,
+			double[] bearings, double[] robotPosition)
 		{
-			landmark[] foundLandmarks = new landmark[matched.Length];
+			Landmark[] foundLandmarks = new Landmark[matched.Length];
 
-			for(int i=0; i< matched.Length; i++)
+			for (int i = 0; i < matched.Length; i++)
 			{
 				foundLandmarks[i] = UpdateLandmark(matched[i], id[i], ranges[i], bearings[i],
-				robotPosition);
+					robotPosition);
 			}
 
 			return foundLandmarks;
 		}
 
-		private landmark UpdateLandmark(bool matched, int id, double distance, double readingNo, double[]
-		robotPosition)
+		private Landmark UpdateLandmark(bool matched, int id, double distance, double readingNo, double[]
+			robotPosition)
 		{
-			landmark lm;
-			if(matched)
+			Landmark lm;
+
+			if (matched)
 			{
-				//EKF matched landmark so increase times landmark has been observed
+				// EKF matched landmark so increase times landmark has been observed.
 				landmarkDB[id].totalTimesObserved++;
 				lm = landmarkDB[id];
 			}
 			else
 			{
-				//EKF failed to match landmark so add it to DB as new landmark
-				lm = new landmark();
-				//convert landmark to map coordinate
-				lm.pos[0] =Math.Cos((readingNo * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-				distance;
-				lm.pos[1] =Math.Sin((readingNo * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-				distance;
-				lm.pos[0]+=robotPosition[0]; //add robot position
-				lm.pos[1]+=robotPosition[1]; //add robot position
+				// EKF failed to match landmark so add it to DB as new landmark.
+				lm = new Landmark();
+
+				// Convert landmark to map coordinate.
+				lm.pos[0] = Math.Cos((readingNo * degreesPerScan * conv) + (robotPosition[2] * 
+					Math.PI / 180)) * distance;
+
+				lm.pos[1] = Math.Sin((readingNo * degreesPerScan * conv) + (robotPosition[2] * 
+					Math.PI / 180)) * distance;
+
+				lm.pos[0] += robotPosition[0]; // Add robot position.
+				lm.pos[1] += robotPosition[1]; // Add robot position.
 				lm.bearing = readingNo;
 				lm.range = distance;
 				id = AddToDB(lm);
 				lm.id = id;
 			}
 
-			//return landmarks
+			// Return landmarks.
 			return lm;
 		}
 
-		private landmark UpdateLandmark(landmark lm)
+		private Landmark UpdateLandmark (Landmark lm)
 		{
-			//try to do data-association on landmark.
-			int id = GetAssociation(lm);
+			// Try to do data-association on landmark.
+			int id = GetAssociation (lm);
 
-			//if we failed to associate landmark, then add it to DB
-			if(id==-1)
-				id = AddToDB(lm);
+			// If we failed to associate landmark, then add it to DB.
+			if (id == -1)
+			{
+				id = AddToDB (lm);
+			}
 
 			lm.id = id;
 
-			//return landmarks
+			// Return landmarks.
 			return lm;
 		}
 
-		public int UpdateLineLandmark(landmark lm)
+		public int UpdateLineLandmark (Landmark lm)
 		{
-			//try to do data-association on landmark.
-			int id = GetAssociation(lm);
+			// Try to do data-association on landmark.
+			int id = GetAssociation (lm);
 
-			//if we failed to associate landmark, then add it to DB
-			if(id==-1)
-				id = AddToDB(lm);
+			// If we failed to associate landmark, then add it to DB.
+			if (id == -1)
+			{
+				id = AddToDB (lm);
+			}
 
 			return id;
 		}	
 
-		public landmark[] ExtractLineLandmarks(double[] laserdata, double[] robotPosition)
+		public Landmark[] ExtractLineLandmarks (double[] laserdata, double[] robotPosition)
 		{
-			//two arrays corresponding to found lines
+			// Two arrays corresponding to found lines.
 			double[] la = new double[100];
 			double[] lb = new double[100];
 			int totalLines = 0;
 
-			//array of laser data points corresponding to the seen lines
+			// Array of laser data points corresponding to the seen lines.
 			int[] linepoints = new int[laserdata.Length];
 			int totalLinepoints = 0;
 
-			//have a large array to keep track of found landmarks
-			landmark[] tempLandmarks = new landmark[400];
+			// Have a large array to keep track of found landmarks.
+			Landmark[] tempLandmarks = new Landmark[400];
 
-			for(int i=0; i<tempLandmarks.Length;i++)
-				tempLandmarks[i]= new landmark();
+			for (int i = 0; i < tempLandmarks.Length; i++)
+			{
+				tempLandmarks[i] = new Landmark();
+			}
 
 			int totalFound = 0;
 			double val = laserdata[0];
@@ -383,170 +401,185 @@ namespace SLAM
 			}
 			*/
 
-			//FIXME - OR RATHER REMOVE ME SOMEHOW...
+			// FIXME - OR RATHER REMOVE ME SOMEHOW...
 			for (int i = 0; i < laserdata.Length - 1; i++)
 			{
-			linepoints[totalLinepoints] = i;
-			totalLinepoints++;
+				linepoints[totalLinepoints] = i;
+				totalLinepoints++;
 			}
 
 			#region RANSAC
-			//RANSAC ALGORITHM
+
+			// RANSAC ALGORITHM
 			int noTrials = 0;
 			Random rnd = new Random();
 
-			while(noTrials<MAXTRIALS && totalLinepoints > MINLINEPOINTS)
+			while (noTrials < MAXTRIALS && totalLinepoints > MINLINEPOINTS)
 			{
 				int[] rndSelectedPoints = new int[MAXSAMPLE];
 				int temp = 0;
 				bool newpoint;
 
-				//– Randomly select a subset S1 of n data points and
-				//compute the model M1
-				//Initial version chooses entirely randomly. Now choose
-				//one point randomly and then sample from neighbours within some defined
-				//radius
-				int centerPoint = rnd.Next(MAXSAMPLE, totalLinepoints-1);
+				// Randomly select a subset S1 of n data points and
+				// compute the model M1.
+				//
+				// Initial version chooses entirely randomly. Now choose
+				// one point randomly and then sample from neighbours within some defined
+				// radius.
+				int centerPoint = rnd.Next(MAXSAMPLE, totalLinepoints - 1);
 				rndSelectedPoints[0] = centerPoint;
 
-				for(int i = 1; i<MAXSAMPLE; i++)
+				for (int i = 1; i < MAXSAMPLE; i++)
 				{
 					newpoint = false;
 
-					while(!newpoint)
+					while (!newpoint)
 					{
-						temp = centerPoint + (rnd.Next(2)-1)*rnd.Next(0, MAXSAMPLE);
+						temp = centerPoint + (rnd.Next(2) - 1) * rnd.Next(0, MAXSAMPLE);
 
-						for(int j = 0; j<i; j++)
+						for (int j = 0; j < i; j++)
 						{
-							if(rndSelectedPoints[j] == temp)
+							if (rndSelectedPoints[j] == temp)
+							{
 								break;
+							}
 
-							//point has already been selected
-							if(j>=i-1)
+							// Point has already been selected.
+							if (j >= i - 1)
+							{
 								newpoint = true;
+							}
 
-							//point has not already been selected
+							// Point has not already been selected.
 						}
 					}
+
 					rndSelectedPoints[i] = temp;
 				}
 
-				//compute model M1
-				double a=0;
-				double b=0;
+				// Compute model M1.
+				double a = 0;
+				double b = 0;
 				//y = a+ bx
-				LeastSquaresLineEstimate(laserdata, robotPosition, rndSelectedPoints, MAXSAMPLE, ref a, ref
-				b);
 
-				//– Determine the consensus set S1* of points is P
-				//compatible with M1 (within some error tolerance)
+				LeastSquaresLineEstimate(laserdata, robotPosition, rndSelectedPoints, MAXSAMPLE, 
+				                         ref a, ref b);
+
+				// Determine the consensus set S1* of points is P
+				// compatible with M1 (within some error tolerance).
 				int[] consensusPoints = new int[laserdata.Length];
 				int totalConsensusPoints = 0;
 				int[] newLinePoints = new int[laserdata.Length];
 				int totalNewLinePoints = 0;
-				double x = 0, y =0;
+				double x = 0; 
+				double y = 0;
 				double d = 0;
 
-				for(int i=0; i<totalLinepoints; i++)
+				for (int i = 0; i < totalLinepoints; i++)
 				{
-					//convert ranges and bearing to coordinates
-					x =(Math.Cos((linepoints[i] * degreesPerScan * conv) + robotPosition[2]*conv) *
-					laserdata[linepoints[i]])+ robotPosition[0];
-					y =(Math.Sin((linepoints[i] * degreesPerScan * conv) + robotPosition[2]*conv) *
-					laserdata[linepoints[i]])+ robotPosition[1];
+					// Convert ranges and bearing to coordinates.
+					x = (Math.Cos((linepoints[i] * degreesPerScan * conv) + robotPosition[2] * conv) *
+						laserdata[linepoints[i]]) + robotPosition[0];
+
+					y = (Math.Sin((linepoints[i] * degreesPerScan * conv) + robotPosition[2] * conv) *
+						laserdata[linepoints[i]]) + robotPosition[1];
 
 					//x =(Math.Cos((linepoints[i] * degreesPerScan * conv)) * laserdata[linepoints[i]]);//+robotPosition[0];
 					//y =(Math.Sin((linepoints[i] * degreesPerScan * conv)) * laserdata[linepoints[i]]);//+robotPosition[1];
 
 					d = DistanceToLine(x, y, a, b);
 
-					if (d<RANSAC_TOLERANCE)
+					if (d < RANSAC_TOLERANCE)
 					{
-						//add points which are close to line
+						// Add points which are close to line.
 						consensusPoints[totalConsensusPoints] = linepoints[i];
 						totalConsensusPoints++;
 					}
 					else
 					{
-						//add points which are not close to line
+						// Add points which are not close to line.
 						newLinePoints[totalNewLinePoints] = linepoints[i];
 						totalNewLinePoints++;
 					}
 				}
 
-				//– If #(S1*) > t, use S1* to compute (maybe using least
-				//squares) a new model M1*
-				if(totalConsensusPoints>RANSAC_CONSENSUS)
+				// If #(S1*) > t, use S1* to compute (maybe using least
+				// squares) a new model M1*.
+				if (totalConsensusPoints > RANSAC_CONSENSUS)
 				{
-					//Calculate updated line equation based on consensus points
+					// Calculate updated line equation based on consensus points.
 					LeastSquaresLineEstimate(laserdata, robotPosition, consensusPoints,
 					totalConsensusPoints, ref a, ref b);
 
-					//for now add points associated to line as landmarks to see results
-					for(int i=0; i<totalConsensusPoints; i++)
+					// For now add points associated to line as landmarks to see results. 
+					for (int i = 0; i < totalConsensusPoints; i++)
 					{
 						//tempLandmarks[consensusPoints[i]] = GetLandmark(laserdata[consensusPoints[i]],consensusPoints[i], robotPosition);
-						//Remove points that have now been associated to this line
+
+						// Remove points that have now been associated to this line.
 						newLinePoints.CopyTo(linepoints, 0);
 						totalLinepoints = totalNewLinePoints;
 					}
 
-					//add line to found lines
+					// Add line to found lines.
 					la[totalLines] = a;
 					lb[totalLines] = b;
 					totalLines++;
 
-					//restart search since we found a line
-					//noTrials = MAXTRIALS;
-					//when maxtrials = debugging
+					// Restart search since we found a line.
+					// noTrials = MAXTRIALS;
+					// When maxtrials = debugging
 					noTrials = 0;
-					}
-					else
-					//DEBUG add point that we chose as middle value
+				}
+				else
+				{
+					// DEBUG add point that we chose as middle value
 					//tempLandmarks[centerPoint] = GetLandmark(laserdata[centerPoint], centerPoint, robotPosition);
-					//– If #(S1*) < t, randomly select another subset S2 and
-					//repeat
-					//– If, after some predetermined number of trials there is
-					//no consensus set with t points, return with failure
+					// If #(S1*) < t, randomly select another subset S2 and
+					// repeat.
+					// If, after some predetermined number of trials there is
+					// no consensus set with t points, return with failure.
 					noTrials++;
+				}
 			}
+
 			#endregion
 
-			//for each line we found:
-			//calculate the point on line closest to origin (0,0)
-			//add this point as a landmark
-			for(int i=0; i < totalLines; i++)
+			// For each line we found:
+			// calculate the point on line closest to origin (0,0)
+			// add this point as a landmark.
+			for (int i = 0; i < totalLines; i++)
 			{
 				tempLandmarks[i] = GetLineLandmark(la[i], lb[i], robotPosition);
 				//tempLandmarks[i+1] = GetLine(la[i], lb[i]);
 			}
 
-			//for debug add origin as landmark
+			// For debug add origin as landmark:
 			//tempLandmarks[totalLines+1] = GetOrigin();
 			//tempLandmarks[i] = GetLandmark(laserdata[i], i, robotPosition);
-			//now return found landmarks in an array of correct dimensions
-			landmark[] foundLandmarks = new landmark[totalLines];
 
-			//copy landmarks into array of correct dimensions
-			for(int i=0; i<foundLandmarks.Length;i++)
+			// Now return found landmarks in an array of correct dimensions.
+			Landmark[] foundLandmarks = new Landmark[totalLines];
+
+			// Copy landmarks into array of correct dimensions.
+			for (int i = 0; i < foundLandmarks.Length; i++)
 			{
-				foundLandmarks[i] = (landmark)tempLandmarks[i];
+				foundLandmarks[i] = (Landmark)tempLandmarks[i];
 			}
 
 			return foundLandmarks;
 		}
 
-		private void LeastSquaresLineEstimate(double[] laserdata, double[] robotPosition, int[] SelectedPoints,
-		int arraySize, ref double a, ref double b)
+		private void LeastSquaresLineEstimate(double[] laserdata, double[] robotPosition, 
+			int[] SelectedPoints, int arraySize, ref double a, ref double b)
 		{
-			double y; //y coordinate
-			double x; //x coordinate
-			double sumY=0; //sum of y coordinates
-			double sumYY=0; //sum of y^2 for each coordinate
-			double sumX=0; //sum of x coordinates
-			double sumXX=0; //sum of x^2 for each coordinate
-			double sumYX=0; //sum of y*x for each point
+			double y; // y coordinate.
+			double x; // x coordinate.
+			double sumY = 0; // Sum of y coordinates.
+			double sumYY = 0; // Sum of y^2 for each coordinate.
+			double sumX = 0; // Sum of x coordinates.
+			double sumXX = 0; // Sum of x^2 for each coordinate.
+			double sumYX = 0; // Sum of y*x for each point.
 
 			//DEBUG
 			/*
@@ -569,31 +602,32 @@ namespace SLAM
 			b = (testX.Length*sumYX-sumX*sumY)/(testX.Length*sumXX-Math.Pow(sumX, 2));
 			*/
 
-			for(int i = 0; i < arraySize; i++)
+			for (int i = 0; i < arraySize; i++)
 			{
-				//convert ranges and bearing to coordinates
-				x =(Math.Cos((SelectedPoints[i] * degreesPerScan * conv) + robotPosition[2]*conv) *
-				laserdata[SelectedPoints[i]])+robotPosition[0];
-				y =(Math.Sin((SelectedPoints[i] * degreesPerScan * conv) + robotPosition[2]*conv) *
-				laserdata[SelectedPoints[i]])+robotPosition[1];
+				// Convert ranges and bearing to coordinates.
+				x = (Math.Cos((SelectedPoints[i] * degreesPerScan * conv) + robotPosition[2] * conv) *
+					laserdata[SelectedPoints[i]]) + robotPosition[0];
+
+				y = (Math.Sin((SelectedPoints[i] * degreesPerScan * conv) + robotPosition[2] * conv) *
+					laserdata[SelectedPoints[i]])+robotPosition[1];
 
 				//x =(Math.Cos((rndSelectedPoints[i] * degreesPerScan * conv)) * laserdata[rndSelectedPoints[i]]);//+robotPosition[0];
 				//y =(Math.Sin((rndSelectedPoints[i] * degreesPerScan * conv)) * laserdata[rndSelectedPoints[i]]);//+robotPosition[1];
 
-				sumY
-				+= y;
-				sumYY += Math.Pow(y,2);
-				sumX
-				+= x;
-				sumXX += Math.Pow(x,2);
-				sumYX += y*x;
+				sumY += y;
+				sumYY += Math.Pow(y, 2);
+
+				sumX += x;
+				sumXX += Math.Pow(x, 2);
+
+				sumYX += y * x;
 			}
 
-			b = (sumY*sumXX-sumX*sumYX)/(arraySize*sumXX-Math.Pow(sumX, 2));
-			a = (arraySize*sumYX-sumX*sumY)/(arraySize*sumXX-Math.Pow(sumX, 2));
+			b = (sumY * sumXX - sumX * sumYX) / (arraySize * sumXX - Math.Pow(sumX, 2));
+			a = (arraySize * sumYX - sumX * sumY) / (arraySize *sumXX - Math.Pow(sumX, 2));
 		}
 
-		private double DistanceToLine(double x,double y,double a,double b)
+		private double DistanceToLine(double x, double y, double a, double b)
 		{
 			/*
 			//y = ax + b
@@ -601,118 +635,147 @@ namespace SLAM
 			double d = Math.Abs((a*x - y + b)/(Math.Sqrt(Math.Pow(a,2)+ Math.Pow(b,2))));
 			*/
 
-			//our goal is to calculate point on line closest to x,y
-			//then use this to calculate distance between them.
-			//calculate line perpendicular to input line. a*ao = -1
-			double ao = -1.0/a;
+			// Our goal is to calculate point on line closest to x, y
+			// then use this to calculate distance between them.
+			// calculate line perpendicular to input line. a * ao = -1.
+			double ao = -1.0 / a;
 
 			//y = aox + bo => bo = y - aox
-			double bo = y - ao*x;
+			double bo = y - ao * x;
+			 
+			// Get intersection between y = ax + b and y = aox + bo
+			// so aox + bo = ax + b => aox - ax = b - bo => x = (b - bo)/(ao - a), 
+			// y = ao*(b - bo)/(ao - a) + bo
+			double px = (b - bo) / (ao - a);
+			double py = ((ao * (b - bo)) / (ao - a)) + bo;
 
-			//get intersection between y = ax + b and y = aox + bo
-			//so aox + bo = ax + b => aox - ax = b - bo => x = (b - bo)/(ao - a), y = ao*(b - bo)/(ao - a) +bo
-			double px = (b - bo)/(ao - a);
-			double py = ((ao*(b - bo))/(ao - a)) + bo;
 			return Distance(x, y, px, py);
 		}
 
-		public landmark[] ExtractSpikeLandmarks(double[] laserdata, double[] robotPosition)
+		public Landmark[] ExtractSpikeLandmarks (double[] laserdata, double[] robotPosition)
 		{
-			//have a large array to keep track of found landmarks
-			landmark[] tempLandmarks = new landmark[400];
+			// Have a large array to keep track of found landmarks.
+			Landmark[] tempLandmarks = new Landmark[400];
 
-			for(int i=0; i<tempLandmarks.Length;i++)
-				tempLandmarks[i]= new landmark();
+			for (int i = 0; i < tempLandmarks.Length; i++)
+			{
+				tempLandmarks [i] = new Landmark ();
+			}
 
 			int totalFound = 0;
-			double val = laserdata[0];
+			double val = laserdata [0];
 
 			for (int i = 1; i < laserdata.Length - 1; i++)
 			{
-				// Check for error measurement in laser data
-				if (laserdata[i-1] < 8.1)
-					if (laserdata[i+1] < 8.1)
-						if ((laserdata[i-1] - laserdata[i]) + (laserdata[i+1] - laserdata[i]) > 0.5)
-							tempLandmarks[i] = GetLandmark(laserdata[i], i, robotPosition);
+				// Check for error measurement in laser data.
+				if (laserdata [i - 1] < 8.1)
+				{
+					if (laserdata [i + 1] < 8.1)
+					{
+						if ((laserdata [i - 1] - laserdata [i]) + (laserdata [i + 1] - laserdata [i]) > 0.5)
+						{ 
+							tempLandmarks [i] = GetLandmark (laserdata [i], i, robotPosition);
+						}
 						else
-							if((laserdata[i-1] - laserdata[i]) > 0.3)
-								tempLandmarks[i] = GetLandmark(laserdata[i], i, robotPosition);
-							else if (laserdata[i+1] < 8.1)
-								if((laserdata[i+1] - laserdata[i]) > 0.3)
-									tempLandmarks[i] = GetLandmark(laserdata[i], i, robotPosition);
+						{
+							if ((laserdata [i - 1] - laserdata [i]) > 0.3)
+							{
+								tempLandmarks [i] = GetLandmark (laserdata [i], i, robotPosition);
+							}
+							else if (laserdata [i + 1] < 8.1)
+							{
+								if ((laserdata [i + 1] - laserdata [i]) > 0.3)
+								{
+									tempLandmarks [i] = GetLandmark (laserdata [i], i, robotPosition);
+								}
+							}
+						}
+					}
+				}
 			}
 
-			//get total found landmarks so you can return array of correct dimensions
-			for(int i=0; i<tempLandmarks.Length;i++)
-				if(((int)tempLandmarks[i].id) !=-1)
+			// Get total found landmarks so you can return array of correct dimensions.
+			for (int i = 0; i < tempLandmarks.Length; i++)
+			{
+				if (((int)tempLandmarks [i].id) != -1)
+				{
 					totalFound++;
+				}
+			}
 
-			//now return found landmarks in an array of correct dimensions
-			landmark[] foundLandmarks = new landmark[totalFound];
+			// Now return found landmarks in an array of correct dimensions.
+			Landmark[] foundLandmarks = new Landmark[totalFound];
 
-			//copy landmarks into array of correct dimensions
+			// Copy landmarks into array of correct dimensions.
 			int j = 0;
 
-			for(int i=0; i<((landmark[])tempLandmarks).Length;i++)
-				if(((landmark)tempLandmarks[i]).id !=-1)
+			for (int i = 0; i < ((Landmark[])tempLandmarks).Length; i++)
+			{
+				if (((Landmark)tempLandmarks [i]).id != -1)
 				{
-					foundLandmarks[j] = (landmark)tempLandmarks[i];
+					foundLandmarks [j] = (Landmark)tempLandmarks [i];
 					j++;
 				}
+			}
 
 			return foundLandmarks;
 		}
 
-		private landmark GetLandmark(double range, int readingNo, double[] robotPosition)
+		private Landmark GetLandmark(double range, int readingNo, double[] robotPosition)
 		{
-			landmark lm = new landmark();
+			Landmark lm = new Landmark();
 
-			//convert landmark to map coordinate
-			lm.pos[0] =Math.Cos((readingNo * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) * range;
-			lm.pos[1] =Math.Sin((readingNo * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) * range;
-			lm.pos[0]+=robotPosition[0]; //add robot position
-			lm.pos[1]+=robotPosition[1]; //add robot position
+			// Convert landmark to map coordinate.
+			lm.pos[0] = Math.Cos((readingNo * degreesPerScan * conv) + 
+			                     (robotPosition[2] * Math.PI / 180)) * range;
+
+			lm.pos[1] = Math.Sin((readingNo * degreesPerScan * conv) + 
+			                     (robotPosition[2] * Math.PI / 180)) * range;
+
+			lm.pos[0] += robotPosition[0]; // Add robot position.
+			lm.pos[1] += robotPosition[1]; // Add robot position.
 			lm.range = range;
 			lm.bearing = readingNo;
 
-			//associate landmark to closest landmark.
+			// Associate landmark to closest landmark.
 			int id = -1;
-			int totalTimesObserved =0;
+			int totalTimesObserved = 0;
 			GetClosestAssociation(lm, ref id, ref totalTimesObserved);
 			lm.id = id;
 
-			//return landmarks
+			// Return landmarks.
 			return lm;
 		}
 
-		private landmark GetLineLandmark(double a, double b, double[] robotPosition)
+		private Landmark GetLineLandmark(double a, double b, double[] robotPosition)
 		{
-			//our goal is to calculate point on line closest to origin (0,0)
-			//calculate line perpendicular to input line. a*ao = -1
-			double ao = -1.0/a;
+			// our goal is to calculate point on line closest to origin (0,0)
+			// calculate line perpendicular to input line. a * ao = -1.
+			double ao = -1.0 / a;
 
-			//landmark position
-			double x = b/(ao - a);
-			double y = (ao*b)/(ao - a);
-			double range = Math.Sqrt(Math.Pow(x-robotPosition[0],2) + Math.Pow(y-robotPosition[1],2));
-			double bearing = Math.Atan((y-robotPosition[1])/(x-robotPosition[0])) - robotPosition[2];
+			// Landmark position.
+			double x = b / (ao - a);
+			double y = (ao * b) / (ao - a);
+			double range = Math.Sqrt(Math.Pow (x - robotPosition[0], 2) + Math.Pow(y - robotPosition[1], 2));
+			double bearing = Math.Atan((y - robotPosition[1]) / (x - robotPosition[0])) - robotPosition[2];
 
-			//now do same calculation but get point on wall closest to robot instead
-			//y = aox + bo => bo = y - aox
-			double bo = robotPosition[1] - ao*robotPosition[0];
+			// Now do same calculation but get point on wall closest to robot instead:
+			// y = aox + bo => bo = y - aox
+			double bo = robotPosition[1] - ao * robotPosition[0];
 
-			//get intersection between y = ax + b and y = aox + bo
-			//so aox + bo = ax + b => aox - ax = b - bo => x = (b - bo)/(ao - a), y = ao*(b - bo)/(ao - a) +bo
-			double px = (b - bo)/(ao - a);
-			double py = ((ao*(b - bo))/(ao - a)) + bo;
+			// Get intersection between y = ax + b and y = aox + bo
+			// so: aox + bo = ax + b => aox - ax = b - bo => x = (b - bo)/(ao - a), 
+			// y = ao*(b - bo)/(ao - a) +bo
+			double px = (b - bo) / (ao - a);
+			double py = ((ao * (b - bo)) / (ao - a)) + bo;
 			double rangeError = Distance(robotPosition[0], robotPosition[1], px, py);
-			double bearingError = Math.Atan((py - robotPosition[1])/(px - robotPosition[0])) -
-			robotPosition[2]; //do you subtract or add robot bearing? I am not sure!
-			landmark lm = new landmark();
+			double bearingError = Math.Atan((py - robotPosition[1]) / 
+			                                (px - robotPosition[0])) - robotPosition[2]; // Do you subtract or add robot bearing? I am not sure!
+			Landmark lm = new Landmark();
 
-			//convert landmark to map coordinate
-			lm.pos[0] =x;
-			lm.pos[1] =y;
+			// Convert landmark to map coordinate.
+			lm.pos[0] = x;
+			lm.pos[1] = y;
 			lm.range = range;
 			lm.bearing = bearing;
 			lm.a = a;
@@ -720,91 +783,93 @@ namespace SLAM
 			lm.rangeError = rangeError;
 			lm.bearingError = bearingError;
 
-			//associate landmark to closest landmark.
+			// Associate landmark to closest landmark.
 			int id = 0;
 			int totalTimesObserved = 0;
 			GetClosestAssociation(lm, ref id, ref totalTimesObserved);
 			lm.id = id;
 			lm.totalTimesObserved = totalTimesObserved;
 
-			//return landmarks
+			// Return landmarks
 			return lm;
 		}
 
-		private landmark GetLine(double a, double b)
+		private Landmark GetLine(double a, double b)
 		{
-			//our goal is to calculate point on line closest to origin (0,0)
-			//calculate line perpendicular to input line. a*ao = -1
-			double ao = -1.0/a;
+			// Our goal is to calculate point on line closest to origin (0, 0)
+			// calculate line perpendicular to input line. a * ao = -1
+			double ao = -1.0 / a;
 
-			//get intersection between y = ax + b and y = aox
-			//so aox = ax + b => aox - ax = b => x = b/(ao - a), y = ao*b/(ao - a)
-			double x = b/(ao - a);
-			double y = (ao*b)/(ao - a);
-			landmark lm = new landmark();
+			// Get intersection between y = ax + b and y = aox
+			// so: aox = ax + b => aox - ax = b => x = b/(ao - a), y = ao*b/(ao - a)
+			double x = b / (ao - a);
+			double y = (ao * b) / (ao - a);
+			Landmark lm = new Landmark();
 
-			//convert landmark to map coordinate
-			lm.pos[0] =x;
-			lm.pos[1] =y;
+			// Convert landmark to map coordinate.
+			lm.pos[0] = x;
+			lm.pos[1] = y;
 			lm.range = -1;
 			lm.bearing = -1;
 			lm.a = a;
 			lm.b = b;
 
-			//associate landmark to closest landmark.
+			// Associate landmark to closest landmark.
 			int id = -1;
 			int totalTimesObserved = 0;
 			GetClosestAssociation(lm, ref id, ref totalTimesObserved);
 			lm.id = id;
 
-			//return landmarks
+			// Return landmarks.
 			return lm;
 		}
 
-		private landmark GetOrigin()
+		private Landmark GetOrigin()
 		{
-			landmark lm = new landmark();
+			Landmark lm = new Landmark();
 
-			//convert landmark to map coordinate
-			lm.pos[0] =0;
-			lm.pos[1] =0;
+			// Convert landmark to map coordinate.
+			lm.pos[0] = 0;
+			lm.pos[1] = 0;
 			lm.range = -1;
 			lm.bearing = -1;
 
-			//associate landmark to closest landmark.
+			// Associate landmark to closest landmark.
 			int id = -1;
 			int totalTimesObserved = 0;
 			GetClosestAssociation(lm, ref id, ref totalTimesObserved);
 			lm.id = id;
 
-			//return landmarks
+			// Return landmarks.
 			return lm;
 		}
 
-		private void GetClosestAssociation(landmark lm, ref int id, ref int totalTimesObserved)
+		private void GetClosestAssociation (Landmark lm, ref int id, ref int totalTimesObserved)
 		{
-			//given a landmark we find the closest landmark in DB
+			// Given a landmark we find the closest landmark in DB.
 			int closestLandmark = 0;
 			double temp;
-			double leastDistance = 99999; //99999m is least initial distance, its big
+			double leastDistance = 99999; //99999m is least initial distance, its big.
 
-			for(int i=0; i<DBSize; i++)
+			for (int i = 0; i < DBSize; i++)
 			{
-				//only associate to landmarks we have seen more than MINOBSERVATIONS times
-				if(landmarkDB[i].totalTimesObserved>MINOBSERVATIONS)
+				// Only associate to landmarks we have seen more than MINOBSERVATIONS times.
+				if (landmarkDB [i].totalTimesObserved > MINOBSERVATIONS)
 				{
-					temp = Distance(lm, landmarkDB[i]);
+					temp = Distance (lm, landmarkDB [i]);
 
-					if(temp<leastDistance)
+					if (temp < leastDistance)
 					{
 						leastDistance = temp;
-						closestLandmark = landmarkDB[i].id;
+						closestLandmark = landmarkDB [i].id;
 					}
 				}
 			}
 
-			if(leastDistance == 99999)
+			if (leastDistance == 99999)
+			{
 				id = -1;
+			}
 			else
 			{
 				id = landmarkDB[closestLandmark].id;
@@ -812,57 +877,59 @@ namespace SLAM
 			}
 		}
 
-		private int GetAssociation(landmark lm)
+		private int GetAssociation(Landmark lm)
 		{
-			//this method needs to be improved so we use innovation as a validation gate
-			//currently we just check if a landmark is within some predetermined distance of a landmark in DB
-			for(int i=0; i<DBSize; i++)
+			// This method needs to be improved so we use innovation as a validation gate
+			// currently we just check if a landmark is within some predetermined distance 
+			// of a landmark in DB.
+			for (int i = 0; i < DBSize; i++)
 			{
-				if(Distance(lm, landmarkDB[i])<MAXERROR
-				&& ((landmark)landmarkDB[i]).id != -1)
+				if (Distance(lm, landmarkDB[i]) < MAXERROR && ((Landmark)landmarkDB[i]).id != -1)
 				{
-					((landmark)landmarkDB[i]).life=LIFE;
+					((Landmark)landmarkDB[i]).life = LIFE;
 
-					//landmark seen so reset its life counter
-					((landmark)landmarkDB[i]).totalTimesObserved++; //increase number of times we seen landmark
-					((landmark)landmarkDB[i]).bearing = lm.bearing; //set last bearing seen at
-					((landmark)landmarkDB[i]).range = lm.range; //set last range seen at
+					// Landmark seen so reset its life counter.
+					((Landmark)landmarkDB[i]).totalTimesObserved++; // Increase number of times we seen landmark.
+					((Landmark)landmarkDB[i]).bearing = lm.bearing; // Set last bearing seen at.
+					((Landmark)landmarkDB[i]).range = lm.range; // Set last range seen at.
 
-					return ((landmark)landmarkDB[i]).id;
+					return ((Landmark)landmarkDB[i]).id;
 				}
 			}
 
 			return -1;
 		}
 
-		public landmark[] RemoveDoubles(landmark[] extractedLandmarks)
+		public Landmark[] RemoveDoubles(Landmark[] extractedLandmarks)
 		{
 			int uniquelmrks = 0;
 			double leastDistance = 99999;
 			double temp;
-			landmark[] uniqueLandmarks = new landmark[100];
+			Landmark[] uniqueLandmarks = new Landmark[100];
 
-			for(int i=0; i<extractedLandmarks.Length; i++)
+			for (int i = 0; i < extractedLandmarks.Length; i++)
 			{
-				//remove landmarks that didn't get associated and also pass
-				//landmarks through our temporary landmark validation gate
-				if(extractedLandmarks[i].id != -1
-				&& GetAssociation(extractedLandmarks[i]) != -1)
+				// Remove landmarks that didn't get associated and also pass
+				// landmarks through our temporary landmark validation gate.
+				if (extractedLandmarks[i].id != -1 && GetAssociation(extractedLandmarks[i]) != -1)
 				{
 					leastDistance = 99999;
 
-					//remove doubles in extractedLandmarks
-					//if two observations match same landmark, take closest landmark
-					for(int j=0; j<extractedLandmarks.Length; j++)
+					// Remove doubles in extractedLandmarks
+					// if two observations match same landmark, take closest landmark.
+					for (int j = 0; j < extractedLandmarks.Length; j++)
 					{
-						if(extractedLandmarks[i].id == extractedLandmarks[j].id)
+						if (extractedLandmarks[i].id == extractedLandmarks[j].id)
 						{
 							if (j < i)
+							{
 								break;
+							}
+
 							temp = Distance(extractedLandmarks[j],
 							landmarkDB[extractedLandmarks[j].id]);
 
-							if(temp<leastDistance)
+							if ( temp < leastDistance)
 							{
 								leastDistance = temp;
 								uniqueLandmarks[uniquelmrks] = extractedLandmarks[j];
@@ -872,13 +939,15 @@ namespace SLAM
 				}
 
 				if (leastDistance != 99999)
+				{
 					uniquelmrks++;
+				}
 			}
 
-			//copy landmarks over into an array of correct dimensions
-			extractedLandmarks = new landmark[uniquelmrks];
+			// Copy landmarks over into an array of correct dimensions.
+			extractedLandmarks = new Landmark[uniquelmrks];
 
-			for(int i=0; i<uniquelmrks; i++)
+			for (int i = 0; i < uniquelmrks; i++)
 			{
 				extractedLandmarks[i] = uniqueLandmarks[i];
 			}
@@ -886,32 +955,35 @@ namespace SLAM
 			return extractedLandmarks;
 		}
 
-		public int AlignLandmarkData(landmark[] extractedLandmarks,ref bool[] matched, ref int[] id, ref
-		double[] ranges, ref double[] bearings, ref double[,] lmrks, ref double[,] exlmrks)
+		public int AlignLandmarkData(Landmark[] extractedLandmarks,ref bool[] matched, ref int[] id, 
+			ref double[] ranges, ref double[] bearings, ref double[,] lmrks, ref double[,] exlmrks)
 		{
 			int uniquelmrks = 0;
 			double leastDistance = 99999;
 			double temp;
-			landmark[] uniqueLandmarks = new landmark[100];
+			Landmark[] uniqueLandmarks = new Landmark[100];
 
-			for(int i=0; i<extractedLandmarks.Length; i++)
+			for (int i = 0; i < extractedLandmarks.Length; i++)
 			{
-				if(extractedLandmarks[i].id != -1)
+				if (extractedLandmarks[i].id != -1)
 				{
 					leastDistance = 99999;
 
-					//remove doubles in extractedLandmarks
-					//if two observations match same landmark, take closest landmark
-					for(int j=0; j<extractedLandmarks.Length; j++)
+					// Remove doubles in extractedLandmarks
+					// if two observations match same landmark, take closest landmark.
+					for (int j = 0; j < extractedLandmarks.Length; j++)
 					{
-						if(extractedLandmarks[i].id == extractedLandmarks[j].id)
+						if (extractedLandmarks[i].id == extractedLandmarks[j].id)
 						{
 							if (j < i)
+							{
 								break;
+							}
+
 							temp = Distance(extractedLandmarks[j],
 							landmarkDB[extractedLandmarks[j].id]);
 
-							if(temp<leastDistance)
+							if (temp < leastDistance)
 							{
 								leastDistance = temp;
 								uniqueLandmarks[uniquelmrks] = extractedLandmarks[j];
@@ -921,48 +993,51 @@ namespace SLAM
 				}
 
 				if (leastDistance != 99999)
+				{
 					uniquelmrks++;
+				}
 			}
 
 			matched = new bool[uniquelmrks];
 			id = new int[uniquelmrks];
 			ranges = new double[uniquelmrks];
 			bearings = new double[uniquelmrks];
-			lmrks = new double[uniquelmrks,2];
-			exlmrks = new double[uniquelmrks,2];
+			lmrks = new double[uniquelmrks, 2];
+			exlmrks = new double[uniquelmrks, 2];
 
-			for(int i=0; i<uniquelmrks; i++)
+			for (int i = 0; i < uniquelmrks; i++)
 			{
 				matched[i] = true;
 				id[i] = uniqueLandmarks[i].id;
 				ranges[i] = uniqueLandmarks[i].range;
 				bearings[i] = uniqueLandmarks[i].bearing;
-				lmrks[i,0] = landmarkDB[uniqueLandmarks[i].id].pos[0];
-				lmrks[i,1] = landmarkDB[uniqueLandmarks[i].id].pos[1];
-				exlmrks[i,0] = uniqueLandmarks[i].pos[0];
-				exlmrks[i,1] = uniqueLandmarks[i].pos[1];
+				lmrks[i, 0] = landmarkDB[uniqueLandmarks[i].id].pos[0];
+				lmrks[i, 1] = landmarkDB[uniqueLandmarks[i].id].pos[1];
+				exlmrks[i, 0] = uniqueLandmarks[i].pos[0];
+				exlmrks[i, 1] = uniqueLandmarks[i].pos[1];
 			}
 
 			return 0;
 		}
 
-		public int AddToDB(landmark lm)
+		public int AddToDB(Landmark lm)
 		{
-			if(DBSize+1 < landmarkDB.Length)
+			if (DBSize + 1 < landmarkDB.Length)
 			{
 				//for(int i=0; i<DBSize+1; i++)
 				//{
 				//if(((landmark)landmarkDB[i]).id != i)//if(((landmark)landmarkDB[i]).id == -1||((landmark)landmarkDB[i]).life <= 0)
 				//{
-				((landmark)landmarkDB[DBSize]).pos[0] = lm.pos[0]; //set landmark coordinates
-				((landmark)landmarkDB[DBSize]).pos[1] = lm.pos[1]; //set landmark coordinates
-				((landmark)landmarkDB[DBSize]).life = LIFE; //set landmark life counter
-				((landmark)landmarkDB[DBSize]).id = DBSize; //set landmark id
-				((landmark)landmarkDB[DBSize]).totalTimesObserved = 1; //initialise number of times we'veseen landmark
-				((landmark)landmarkDB[DBSize]).bearing = lm.bearing; //set last bearing was seen at
-				((landmark)landmarkDB[DBSize]).range = lm.range; //set last range was seen at
-				((landmark)landmarkDB[DBSize]).a = lm.a; //store landmarks wall equation
-				((landmark)landmarkDB[DBSize]).b= lm.b; //store landmarks wall equation
+				((Landmark)landmarkDB[DBSize]).pos[0] = lm.pos[0]; //set landmark coordinates
+				((Landmark)landmarkDB[DBSize]).pos[1] = lm.pos[1]; //set landmark coordinates
+				((Landmark)landmarkDB[DBSize]).life = LIFE; //set landmark life counter
+				((Landmark)landmarkDB[DBSize]).id = DBSize; //set landmark id
+				((Landmark)landmarkDB[DBSize]).totalTimesObserved = 1; //initialise number of times we'veseen landmark
+				((Landmark)landmarkDB[DBSize]).bearing = lm.bearing; //set last bearing was seen at
+				((Landmark)landmarkDB[DBSize]).range = lm.range; //set last range was seen at
+				((Landmark)landmarkDB[DBSize]).a = lm.a; //store landmarks wall equation
+				((Landmark)landmarkDB[DBSize]).b= lm.b; //store landmarks wall equation
+
 				DBSize++;
 
 				return (DBSize-1);
@@ -976,25 +1051,26 @@ namespace SLAM
 			return DBSize;
 		}
 
-		public landmark[] GetDB()
+		public Landmark[] GetDB()
 		{
-			landmark[] temp = new landmark[DBSize];
+			Landmark[] temp = new Landmark[DBSize];
 
-			for(int i=0; i<DBSize; i++)
+			for (int i = 0; i < DBSize; i++)
 			{
 				temp[i] = landmarkDB[i];
 			}
 
 			return temp;
 		}
+
 		private double Distance(double x1, double y1, double x2, double y2)
 		{
-			return Math.Sqrt(Math.Pow(x1-x2,2)+Math.Pow(y1-y2, 2));
+			return Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));
 		}
 
-		private double Distance(landmark lm1, landmark lm2)
+		private double Distance(Landmark lm1, Landmark lm2)
 		{
-			return Math.Sqrt(Math.Pow(lm1.pos[0]-lm2.pos[0],2)+Math.Pow(lm1.pos[1]-lm2.pos[1], 2));
+			return Math.Sqrt(Math.Pow(lm1.pos[0] - lm2.pos[0], 2) + Math.Pow(lm1.pos[1] - lm2.pos[1], 2));
 		}
 	}
 }
