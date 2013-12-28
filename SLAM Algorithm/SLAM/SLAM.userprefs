@@ -1,8 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/Landmarks.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/SLAM.cs">
     <Files>
-      <File FileName="SLAM/Landmarks.cs" Line="1073" Column="94" />
+      <File FileName="SLAM/SLAM.cs" Line="100" Column="13" />
+      <File FileName="SLAM/Landmarks.cs" Line="813" Column="3" />
+      <File FileName="SLAM/Landmark.cs" Line="15" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

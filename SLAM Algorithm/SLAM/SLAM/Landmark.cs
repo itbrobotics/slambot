@@ -6,18 +6,21 @@ namespace SLAM
 	{
 		const int LIFE = 40;
 
-		public double[] pos; //landmarks (x,y) position relative to map
-		public int id; //the landmarks unique ID
-		public int life; //a life counter used to determine whether to discard a landmark
-		public int totalTimesObserved; //the number of times we have seen landmark
-		public double range; //last observed range to landmark
-		public double bearing; //last observed bearing to landmark
+		public double[] pos; 			// Landmarks (x, y) position relative to the map.
+		public int id; 					// The landmarks unique ID.
+		public int life; 				// A life counter used to determine whether to discard a landmark.
+		public int totalTimesObserved; 	// The number of times we have seen a landmark.
+		public double range; 			// Last observed range to landmark.
+		public double bearing; 			// Last observed bearing to landmark.
 
-		//RANSAC: Now store equation of a line
+		// RANSAC: Now store equation of a line.
 		public double a;
 		public double b;
-		public double rangeError; //distance from robot position to the wall we are using as a landmark (to calculate error)
-		public double bearingError; //bearing from robot position to the wall we are using as a landmark (to calculate error)
+		public double rangeError; 	// Distance from robot position to the wall we are using as 
+									// a landmark (to calculate error).
+
+		public double bearingError; // Bearing from robot position to the wall we are using as 
+									// a landmark (to calculate error).
 
 		public Landmark()
 		{
@@ -29,7 +32,7 @@ namespace SLAM
 			b = -1;
 		}
 
-		//keep track of bad landmarks?
+		// Keep track of bad landmarks?
 	}
 }
 
