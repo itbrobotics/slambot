@@ -22,6 +22,10 @@ namespace SLAM
 		public double bearingError; // Bearing from robot position to the wall we are using as 
 									// a landmark (to calculate error).
 
+		/************************************************************
+		 * Public Constructors
+		 ***********************************************************/
+
 		public Landmark()
 		{
 			totalTimesObserved = 0;
@@ -32,7 +36,25 @@ namespace SLAM
 			b = -1;
 		}
 
-		// Keep track of bad landmarks?
+		/************************************************************
+		 * Public Methods
+		 ***********************************************************/
+
+		public override string ToString ()
+		{
+			string text =	"Landmark : " + this.id + "\n"
+							+ "\tid = " + this.id + "\n" 
+				           	+ "\tlife = " + this.life + "\n"
+		                   	+ "\ttimesObserved = " + this.totalTimesObserved + "\n"
+		                   	+ "\tx = " + this.pos[0] + "\n"
+		                   	+ "\ty = " +  this.pos[1] + "\n"
+		                   	+ "\trange = " + this.range + "\n"
+		                   	+ "\tbearing = " + this.bearing + "\n"
+		                   	+ "\ta = " + this.a + "\n"
+							+ "\tb = " + this.b + "\n\n";
+
+			return string.Format (text, this);
+		}
 	}
 }
 
