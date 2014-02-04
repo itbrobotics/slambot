@@ -36,9 +36,9 @@ As of current the project also contains the *SLAM for Dummies* algorithm which i
 ported the code to Mono under Linux and I also added a GUI front end using GTK# and Cairo. To run this 
 example you will need the following:
 
-* MonoDevelop v3.0.3.2 or later.
+* MonoDevelop v4.2.2 or later.
 * Mono runtime environment.
 * A Linux environment that supports GTK# or if using Windows you'll need the GTK+ library installed.
 
-This code can be run under Windows if you install the GTK+ GUI library but I haven't tried myself. When 
+This code can be run under Windows if you install the GTK+ GUI library but I haven't tried this myself. When 
 you open the project simply compile and run it. Refer to the source code for more information.
