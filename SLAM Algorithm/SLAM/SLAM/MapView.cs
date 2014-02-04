@@ -48,7 +48,7 @@ namespace SLAM
 
 			this.SetDefaultSize (MapWidth, MapHeight + 150);
 			this.SetPosition (WindowPosition.Center);
-			//this.Resizable = false; Figure out how to disable maximizing/minimizing.
+			this.Resizable = false; //Figure out how to disable maximizing/minimizing.
 
 			this.DeleteEvent += delegate
 			{
@@ -57,7 +57,7 @@ namespace SLAM
 
 			DrawingArea drawingArea = new DrawingArea ();
 			drawingArea.ExposeEvent += OnExpose;
-			drawingArea.SetSizeRequest (MapWidth, MapHeight - 130);
+			drawingArea.SetSizeRequest (MapWidth, MapHeight);
 
 			TextBuffer textBuffer = new TextBuffer (new TextTagTable ());
 
@@ -104,25 +104,21 @@ namespace SLAM
 				this.DrawLandmarks (cairoContext, this.slamMap.SlamLandmarks);
 			}
 
-			((IDisposable)cairoContext.Target).Dispose ();                                      
+			((IDisposable)cairoContext.GetTarget()).Dispose ();                                      
 			((IDisposable)cairoContext).Dispose ();
 		}
 
 		private void DrawBackground (Cairo.Context cairoContext)
 		{
-			Color backgroundColor = new Color (255, 255, 255);
-
 			// Draw the background.
 			cairoContext.Rectangle (TrueX, TrueY, MapWidth, MapHeight);
-			cairoContext.Color = backgroundColor;
+			cairoContext.SetSourceRGB(255, 255, 255);
 			cairoContext.StrokePreserve ();
 			cairoContext.Fill ();
 		}
 
 		private void DrawGrid (Cairo.Context cairoContext)
 		{
-			Color gridColor = new Color (0, 0, 0);
-
 			// Draw the grid Axis.
 			cairoContext.LineWidth = 1.0;
 			cairoContext.LineCap = LineCap.Butt;
@@ -131,7 +127,7 @@ namespace SLAM
 			int height = MapHeight;
 
 			// Y axis.
-			cairoContext.Color = gridColor;
+			cairoContext.SetSourceRGB(0, 0, 0);
 			cairoContext.MoveTo (width / 2, 0.0);
 			cairoContext.LineTo (width / 2, height);
 			cairoContext.Stroke ();
@@ -196,10 +192,7 @@ namespace SLAM
 
 		private void DrawRobot (Cairo.Context cairoContext, double[] robotPosition)
 		{
-			Color robotColor = new Color (255, 0, 0);
-			Color wheelColor = new Color (0, 0, 0);
-
-			cairoContext.Color = robotColor;
+			cairoContext.SetSourceRGB(255, 0, 0);
 			cairoContext.Translate (CenterX + robotPosition [0], CenterY - robotPosition [1]);
 			cairoContext.Rotate (robotPosition [2]); // Rotate the robot based on its orientation in radians.
 
@@ -209,7 +202,7 @@ namespace SLAM
 			cairoContext.StrokePreserve ();
 			cairoContext.Fill ();
 
-			cairoContext.Color = wheelColor;
+			cairoContext.SetSourceRGB(0, 0, 0);
 
 			// Front indicator.
 			cairoContext.Rectangle (-((RobotWidth / 2) - 8.0), -((RobotHeight / 2) - 5.0), 
@@ -241,9 +234,6 @@ namespace SLAM
 
 		private void DrawLandmarks (Cairo.Context cairoContext, List<Landmark> landmarks)
 		{
-			// Draw the actual point of the landmark.
-			Color landmarkColor = new Color (0, 0, 255);
-
 			foreach (Landmark landmark in landmarks)
 			{
 				// From our virtual center move to the landmark's position.
@@ -251,7 +241,7 @@ namespace SLAM
 				cairoContext.Translate (CenterX + (landmark.pos [0] * 100), 
 				                        CenterY - (landmark.pos [1] * 100));
 
-				cairoContext.Color = landmarkColor;
+				cairoContext.SetSourceRGB(0, 0, 255);
 				cairoContext.Arc (0, 0, 15, 0, 2 * Math.PI);
 				cairoContext.StrokePreserve ();
 				cairoContext.Fill ();
@@ -263,8 +253,7 @@ namespace SLAM
 
 			// Draw the landmark id in a seperate loop to avoid any weird
 			// tearing behaviour.
-			Color textColor = new Color (255, 255, 255);
-			cairoContext.Color = textColor;
+			cairoContext.SetSourceRGB(255, 255, 255);
 
 			cairoContext.SelectFontFace ("Sans Serif", FontSlant.Normal, FontWeight.Normal);
 			cairoContext.SetFontSize (12);
@@ -281,8 +270,7 @@ namespace SLAM
 			}
 
 			// Draw the equation of a line for each landmark.
-			Color lineColor = new Color (0, 255, 0);
-			cairoContext.Color = lineColor;
+			cairoContext.SetSourceRGB(0, 255, 0);
 
 			foreach (Landmark landmark in landmarks)
 			{
