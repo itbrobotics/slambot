@@ -7,20 +7,22 @@ namespace SLAM
 {
 	public class MapView : Window
 	{
-		private const int MapWidth = 600;
+		private const int MapWidth = 600; // 1 pixel = 1 cm.
 		private const int MapHeight = 500;
 		private const int TrueX = 0;
 		private const int TrueY = 0;
-		private const int CenterX = MapWidth / 2;
-		private const int CenterY = MapHeight / 2;
+		private const int CenterX = MapWidth / 2; // Our virtual center x coordinate.
+		private const int CenterY = MapHeight / 2; // Our virtual center y coordinate.
+
+		// Move the robot view elements to an external class later.
 		private const int RobotWidth = 18;
 		private const int RobotHeight = 23;
 		private const int WheelWidth = 3;
 		private const int WheelHeight = 6;
 
-		private Map slamMap;
+		private Map slamMap; // The back end model for the view.
 
-		private TextView textView;
+		private TextView textView; // Textview to hold landmark information.
 
 		/************************************************************
 		 * Public Properties
@@ -44,11 +46,10 @@ namespace SLAM
 
 		public MapView (Map map) : base("Map")
 		{
-			this.slamMap = map;
+			this.slamMap = map; // Set the model map for this view.
 
-			this.SetDefaultSize (MapWidth, MapHeight + 150);
 			this.SetPosition (WindowPosition.Center);
-			this.Resizable = false; //Figure out how to disable maximizing/minimizing.
+			this.Resizable = false; 
 
 			this.DeleteEvent += delegate
 			{
@@ -95,13 +96,13 @@ namespace SLAM
 			// Draw the Map.
 			this.DrawBackground (cairoContext);
 			this.DrawGrid (cairoContext);
-			this.DrawRobot (cairoContext, this.slamMap.RobotPosition);
+			this.DrawRobot (cairoContext);
 
 			// Don't bother attempting to draw landmarks if there
 			// are none.
-			if (this.slamMap.SlamLandmarks.Count != 0)
+			if (this.slamMap.SlamLandmarks.Count > 0)
 			{
-				this.DrawLandmarks (cairoContext, this.slamMap.SlamLandmarks);
+				this.DrawLandmarks (cairoContext);
 			}
 
 			((IDisposable)cairoContext.GetTarget()).Dispose ();                                      
@@ -190,11 +191,12 @@ namespace SLAM
 			}
 		}
 
-		private void DrawRobot (Cairo.Context cairoContext, double[] robotPosition)
+		private void DrawRobot (Cairo.Context cairoContext)
 		{
 			cairoContext.SetSourceRGB(255, 0, 0);
-			cairoContext.Translate (CenterX + robotPosition [0], CenterY - robotPosition [1]);
-			cairoContext.Rotate (robotPosition [2]); // Rotate the robot based on its orientation in radians.
+			cairoContext.Translate (CenterX + this.slamMap.RobotPosition [0], 
+				CenterY - this.slamMap.RobotPosition [1]);
+			cairoContext.Rotate (this.slamMap.RobotPosition [2]); // Rotate the robot based on its orientation in radians.
 
 			// Draw the body.
 			cairoContext.Rectangle (-(RobotWidth / 2), -(RobotHeight / 2), 
@@ -228,13 +230,14 @@ namespace SLAM
 			cairoContext.Fill ();
 
 			// Reset the drawing context.
-			cairoContext.Rotate (-robotPosition [2]);
-			cairoContext.Translate (-(CenterX + robotPosition [0]), -(CenterY - robotPosition [1]));
+			cairoContext.Rotate (-this.slamMap.RobotPosition [2]);
+			cairoContext.Translate (-(CenterX + this.slamMap.RobotPosition [0]), 
+				-(CenterY - this.slamMap.RobotPosition [1]));
 		}
 
-		private void DrawLandmarks (Cairo.Context cairoContext, List<Landmark> landmarks)
+		private void DrawLandmarks (Cairo.Context cairoContext)
 		{
-			foreach (Landmark landmark in landmarks)
+			foreach (Landmark landmark in this.slamMap.SlamLandmarks)
 			{
 				// From our virtual center move to the landmark's position.
 				// Also scale up landmark positions from metres to centimetres.
@@ -258,7 +261,7 @@ namespace SLAM
 			cairoContext.SelectFontFace ("Sans Serif", FontSlant.Normal, FontWeight.Normal);
 			cairoContext.SetFontSize (12);
 
-			foreach (Landmark landmark in landmarks)
+			foreach (Landmark landmark in this.slamMap.SlamLandmarks)
 			{
 				// Center the text inside the landmark.
 				TextExtents textExtents = cairoContext.TextExtents (landmark.id.ToString ());
@@ -272,14 +275,14 @@ namespace SLAM
 			// Draw the equation of a line for each landmark.
 			cairoContext.SetSourceRGB(0, 255, 0);
 
-			foreach (Landmark landmark in landmarks)
+			foreach (Landmark landmark in this.slamMap.SlamLandmarks)
 			{
 				cairoContext.MoveTo (CenterX + ((landmark.b / -landmark.a) * 100), CenterY);
 				cairoContext.LineTo (CenterX, CenterY - (landmark.b * 100));
 				cairoContext.Stroke ();
 
-				Console.WriteLine ("X= " +  ((landmark.b / -landmark.a) * 100));
-				Console.WriteLine ("Y= " + (landmark.b * 100));
+				Console.WriteLine ("X = " +  ((landmark.b / -landmark.a) * 100));
+				Console.WriteLine ("Y = " + (landmark.b * 100));
 			}
 		}
 	}
