@@ -4,7 +4,7 @@
  * 
  *  
  * @author Joshua Michael Daly
- * @version 12/12/2013
+ * @version 17/02/2014
  */
 
 #include <ps2.h>
@@ -27,10 +27,10 @@ void setup()
   mouseInit();
   compassInit();
 
-  motor1.setSpeed(255);
-  motor2.setSpeed(255);
-  motor3.setSpeed(255);
-  motor4.setSpeed(255);
+  motor1.setSpeed(MOTOR_SPEED);
+  motor2.setSpeed(MOTOR_SPEED);
+  motor3.setSpeed(MOTOR_SPEED);
+  motor4.setSpeed(MOTOR_SPEED);
 }
 
 void loop()
@@ -140,6 +140,7 @@ void processCommand()
       Serial.print("Rotation outside bounds of servo: ");
       Serial.println((short)command[1]); 
     }
+    break;
   case 'e':
 #if DEBUG
     Serial.println("Scan");
@@ -212,11 +213,11 @@ void scan()
 
 double takeReading()
 {
-  double distance;
-  double duration; 
+  double distance; // Distance to object.
+  double duration; // Duration of pulse from PING))).
 
   // The PING))) is triggered by a HIGH pulse of 2 or more microseconds.
-  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
+  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
   pinMode(SIG_PIN, OUTPUT);
   digitalWrite(SIG_PIN, LOW);
   delayMicroseconds(2);
@@ -233,7 +234,7 @@ double takeReading()
   // The speed of sound is 340 m/s or 29 microseconds per centimeter.
   // The ping travels out and back, so to find the distance of the
   // object we take half of the distance travelled.
-  distance = duration / 340 / 2;
+  distance = duration / 29 / 2;
 
   return distance;
 }
@@ -281,11 +282,3 @@ void halt()
   motor3.run(RELEASE);
   motor4.run(RELEASE);
 }
-
-
-
-
-
-
-
-

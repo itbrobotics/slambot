@@ -4,7 +4,7 @@
  * 
  *  
  * @author Joshua Michael Daly
- * @version 12/12/2013
+ * @version 17/02/2014
  */
 
 #include <ps2.h>
@@ -14,6 +14,9 @@
 #include <HMC5883L.h>
 
 #define DEBUG 1
+
+// Speed to run motors at.
+#define MOTOR_SPEED 255
 
 // IC2 Uno pins.
 #define IC2_CLOCK A4
@@ -39,7 +42,7 @@ int index = 0;
 // Odometry data.
 char x;          // X displacement.
 char y;          // Y displacement.
-short theta;     // Current rotation.
+double theta;     // Current rotation.
 
 double distances[180]; // Stores range finder distances during scans.
 
@@ -52,7 +55,7 @@ int error = 0; // Record any errors that may occur in the compass.
 Servo sonarServo;
 
 // Motors attached to Adafruit motor controller.
-AF_DCMotor motor1(1);
-AF_DCMotor motor2(2);
+AF_DCMotor motor1(1, MOTOR12_64KHZ);
+AF_DCMotor motor2(2, MOTOR12_64KHZ);
 AF_DCMotor motor3(3);
 AF_DCMotor motor4(4);

@@ -13,8 +13,8 @@ The Arduino source code is located under the *Robot* directory, inside this dire
 you will find something similar to the following:
 
 * AFMOTOR 		<- Library for the Adafruit motor shield.
-* MotorController 	<- Some code to drive the motors via the Adafruit motor shield.
-* ServoController 	<- More advanced servo control than default library.
+* HMC588CL              <- Compass library.
+* ps2                   <- PS/2 Arduino device library.
 * SharpIR 		<- Library for getting readings from a Sharp infra red range finder.
 * Robot.ino		<- Main driver program on the Arduino board.
 
