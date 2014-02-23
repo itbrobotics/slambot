@@ -145,6 +145,7 @@ void processCommand()
 #if DEBUG
     Serial.println("Scan");
 #endif
+    halt();
     scan();
     break;
   default: 
@@ -234,7 +235,7 @@ double takeReading()
   // The speed of sound is 340 m/s or 29 microseconds per centimeter.
   // The ping travels out and back, so to find the distance of the
   // object we take half of the distance travelled.
-  distance = duration / 29 / 2;
+  distance = (duration / 2) / 29;
 
   return distance;
 }
