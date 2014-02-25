@@ -1,13 +1,6 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/Serial/SerialProxy.cs">
-    <Files>
-      <File FileName="SLAM/SLAM.cs" Line="1" Column="1" />
-      <File FileName="SLAM/Observer.cs" Line="1" Column="1" />
-      <File FileName="SLAM/Serial/SerialProxy.cs" Line="69" Column="5" />
-      <File FileName="SLAM/Map/Map.cs" Line="70" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -51,16 +51,10 @@
     <Compile Include="Algorithm\Landmark.cs" />
     <Compile Include="Map\Map.cs" />
     <Compile Include="Gui\MapView.cs" />
-    <Compile Include="Events\OdometryUpdateEventArgs.cs" />
-    <Compile Include="Events\ScanEventArgs.cs" />
-    <Compile Include="Serial\SerialProxy.cs" />
-    <Compile Include="Observer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Algorithm\" />
     <Folder Include="Map\" />
     <Folder Include="Gui\" />
-    <Folder Include="Events\" />
-    <Folder Include="Serial\" />
   </ItemGroup>
 </Project>

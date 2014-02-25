@@ -1,6 +1,6 @@
 using System;
 
-namespace SLAM
+namespace Driver
 {
 	public class OdometryUpdateEventArgs : EventArgs
 	{

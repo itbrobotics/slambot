@@ -2,7 +2,7 @@ using System;
 using System.IO.Ports;
 using System.Threading;
 using System.Collections.Generic;
-using SLAM;
+using Driver;
 
 public class SerialProxy
 {
@@ -71,6 +71,9 @@ public class SerialProxy
 				switch (message [0])
 				{
 				case 'o':
+					// TODO: FormatException can be thrown here if one of the parameters
+					// returned is garbage. IndexOutOfRangeException can also be thrown
+					// if the message is corrupt.
 					string[] parameters = message.Split (',');
 
 					OdometryUpdateEventArgs args = new OdometryUpdateEventArgs (
@@ -81,6 +84,9 @@ public class SerialProxy
 					this.OnOdometryUpdate (args);
 					break;
 				case 's':
+					// TODO: FormatException can be thrown here if one of the parameters
+					// returned is garbage. IndexOutOfRangeException can also be thrown
+					// if the message is corrupt.
 					string[] stringReadings = message.Split(',');
 					List<double> readings = new List<double> ();
 
@@ -102,6 +108,14 @@ public class SerialProxy
 			catch (TimeoutException)
 			{ 
 				// Do nothing.
+			}
+			catch (FormatException)
+			{
+				// Do nothing for now.
+			}
+			catch (IndexOutOfRangeException)
+			{
+				// Do nothing for now.
 			}
 		}
 	}

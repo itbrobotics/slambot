@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SLAM
+namespace Driver
 {
 	public class ScanEventArgs : EventArgs
 	{

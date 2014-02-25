@@ -1,7 +1,6 @@
 using System;
-using SLAM;
 
-namespace SLAM
+namespace Driver
 {
 	public class Observer
 	{
