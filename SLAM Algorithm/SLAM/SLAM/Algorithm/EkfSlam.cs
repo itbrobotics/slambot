@@ -5,7 +5,7 @@ namespace SLAM
 	/// <summary>
 	/// Summary description for Landmarks.
 	/// </summary>
-	public class Landmarks
+	public class EkfSlam
 	{
 		double conv = Math.PI / 180.0; // Convert to radians
 		const int MAXLANDMARKS = 3000;
@@ -62,7 +62,7 @@ namespace SLAM
 		 * Public Constructors
 	     ***********************************************************/
 
-		public Landmarks (double degreesPerScan)
+		public EkfSlam (double degreesPerScan)
 		{
 			this.degreesPerScan = degreesPerScan;
 

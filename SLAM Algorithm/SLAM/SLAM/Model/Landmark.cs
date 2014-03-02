@@ -2,6 +2,9 @@ using System;
 
 namespace SLAM
 {
+	/// <summary>
+	/// Landmark.
+	/// </summary>
 	public class Landmark
 	{
 		const int LIFE = 40;
@@ -22,10 +25,11 @@ namespace SLAM
 		public double bearingError; // Bearing from robot position to the wall we are using as 
 									// a landmark (to calculate error).
 
-		/************************************************************
-		 * Public Constructors
-		 ***********************************************************/
+		#region Public Constructors
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SLAM.Landmark"/> class.
+		/// </summary>
 		public Landmark()
 		{
 			totalTimesObserved = 0;
@@ -36,10 +40,14 @@ namespace SLAM
 			b = -1;
 		}
 
-		/************************************************************
-		 * Public Methods
-		 ***********************************************************/
+		#endregion
 
+		#region Public Methods
+
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="SLAM.Landmark"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="SLAM.Landmark"/>.</returns>
 		public override string ToString ()
 		{
 			string text =	"Landmark : " + this.id + "\n"
@@ -55,6 +63,8 @@ namespace SLAM
 
 			return string.Format (text, this);
 		}
+
+		#endregion
 	}
 }
 

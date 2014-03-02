@@ -47,14 +47,22 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="SLAM.cs" />
-    <Compile Include="Algorithm\Landmarks.cs" />
-    <Compile Include="Algorithm\Landmark.cs" />
-    <Compile Include="Map\Map.cs" />
-    <Compile Include="Gui\MapView.cs" />
+    <Compile Include="Model\Map.cs" />
+    <Compile Include="Model\Landmark.cs" />
+    <Compile Include="Algorithm\EkfSlam.cs" />
+    <Compile Include="Model\RobotState.cs" />
+    <Compile Include="Model\Robot.cs" />
+    <Compile Include="Event\RobotUpdateEventArgs.cs" />
+    <Compile Include="View\RobotView.cs" />
+    <Compile Include="Event\MapUpdateEventArgs.cs" />
+    <Compile Include="View\MapWindow.cs" />
+    <Compile Include="View\MapView.cs" />
+    <Compile Include="View\LandmarkView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Algorithm\" />
-    <Folder Include="Map\" />
-    <Folder Include="Gui\" />
+    <Folder Include="View\" />
+    <Folder Include="Model\" />
+    <Folder Include="Event\" />
   </ItemGroup>
 </Project>

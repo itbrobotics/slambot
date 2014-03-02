@@ -38,7 +38,7 @@ public class SerialProxy
 
 	#endregion
 
-	#region Private Event Handlers
+	#region Protected Event Handlers
 
 	protected virtual void OnOdometryUpdate (OdometryUpdateEventArgs e)
 	{

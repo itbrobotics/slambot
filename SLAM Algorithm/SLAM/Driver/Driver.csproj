@@ -38,8 +38,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serial\SerialProxy.cs" />
     <Compile Include="Observer.cs" />
-    <Compile Include="Events\OdometryUpdateEventArgs.cs" />
-    <Compile Include="Events\ScanEventArgs.cs" />
+    <Compile Include="Event\OdometryUpdateEventArgs.cs" />
+    <Compile Include="Event\ScanEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
