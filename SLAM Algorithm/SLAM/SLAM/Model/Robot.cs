@@ -1,4 +1,5 @@
 using System;
+using Driver;
 
 namespace SLAM
 {
@@ -12,14 +13,21 @@ namespace SLAM
 	/// </summary>
 	public class Robot
 	{
+		private const double inchToMeter = 0.0254;
+
 		private double x; // Current x position in the grid.
 		private double y; // Current y position in the grid.
 		private double rotation; // Robot rotation in radians.
+		private double relativeRotation; // Robot rotation relative to the earth's magnetic field.
 		private RobotState state; // What are we currently doing?
 
 		// Physical dimensions of the robot in meters.
 		private double width;
 		private double height;
+
+		// Sensor specific.
+		private double mouseCpi; // Resolution of the sensor in Counts Per Inch (CPI).
+		private bool isSuppressNoise;
 
 		// Event raised whenever there is a change on the robot model, any observers can 
 		// choose to act upon the changes.
@@ -119,9 +127,56 @@ namespace SLAM
 			}
 		}
 
+		/// <summary>
+		/// Gets the robot's position as an array containing x, y, and rotation.
+		/// </summary>
+		/// <value>The position as an array.</value>
+		public double[] Position 
+		{
+			get
+			{
+				double[] position = new double[3] { x, y, rotation };
+
+				return position;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the cpi of the mouse sensor.
+		/// </summary>
+		/// <value>The cpi resolution.</value>
+		public double Cpi
+		{
+			get
+			{
+				return mouseCpi;
+			}
+			set
+			{
+				mouseCpi = value;
+			}
+		}
+
 		#endregion
 
 		#region Public Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SLAM.Robot"/> class with the
+		/// default settings for the Pirate robot platform.
+		/// </summary>
+		public Robot ()
+		{
+			x = 0;
+			y = 0;
+			rotation = 0;
+			relativeRotation = -7;
+			state = RobotState.Halted;
+			width = 0.18;
+			height = 0.23;
+			mouseCpi = 400;
+			isSuppressNoise = true;
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SLAM.Robot"/> class.
@@ -133,14 +188,92 @@ namespace SLAM
 		/// <param name="robotWidth">Robot width in meters.</param>
 		/// <param name="robotHeight">Robot height in meters.</param>
 		public Robot (double xPosition, double yPosition, double currentRotation, RobotState currentState,
-			double robotWidth, double robotHeight)
+			double robotWidth, double robotHeight, double cpi)
 		{
 			x = xPosition;
 			y = yPosition;
 			rotation = currentRotation;
+			relativeRotation = -7;
 			state = currentState;
 			width = robotWidth;
 			height = robotHeight;
+			mouseCpi = cpi;
+			isSuppressNoise = true;
+		}
+
+		#endregion
+
+		#region Public Methods
+
+		/// <summary>
+		/// Updates the odometry.
+		/// </summary>
+		/// <param name="e">E.</param>
+		public void UpdateOdometry (OdometryUpdateEventArgs e)
+		{
+			bool raiseEvent = false;
+
+			/*
+			 * Calculate the change as follows:
+			 *  xm = (displacement / sensor cpi) * conversion of inches to meters
+			 *  ym = (displacement / sensor cpi) * conversion of inches to meters
+			 */
+			double xm = (e.X / mouseCpi) * inchToMeter;
+			double ym = (e.Y / mouseCpi) * inchToMeter;
+
+			// We have moved along the x-axis.
+			if (xm != 0.0)
+			{
+				x += xm;
+
+				if (!raiseEvent)
+					raiseEvent = true;
+			}
+
+			// We have moved along the y-axis.
+			if (ym != 0.0)
+			{
+				y += ym;
+
+				if (!raiseEvent)
+					raiseEvent = true;
+			}
+
+			// On the first odometry report the value will be minus -7.
+			// We do not care about the rotation of the robot relative
+			// to the earth's magnetic field. We only want the change.
+			if (relativeRotation == -7)
+			{
+				relativeRotation = e.Theta;
+			}
+			else
+			{
+				double change = e.Theta - relativeRotation;
+				relativeRotation = e.Theta;
+
+				if (change != 0)
+				{
+					rotation += change;
+
+					// Correct for when signs are reversed.
+					if (rotation < 0)
+					{
+						rotation += 2 * Math.PI;
+					}
+
+					// Check for wrap due to addition of declination.
+					if (rotation > 2 * Math.PI)
+					{
+						rotation -= 2 * Math.PI;
+					}
+
+					if (!raiseEvent)
+						raiseEvent = true;
+				}
+			}
+
+			if (raiseEvent)
+				RaiseUpdateRobot ();
 		}
 
 		#endregion

@@ -95,14 +95,18 @@ namespace SLAM
 		{
 			map = mapModel;
 			robotView = new RobotView (map.Robot);
-			landmarkView = new LandmarkView (map.Landmarks);
+			landmarkView = new LandmarkView (map.CopyLandmarks ());
+
+			// Subscribe to events.
+			map.MapUpdated += new EventHandler<MapUpdateEventArgs> (Map_Update);
+			robotView.Robot.RobotUpdated += new EventHandler<RobotUpdateEventArgs> (Robot_Update);
 
 			// Map width and height is specified in meters, and we are using
 			// 1 pixel to every centimeter, so scale up by 100.
 			viewWidth = (int)(map.Width * 100);
 			viewHeight = (int)(map.Height * 100);
-			centerX = (int)((map.Width / 2) * 100);
-			centerY = (int)((map.Height / 2) * 100);
+			centerX = (int)(viewWidth / 2);
+			centerY = (int)(viewHeight / 2);
 		}
 
 		#endregion
@@ -124,7 +128,38 @@ namespace SLAM
 			cairoContext.Fill ();
 
 			robotView.Draw (cairoContext, centerX + x, centerY + y, 1.0);
+
+			// This is inefficient, because we have to copy an array
+			// over every time...
+			landmarkView.Landmarks.Clear ();
+			landmarkView.Landmarks.AddRange (map.CopyLandmarks ());
 			landmarkView.Draw (cairoContext, centerX + x, centerY + y, 1.0);
+		}
+
+		#endregion
+
+		#region Private Event Handlers
+
+		/// <summary>
+		/// Handles the map update event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		private void Map_Update (object sender, MapUpdateEventArgs e)
+		{
+			// Do nothing for now.
+			//Console.WriteLine ("Map_Update called: " + this.ToString ());
+		}
+
+		/// <summary>
+		/// Handles the robot update event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		private void Robot_Update (object sender, RobotUpdateEventArgs e)
+		{
+			// Do nothing for now.
+			//Console.WriteLine ("Robot_Update called: " + this.ToString ());
 		}
 
 		#endregion

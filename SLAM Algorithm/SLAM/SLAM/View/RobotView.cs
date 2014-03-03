@@ -11,6 +11,18 @@ namespace SLAM
 	{
 		private Robot robot; // Robot model that this view represents.
 
+		#region Public Properties
+
+		public Robot Robot
+		{
+			get
+			{
+				return robot;
+			}
+		}
+
+		#endregion
+
 		#region Public Constructors
 
 		/// <summary>
@@ -46,6 +58,8 @@ namespace SLAM
 			// Scale up to centimeters.
 			int width = (int)(robot.Width * 100);
 			int height = (int)(robot.Height * 100);
+			int x = (int)(robot.X * 100);
+			int y = (int)(robot.Y * 100);
 
 			// Set a red colour.
 			cairoContext.SetSourceRGB(255, 0, 0);
@@ -53,7 +67,7 @@ namespace SLAM
 			cairoContext.LineWidth = 1.0;
 			cairoContext.LineCap = LineCap.Butt; 
 
-			cairoContext.Translate (centerX + (robot.X * 100), centerY - (robot.Y * 100));
+			cairoContext.Translate (centerX + x, centerY - y);
 			cairoContext.Rotate (robot.Rotation); // Rotate the robot based on its orientation in radians.
 
 			// Draw the robot as a triangle.
@@ -65,8 +79,7 @@ namespace SLAM
 
 			// Reset the drawing context.
 			cairoContext.Rotate (-robot.Rotation);
-			cairoContext.Translate (-(centerX + robot.X), 
-				-(centerY - robot.Y));
+			cairoContext.Translate (-(centerX + x), -(centerY - y));
 		}
 
 		#endregion

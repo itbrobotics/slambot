@@ -25,6 +25,10 @@ namespace SLAM
 		{
 			this.mapView = mapView;
 
+			// Subscribe to events.
+			mapView.Map.MapUpdated += new EventHandler<MapUpdateEventArgs> (Map_Update);
+			mapView.RobotView.Robot.RobotUpdated += new EventHandler<RobotUpdateEventArgs> (Robot_Update);
+
 			SetPosition (WindowPosition.Center);
 			Resizable = false; 
 
@@ -34,6 +38,7 @@ namespace SLAM
 			};
 
 			drawingArea = new DrawingArea ();
+			drawingArea.SetSizeRequest (mapView.ViewWidth, mapView.ViewHeight);
 			drawingArea.ExposeEvent += OnExpose;
 			drawingArea.SetSizeRequest (mapView.ViewWidth, mapView.ViewHeight);
 
@@ -45,7 +50,7 @@ namespace SLAM
 			textView.CursorVisible = false;
 			textView.Indent = 10;
 
-			foreach (Landmark landmark in mapView.Map.Landmarks)
+			foreach (Landmark landmark in mapView.Map.CopyLandmarks ())
 			{
 				this.textView.Buffer.Text += landmark.ToString ();
 			}
@@ -58,7 +63,32 @@ namespace SLAM
 			vbox.Add (scrolledWindow);
 
 			Add (vbox);
-			ShowAll ();
+		}
+
+		#endregion
+
+		#region Private Event Handlers
+
+		/// <summary>
+		/// Handles the map update event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		private void Map_Update (object sender, MapUpdateEventArgs e)
+		{
+			// Redraw the map.
+			drawingArea.QueueDraw ();
+		}
+
+		/// <summary>
+		/// Handles the robot update event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		private void Robot_Update (object sender, RobotUpdateEventArgs e)
+		{
+			// Redraw the map.
+			drawingArea.QueueDraw ();
 		}
 
 		#endregion

@@ -46,7 +46,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="SLAM.cs" />
     <Compile Include="Model\Map.cs" />
     <Compile Include="Model\Landmark.cs" />
     <Compile Include="Algorithm\EkfSlam.cs" />
@@ -58,11 +57,20 @@
     <Compile Include="View\MapWindow.cs" />
     <Compile Include="View\MapView.cs" />
     <Compile Include="View\LandmarkView.cs" />
+    <Compile Include="SLAM.cs" />
+    <Compile Include="Contorller\SlamController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Algorithm\" />
     <Folder Include="View\" />
     <Folder Include="Model\" />
     <Folder Include="Event\" />
+    <Folder Include="Contorller\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Driver\Driver.csproj">
+      <Project>{AA18CBBC-6940-442E-B9FA-ED87228A44E0}</Project>
+      <Name>Driver</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

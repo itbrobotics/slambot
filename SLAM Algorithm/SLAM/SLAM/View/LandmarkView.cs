@@ -37,7 +37,17 @@ namespace SLAM
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SLAM.LandmarkView"/> class.
 		/// </summary>
-		/// <param name="mapLandmarks">Map landmarks.</param>
+		/// <param name="mapLandmarks">Map landmarks array.</param>
+		public LandmarkView (Landmark[] mapLandmarks)
+		{
+			landmarks = new List<Landmark> ();
+			landmarks.AddRange (mapLandmarks);
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SLAM.LandmarkView"/> class.
+		/// </summary>
+		/// <param name="mapLandmarks">Map landmarks list.</param>
 		public LandmarkView (List<Landmark> mapLandmarks)
 		{
 			landmarks = mapLandmarks;
@@ -66,9 +76,6 @@ namespace SLAM
 				cairoContext.MoveTo (centerX + ((landmark.b / -landmark.a) * 100), centerY);
 				cairoContext.LineTo (centerX, centerY - (landmark.b * 100));
 				cairoContext.Stroke ();
-
-				Console.WriteLine ("X = " +  ((landmark.b / -landmark.a) * 100));
-				Console.WriteLine ("Y = " + (landmark.b * 100));
 			} 
 		}
 

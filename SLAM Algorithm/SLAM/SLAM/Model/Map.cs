@@ -34,22 +34,6 @@ namespace SLAM
 		}
 
 		/// <summary>
-		/// Gets or sets the landmarks on this map.
-		/// </summary>
-		/// <value>The landmarks.</value>
-		public List<Landmark> Landmarks
-		{
-			get
-			{
-				return landmarks;
-			}
-			set
-			{
-				landmarks = value;
-			}
-		}
-
-		/// <summary>
 		/// Gets or sets the width.
 		/// </summary>
 		/// <value>The width in meters.</value>
@@ -95,6 +79,81 @@ namespace SLAM
 			landmarks = new List<Landmark>();
 			width = mapWidth;
 			height = mapHeight;
+		}
+
+		#endregion
+
+		#region Public Methods
+
+		/// <summary>
+		/// Returns a copy of the landmarks on this map.
+		/// </summary>
+		/// <returns>The landmarks.</returns>
+		public Landmark[] CopyLandmarks ()
+		{
+			// We do not want a user to have direct access to the landmarks
+			// otherwise we cannot tell when a landmark has been added so
+			// return a copy in the form of an array.
+			//
+			// Think of a better way to do this, the problem is that the 
+			// caller could use .Add, .AddRange, and so on and we would
+			// not be aware of the modification.
+			Landmark[] copy = new Landmark[landmarks.Count];
+			landmarks.CopyTo (copy);
+
+			return copy;
+		}
+
+		/// <summary>
+		/// Adds a single landmark to the map.
+		/// </summary>
+		/// <param name="landmark">Landmark.</param>
+		public void AddLandmark (Landmark landmark)
+		{
+			landmarks.Add (landmark);
+			RaiseMapUpdate ();
+		}
+
+		/// <summary>
+		/// Adds a range of landmarks to the map.
+		/// </summary>
+		/// <param name="landmarkArray">Landmark array.</param>
+		public void AddLandmarks (Landmark[] landmarkArray)
+		{
+			landmarks.AddRange (landmarkArray);
+			RaiseMapUpdate ();
+		}
+
+		/// <summary>
+		/// Adds a range of landmarks to the map.
+		/// </summary>
+		/// <param name="landmarkList">Landmark list.</param>
+		public void AddLandmarks (List<Landmark> landmarkList)
+		{
+			landmarks.AddRange (landmarkList);
+			RaiseMapUpdate ();
+		}
+
+		/// <summary>
+		/// Updates the landmarks.
+		/// </summary>
+		/// <param name="landmarkArray">Landmark array.</param>
+		public void UpdateLandmarks (Landmark[] landmarkArray)
+		{
+			landmarks.Clear ();
+			landmarks.AddRange (landmarkArray);
+			RaiseMapUpdate ();
+		}
+
+		/// <summary>
+		/// Updates the landmarks.
+		/// </summary>
+		/// <param name="landmarkList">Landmark list.</param>
+		public void UpdateLandmarks (List<Landmark> landmarkList)
+		{
+			landmarks.Clear ();
+			landmarks.AddRange (landmarkList);
+			RaiseMapUpdate ();
 		}
 
 		#endregion
