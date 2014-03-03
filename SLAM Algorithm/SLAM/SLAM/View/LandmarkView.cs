@@ -1,7 +1,7 @@
 using System;
-using System.Collections.Generic;
 using Gtk;
 using Cairo;
+using System.Collections.ObjectModel;
 
 namespace SLAM
 {
@@ -10,7 +10,7 @@ namespace SLAM
 	/// </summary>
 	public class LandmarkView
 	{
-		private List<Landmark> landmarks; // A reference to all the landmarks on the map.
+		private ReadOnlyCollection<Landmark> landmarks; // A reference to all the landmarks on the map.
 
 		#region Public Properties
 
@@ -18,15 +18,11 @@ namespace SLAM
 		/// Gets or sets the landmarks.
 		/// </summary>
 		/// <value>The landmarks.</value>
-		public List<Landmark> Landmarks
+		public ReadOnlyCollection<Landmark> Landmarks
 		{
 			get
 			{
 				return landmarks;
-			}
-			set
-			{
-				landmarks = value;
 			}
 		}
 
@@ -37,18 +33,8 @@ namespace SLAM
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SLAM.LandmarkView"/> class.
 		/// </summary>
-		/// <param name="mapLandmarks">Map landmarks array.</param>
-		public LandmarkView (Landmark[] mapLandmarks)
-		{
-			landmarks = new List<Landmark> ();
-			landmarks.AddRange (mapLandmarks);
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SLAM.LandmarkView"/> class.
-		/// </summary>
 		/// <param name="mapLandmarks">Map landmarks list.</param>
-		public LandmarkView (List<Landmark> mapLandmarks)
+		public LandmarkView (ReadOnlyCollection<Landmark> mapLandmarks)
 		{
 			landmarks = mapLandmarks;
 		}

@@ -50,7 +50,7 @@ namespace SLAM
 			textView.CursorVisible = false;
 			textView.Indent = 10;
 
-			foreach (Landmark landmark in mapView.Map.CopyLandmarks ())
+			foreach (Landmark landmark in mapView.Map.Landmarks)
 			{
 				this.textView.Buffer.Text += landmark.ToString ();
 			}
@@ -108,86 +108,12 @@ namespace SLAM
 			// Draw the Map.
 			mapView.Draw (cairoContext, 0, 0);
 
-			//this.DrawGrid (cairoContext);
-
 			((IDisposable)cairoContext.GetTarget()).Dispose ();                                      
 			((IDisposable)cairoContext).Dispose ();
 		}
 
 		#endregion
 
-//		private void DrawGrid (Cairo.Context cairoContext)
-//		{
-//			// Draw the grid Axis.
-//			cairoContext.LineWidth = 1.0;
-//			cairoContext.LineCap = LineCap.Butt;
-//
-//			int width = MapWidth; 
-//			int height = MapHeight;
-//
-//			// Y axis.
-//			cairoContext.SetSourceRGB(0, 0, 0);
-//			cairoContext.MoveTo (width / 2, 0.0);
-//			cairoContext.LineTo (width / 2, height);
-//			cairoContext.Stroke ();
-//
-//			// TODO: These for loops aren't very intelligent, 
-//			// they break based on the scaling.
-//			for (int i = 50; i < height; i += 100)
-//			{
-//				if (i == height / 2)
-//				{
-//					continue;
-//				}
-//
-//				cairoContext.MoveTo (width / 2, i);
-//				cairoContext.LineTo (width / 2 - 20.0, i);
-//				cairoContext.Stroke ();
-//			}
-//
-//			for (int i = 100; i < height; i += 100)
-//			{
-//				if (i == height / 2)
-//				{
-//					continue;
-//				}
-//
-//				cairoContext.MoveTo (width / 2, i);
-//				cairoContext.LineTo (width / 2 - 10.0, i);
-//				cairoContext.Stroke ();
-//			}
-//
-//			// X axis.
-//			cairoContext.MoveTo (0.0, height / 2);
-//			cairoContext.LineTo (width, height / 2);
-//			cairoContext.Stroke ();
-//
-//			// TODO: These for loops aren't very intelligent, 
-//			// they break based on the scaling.
-//			for (int i = 100; i < width; i += 100)
-//			{
-//				if (i == width / 2)
-//				{
-//					continue;
-//				}
-//
-//				cairoContext.MoveTo (i, height / 2);
-//				cairoContext.LineTo (i, height / 2 + 20.0);
-//				cairoContext.Stroke ();
-//			}
-//
-//			for (int i = 50; i < width; i += 100)
-//			{
-//				if (i == width / 2)
-//				{
-//					continue;
-//				}
-//
-//				cairoContext.MoveTo (i, height / 2);
-//				cairoContext.LineTo (i, height / 2 + 10.0);
-//				cairoContext.Stroke ();
-//			}
-//		}
 	}
 }
 

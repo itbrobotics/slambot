@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SLAM
 {
@@ -8,6 +9,10 @@ namespace SLAM
 	/// </summary>
 	public class Map
 	{
+		// Cell size for the map, this could be a public property but for
+		// simplicity it is like this for now.
+		public const double CellSize = 0.5; // Meters, cells are square i.e. 0.5 x 0.5.
+
 		private Robot robot; // The robot roaming around on this map.
 		private List<Landmark> landmarks; // All the landmarks found so far.
 
@@ -30,6 +35,14 @@ namespace SLAM
 			get
 			{
 				return robot;
+			}
+		}
+
+		public ReadOnlyCollection<Landmark> Landmarks
+		{
+			get
+			{
+				return landmarks.AsReadOnly ();
 			}
 		}
 
@@ -85,24 +98,24 @@ namespace SLAM
 
 		#region Public Methods
 
-		/// <summary>
-		/// Returns a copy of the landmarks on this map.
-		/// </summary>
-		/// <returns>The landmarks.</returns>
-		public Landmark[] CopyLandmarks ()
-		{
-			// We do not want a user to have direct access to the landmarks
-			// otherwise we cannot tell when a landmark has been added so
-			// return a copy in the form of an array.
-			//
-			// Think of a better way to do this, the problem is that the 
-			// caller could use .Add, .AddRange, and so on and we would
-			// not be aware of the modification.
-			Landmark[] copy = new Landmark[landmarks.Count];
-			landmarks.CopyTo (copy);
-
-			return copy;
-		}
+//		/// <summary>
+//		/// Returns a copy of the landmarks on this map.
+//		/// </summary>
+//		/// <returns>The landmarks.</returns>
+//		public Landmark[] CopyLandmarks ()
+//		{
+//			// We do not want a user to have direct access to the landmarks
+//			// otherwise we cannot tell when a landmark has been added so
+//			// return a copy in the form of an array.
+//			//
+//			// Think of a better way to do this, the problem is that the 
+//			// caller could use .Add, .AddRange, and so on and we would
+//			// not be aware of the modification.
+//			Landmark[] copy = new Landmark[landmarks.Count];
+//			landmarks.CopyTo (copy);
+//
+//			return copy;
+//		}
 
 		/// <summary>
 		/// Adds a single landmark to the map.

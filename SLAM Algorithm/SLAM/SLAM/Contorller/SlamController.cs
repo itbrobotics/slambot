@@ -21,8 +21,17 @@ namespace SLAM
 		public SlamController ()
 		{
 			robot = new Robot ();
-			map = new Map (robot, 2.97, 2.25);
+			map = new Map (robot, 7.0, 5.0);
 			mapView = new MapView (map);
+
+			ekfSlam = new EkfSlam (1); // 1 degree per scan.
+
+			AddSampleLandmarks ();
+
+			//proxy = new SerialProxy ();
+			//proxy.OdometryUpdated += new EventHandler<OdometryUpdateEventArgs> (SerialProxy_OdometryUpdate);
+			//proxy.Scanned += new EventHandler<ScanEventArgs> (SerialProxy_Scan);
+
 			window = new MapWindow (mapView);
 
 			window.DeleteEvent += delegate
@@ -31,15 +40,8 @@ namespace SLAM
 				proxy.Release ();
 			};
 
+			//StartSimulation ();
 			window.ShowAll ();
-
-			ekfSlam = new EkfSlam (1); // 1 degree per scan.
-
-			proxy = new SerialProxy ();
-			proxy.OdometryUpdated += new EventHandler<OdometryUpdateEventArgs> (SerialProxy_OdometryUpdate);
-			proxy.Scanned += new EventHandler<ScanEventArgs> (SerialProxy_Scan);
-		
-			//AddSampleLandmarks ();
 		}
 
 		#endregion
@@ -146,8 +148,16 @@ namespace SLAM
 		{
 			while (true)
 			{
-				robot.Y += 0.1;
-				Thread.Sleep (1000);
+				if (robot.Y >= map.Height / 2)
+				{
+					robot.Y -= 0.01;
+				}
+				else
+				{
+					robot.Y += 0.01;
+				}
+
+				Thread.Sleep (500);
 			}
 		}
 

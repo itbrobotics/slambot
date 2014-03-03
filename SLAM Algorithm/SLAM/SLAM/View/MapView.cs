@@ -1,4 +1,5 @@
 using System;
+using Cairo;
 
 namespace SLAM
 {
@@ -14,6 +15,8 @@ namespace SLAM
 		// Some dimensions and coordinates related to drawing the map.
 		private int viewWidth;
 		private int viewHeight;
+		private int cellWidth;
+		private int cellHeight;
 		private int centerX;
 		private int centerY;
 
@@ -95,7 +98,7 @@ namespace SLAM
 		{
 			map = mapModel;
 			robotView = new RobotView (map.Robot);
-			landmarkView = new LandmarkView (map.CopyLandmarks ());
+			landmarkView = new LandmarkView (map.Landmarks);
 
 			// Subscribe to events.
 			map.MapUpdated += new EventHandler<MapUpdateEventArgs> (Map_Update);
@@ -105,6 +108,8 @@ namespace SLAM
 			// 1 pixel to every centimeter, so scale up by 100.
 			viewWidth = (int)(map.Width * 100);
 			viewHeight = (int)(map.Height * 100);
+			cellWidth = (int)(Map.CellSize * 100);
+			cellHeight = (int)(Map.CellSize * 100);
 			centerX = (int)(viewWidth / 2);
 			centerY = (int)(viewHeight / 2);
 		}
@@ -127,12 +132,36 @@ namespace SLAM
 			cairoContext.StrokePreserve ();
 			cairoContext.Fill ();
 
-			robotView.Draw (cairoContext, centerX + x, centerY + y, 1.0);
+			// Draw the grid.
+			cairoContext.LineWidth = 1.0;
+			cairoContext.LineCap = LineCap.Butt;
+			cairoContext.SetSourceRGB(0, 0, 0);
 
-			// This is inefficient, because we have to copy an array
-			// over every time...
-			landmarkView.Landmarks.Clear ();
-			landmarkView.Landmarks.AddRange (map.CopyLandmarks ());
+			// Columns.
+			int position = cellWidth;
+
+			for (; position <= viewWidth - cellWidth; position += cellWidth)
+			{
+				// We have to add 0.5 to the x position otherwise Cairo will 
+				// smear it across 2 pixels.
+				cairoContext.MoveTo (position + 0.5, 0.0);
+				cairoContext.LineTo (position + 0.5, viewHeight);
+				cairoContext.Stroke ();
+			}
+
+			// Rows.
+			position = cellHeight;
+
+			for (; position <= viewHeight - cellHeight; position += cellHeight)
+			{
+				// We have to add 0.5 to the y position otherwise Cairo will 
+				// smear it across 2 pixels.
+				cairoContext.MoveTo (0.0, position + 0.5);
+				cairoContext.LineTo (viewWidth, position + 0.5);
+				cairoContext.Stroke ();
+			}
+
+			robotView.Draw (cairoContext, centerX + x, centerY + y, 1.0);
 			landmarkView.Draw (cairoContext, centerX + x, centerY + y, 1.0);
 		}
 

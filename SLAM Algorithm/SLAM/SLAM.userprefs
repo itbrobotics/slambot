@@ -1,8 +1,10 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/Contorller/SlamController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/View/MapWindow.cs">
     <Files>
-      <File FileName="SLAM/Contorller/SlamController.cs" Line="29" Column="5" />
+      <File FileName="SLAM/Model/Map.cs" Line="12" Column="28" />
+      <File FileName="SLAM/View/MapView.cs" Line="11" Column="26" />
+      <File FileName="SLAM/View/MapWindow.cs" Line="99" Column="43" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
