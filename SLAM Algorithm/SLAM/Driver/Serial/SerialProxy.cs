@@ -119,7 +119,21 @@ public class SerialProxy
 			}
 		}
 	}
+	// note not yet tested, get access to arduino
+	private void Write (String toRover)
+	{
+		if (this.serialPort.IsOpen)
+		{
+			try
+			{
+				this.serialPort.Write(toRover);
 
+			}
+			catch (Exception) {
+				// figure out something later
+			}
+		}
+	}
 	#endregion
 
 }
