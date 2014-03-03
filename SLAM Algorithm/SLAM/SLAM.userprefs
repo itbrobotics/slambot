@@ -1,10 +1,8 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/View/MapWindow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/Algorithm/EkfSlam.cs">
     <Files>
-      <File FileName="SLAM/Model/Map.cs" Line="12" Column="28" />
-      <File FileName="SLAM/View/MapView.cs" Line="11" Column="26" />
-      <File FileName="SLAM/View/MapWindow.cs" Line="99" Column="43" />
+      <File FileName="SLAM/Algorithm/EkfSlam.cs" Line="931" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

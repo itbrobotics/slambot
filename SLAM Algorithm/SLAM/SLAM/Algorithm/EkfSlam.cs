@@ -134,34 +134,6 @@ namespace SLAM
 			Ybounds [3] = Ybounds [2] + Math.Sin ((180 * degreesPerScan * conv) + (robotPosition [2] * 
 				Math.PI / 180)) * maxrange;
 
-			/*
-			// the below code starts the box 1 meter in front of robot
-			Xbounds[0] =Math.Cos((0 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange+robotPosition[0];
-			Xbounds[1] =Xbounds[0]+Math.Cos((180 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange;
-			Xbounds[0] =Xbounds[0]+Math.Cos((180 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180));
-			//make box start 1 meter ahead of robot
-			Ybounds[0] =Math.Sin((0 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange+robotPosition[1];
-			Ybounds[1] =Ybounds[0]+Math.Sin((180 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange;
-			Ybounds[0] =Ybounds[0]+Math.Sin((180 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180));
-			//make box start 1 meter ahead of robot
-			Xbounds[2] =Math.Cos((360 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange+robotPosition[0];
-			Xbounds[3] =Xbounds[2]+Math.Cos((180 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange;
-			Xbounds[2] =Xbounds[2]+Math.Cos((180 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180));
-			//make box start 1 meter ahead of robot
-			Ybounds[2] =Math.Sin((360 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange+robotPosition[1];
-			Ybounds[3] =Ybounds[2]+Math.Sin((180 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180)) *
-			maxrange;
-			Ybounds[2] =Ybounds[2]+Math.Sin((180 * degreesPerScan * conv)+(robotPosition[2]*Math.PI/180));
-			//make box start 1 meter ahead of robot
-			*/
-
 			// Now check DB for landmarks that are within this box
 			// decrease life of all landmarks in box. If the life reaches zero, remove landmark.
 			double pntx, pnty;
@@ -173,8 +145,6 @@ namespace SLAM
 				int i = 0;
 				int j = 0;
 				bool inRectangle;
-
-				//if(robotPosition[2]>0 && robotPosition[2]<180)
 
 				if (robotPosition [0] < 0 || robotPosition [1] < 0)
 				{
@@ -254,47 +224,6 @@ namespace SLAM
 			return tempLandmarks; 
 		}
 
-		/*
-		public landmark[] UpdateAndAddLandmarks(double[] laserdata, double[] robotPosition)
-		{
-		//have a large array to keep track of found landmarks
-		landmark[] tempLandmarks = new landmark[400];
-		for(int i=0; i<tempLandmarks.Length;i++)
-		tempLandmarks[i]= new landmark();
-		int totalFound = 0;
-		double val = laserdata[0];
-		for (int i = 1; i < laserdata.Length - 1; i++)
-		{
-		// Check for error measurement in laser data
-		if (laserdata[i-1] < 8.1)
-		if (laserdata[i+1] < 8.1)
-		if ((laserdata[i-1] - laserdata[i]) + (laserdata[i+1] - laserdata[i]) > 0.5)
-		tempLandmarks[i] = UpdateLandmark(laserdata[i], i, robotPosition);
-		else
-		if((laserdata[i-1] - laserdata[i]) > 0.3)
-		tempLandmarks[i] = UpdateLandmark(laserdata[i], i, robotPosition);
-		else if (laserdata[i+1] < 8.1)
-		if((laserdata[i+1] - laserdata[i]) > 0.3)
-		tempLandmarks[i] = UpdateLandmark(laserdata[i], i, robotPosition);
-		}
-		//get total found landmarks so you can return array of correct dimensions
-		for(int i=0; i<tempLandmarks.Length;i++)
-		if(((int)tempLandmarks[i].id) !=-1)
-		totalFound++;
-		//now return found landmarks in an array of correct dimensions
-		landmark[] foundLandmarks = new landmark[totalFound];
-		//copy landmarks into array of correct dimensions
-		int j = 0;
-		for(int i=0; i<((landmark[])tempLandmarks).Length;i++)
-		if(((landmark)tempLandmarks[i]).id !=-1)
-		{
-		foundLandmarks[j] = (landmark)tempLandmarks[i];
-		j++;
-		}
-		return foundLandmarks;
-		}
-		*/
-
 		public Landmark[] UpdateAndAddLandmarksUsingEKFResults (bool[] matched, int[] id, double[] ranges,
 			double[] bearings, double[] robotPosition)
 		{
@@ -341,31 +270,6 @@ namespace SLAM
 			{
 				tempLandmarks [i] = new Landmark ();
 			}
-
-//			int totalFound = 0;
-//			double val = laserdata [0];
-//			double lastreading = laserdata [2];
-//			double lastlastreading = laserdata [2];
-//
-//			//removes worst outliers (points which for sure aren't on any lines)
-//			for (int i = 2; i < laserdata.Length - 1; i++)
-//			{
-//				// Check for error measurement in laser data
-//				if (laserdata [i] < 8.1)
-//				if (Math.Abs (laserdata [i] - lastreading) + Math.Abs (lastreading - lastlastreading) < 0.2)
-//				{
-//					linepoints [totalLinepoints] = i;
-//					totalLinepoints++;
-//					//tempLandmarks[i] = GetLandmark(laserdata[i], i, robotPosition);
-//					lastreading = laserdata [i];
-//					lastreading = laserdata [i - 1];
-//				}
-//				else
-//				{
-//					lastreading = laserdata [i];
-//					lastlastreading = laserdata [i - 1];
-//				}
-//			}
 
 			// FIXME - OR RATHER REMOVE ME SOMEHOW...
 			for (int i = 0; i < laserdata.Length - 1; i++)
@@ -450,9 +354,6 @@ namespace SLAM
 					y = (Math.Sin ((linepoints [i] * degreesPerScan * conv) + robotPosition [2] * conv) *
 						laserdata [linepoints [i]]) + robotPosition [1];
 
-					//x =(Math.Cos((linepoints[i] * degreesPerScan * conv)) * laserdata[linepoints[i]]);//+robotPosition[0];
-					//y =(Math.Sin((linepoints[i] * degreesPerScan * conv)) * laserdata[linepoints[i]]);//+robotPosition[1];
-
 					d = DistanceToLine (x, y, a, b);
 
 					if (d < RANSAC_TOLERANCE)
@@ -480,8 +381,6 @@ namespace SLAM
 					// For now add points associated to line as landmarks to see results. 
 					for (int i = 0; i < totalConsensusPoints; i++)
 					{
-						//tempLandmarks[consensusPoints[i]] = GetLandmark(laserdata[consensusPoints[i]],consensusPoints[i], robotPosition);
-
 						// Remove points that have now been associated to this line.
 						newLinePoints.CopyTo (linepoints, 0);
 						totalLinepoints = totalNewLinePoints;
@@ -517,12 +416,7 @@ namespace SLAM
 			for (int i = 0; i < totalLines; i++)
 			{
 				tempLandmarks [i] = GetLineLandmark (la [i], lb [i], robotPosition);
-				//tempLandmarks[i+1] = GetLine(la[i], lb[i]);
 			}
-
-			// For debug add origin as landmark:
-			//tempLandmarks[totalLines+1] = GetOrigin();
-			//tempLandmarks[i] = GetLandmark(laserdata[i], i, robotPosition);
 
 			// Now return found landmarks in an array of correct dimensions.
 			Landmark[] foundLandmarks = new Landmark[totalLines];
@@ -545,9 +439,8 @@ namespace SLAM
 			{
 				tempLandmarks [i] = new Landmark ();
 			}
-
+			Console.WriteLine ();
 			int totalFound = 0;
-			//double val = laserdata [0];
 
 			for (int i = 1; i < laserdata.Length - 1; i++)
 			{
@@ -729,10 +622,6 @@ namespace SLAM
 		{
 			if (DBSize + 1 < landmarkDB.Length)
 			{
-				//for(int i=0; i<DBSize+1; i++)
-				//{
-				//if(((landmark)landmarkDB[i]).id != i)//if(((landmark)landmarkDB[i]).id == -1||((landmark)landmarkDB[i]).life <= 0)
-				//{
 				((Landmark)landmarkDB [DBSize]).pos [0] = lm.pos [0]; // Set landmark coordinates.
 				((Landmark)landmarkDB [DBSize]).pos [1] = lm.pos [1]; // Set landmark coordinates.
 				((Landmark)landmarkDB [DBSize]).life = LIFE; // Set landmark life counter.
@@ -821,27 +710,6 @@ namespace SLAM
 			double sumXX = 0; // Sum of x^2 for each coordinate.
 			double sumYX = 0; // Sum of y*x for each point.
 
-			//DEBUG
-			/*
-			double[] testX = {0, 1};
-			double[] testY = {1, 1};
-			for(int i = 0; i < 2; i++)
-			{
-			//convert ranges and bearing to coordinates
-			x = testX[i];
-			y = testY[i];
-			sumY
-			+= y;
-			sumYY += Math.Pow(y,2);
-			sumX
-			+= x;
-			sumXX += Math.Pow(x,2);
-			sumYX += y*x;
-			}
-			a = (sumY*sumXX-sumX*sumYX)/(testX.Length*sumXX-Math.Pow(sumX, 2));
-			b = (testX.Length*sumYX-sumX*sumY)/(testX.Length*sumXX-Math.Pow(sumX, 2));
-			*/
-
 			for (int i = 0; i < arraySize; i++)
 			{
 				// Convert ranges and bearing to coordinates.
@@ -850,9 +718,6 @@ namespace SLAM
 
 				y = (Math.Sin ((SelectedPoints [i] * degreesPerScan * conv) + robotPosition [2] * conv) *
 					laserdata [SelectedPoints [i]]) + robotPosition [1];
-
-				//x =(Math.Cos((rndSelectedPoints[i] * degreesPerScan * conv)) * laserdata[rndSelectedPoints[i]]);//+robotPosition[0];
-				//y =(Math.Sin((rndSelectedPoints[i] * degreesPerScan * conv)) * laserdata[rndSelectedPoints[i]]);//+robotPosition[1];
 
 				sumY += y;
 				sumYY += Math.Pow (y, 2);
@@ -869,12 +734,6 @@ namespace SLAM
 
 		private double DistanceToLine (double x, double y, double a, double b)
 		{
-			/*
-			//y = ax + b
-			//0 = ax + b - y
-			double d = Math.Abs((a*x - y + b)/(Math.Sqrt(Math.Pow(a,2)+ Math.Pow(b,2))));
-			*/
-
 			// Our goal is to calculate point on line closest to x, y
 			// then use this to calculate distance between them.
 			// calculate line perpendicular to input line. a * ao = -1.
