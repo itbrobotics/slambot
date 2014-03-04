@@ -10,8 +10,6 @@ namespace SLAM
 	/// </summary>
 	public class MapWindow : Window
 	{
-		DrawingArea drawingArea;
-
 		private MapView mapView;
 		private TextView textView; // Textview to hold landmark information.
 
@@ -26,7 +24,7 @@ namespace SLAM
 			this.mapView = mapView;
 
 			// Subscribe to events.
-			mapView.Map.MapUpdated += new EventHandler<MapUpdateEventArgs> (Map_Update);
+			mapView.MapModel.MapUpdated += new EventHandler<MapUpdateEventArgs> (Map_Update);
 			mapView.RobotView.Robot.RobotUpdated += new EventHandler<RobotUpdateEventArgs> (Robot_Update);
 
 			SetPosition (WindowPosition.Center);
@@ -37,11 +35,6 @@ namespace SLAM
 				Application.Quit ();
 			};
 
-			drawingArea = new DrawingArea ();
-			drawingArea.SetSizeRequest (mapView.ViewWidth, mapView.ViewHeight);
-			drawingArea.ExposeEvent += OnExpose;
-			drawingArea.SetSizeRequest (mapView.ViewWidth, mapView.ViewHeight);
-
 			TextBuffer textBuffer = new TextBuffer (new TextTagTable ());
 
 			textView = new TextView ();
@@ -50,7 +43,7 @@ namespace SLAM
 			textView.CursorVisible = false;
 			textView.Indent = 10;
 
-			foreach (Landmark landmark in mapView.Map.Landmarks)
+			foreach (Landmark landmark in mapView.MapModel.Landmarks)
 			{
 				this.textView.Buffer.Text += landmark.ToString ();
 			}
@@ -59,7 +52,7 @@ namespace SLAM
 			scrolledWindow.Add (textView);
 
 			VBox vbox = new VBox (false, 0);
-			vbox.Add (drawingArea);
+			vbox.Add (this.mapView);
 			vbox.Add (scrolledWindow);
 
 			Add (vbox);
@@ -76,8 +69,7 @@ namespace SLAM
 		/// <param name="e">E.</param>
 		private void Map_Update (object sender, MapUpdateEventArgs e)
 		{
-			// Redraw the map.
-			drawingArea.QueueDraw ();
+			// Do nothing for now.
 		}
 
 		/// <summary>
@@ -87,8 +79,7 @@ namespace SLAM
 		/// <param name="e">E.</param>
 		private void Robot_Update (object sender, RobotUpdateEventArgs e)
 		{
-			// Redraw the map.
-			drawingArea.QueueDraw ();
+			// Do nothing for now.
 		}
 
 		#endregion
@@ -102,14 +93,14 @@ namespace SLAM
 		/// <param name="args">Arguments.</param>
 		private void OnExpose (object sender, ExposeEventArgs args)
 		{
-			DrawingArea area = (DrawingArea)sender;
-			Cairo.Context cairoContext = Gdk.CairoHelper.Create (area.GdkWindow);
-
-			// Draw the Map.
-			mapView.Draw (cairoContext, 0, 0);
-
-			((IDisposable)cairoContext.GetTarget()).Dispose ();                                      
-			((IDisposable)cairoContext).Dispose ();
+//			DrawingArea area = (DrawingArea)sender;
+//			Cairo.Context cairoContext = Gdk.CairoHelper.Create (area.GdkWindow);
+//
+//			// Draw the Map.
+//			mapView.Draw (cairoContext, 0, 0);
+//
+//			((IDisposable)cairoContext.GetTarget()).Dispose ();                                      
+//			((IDisposable)cairoContext).Dispose ();
 		}
 
 		#endregion

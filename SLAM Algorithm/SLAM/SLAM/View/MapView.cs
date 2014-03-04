@@ -1,14 +1,15 @@
 using System;
 using Cairo;
+using Gtk;
 
 namespace SLAM
 {
 	/// <summary>
 	/// Map view.
 	/// </summary>
-	public class MapView
+	public class MapView : DrawingArea
 	{
-		private Map map; // Map model that this view represents.
+		private SlamMap mapModel; // Map model that this view represents.
 		private RobotView robotView;
 		private LandmarkView landmarkView;
 
@@ -26,15 +27,15 @@ namespace SLAM
 		/// Gets or sets the map.
 		/// </summary>
 		/// <value>The map.</value>
-		public Map Map
+		public SlamMap MapModel
 		{
 			get
 			{
-				return map;
+				return mapModel;
 			}
 			set
 			{
-				map = value;
+				mapModel = value;
 			}
 		}
 
@@ -94,40 +95,69 @@ namespace SLAM
 		/// Initializes a new instance of the <see cref="SLAM.MapView"/> class.
 		/// </summary>
 		/// <param name="mapModel">Map model.</param>
-		public MapView (Map mapModel)
+		public MapView (SlamMap mapModel)
 		{
-			map = mapModel;
-			robotView = new RobotView (map.Robot);
-			landmarkView = new LandmarkView (map.Landmarks);
+			this.mapModel = mapModel;
+			robotView = new RobotView (mapModel.Robot);
+			landmarkView = new LandmarkView (mapModel.Landmarks);
 
 			// Subscribe to events.
-			map.MapUpdated += new EventHandler<MapUpdateEventArgs> (Map_Update);
+			mapModel.MapUpdated += new EventHandler<MapUpdateEventArgs> (Map_Update);
 			robotView.Robot.RobotUpdated += new EventHandler<RobotUpdateEventArgs> (Robot_Update);
-
+			ExposeEvent += OnExpose;
+		
 			// Map width and height is specified in meters, and we are using
 			// 1 pixel to every centimeter, so scale up by 100.
-			viewWidth = (int)(map.Width * 100);
-			viewHeight = (int)(map.Height * 100);
-			cellWidth = (int)(Map.CellSize * 100);
-			cellHeight = (int)(Map.CellSize * 100);
+			viewWidth = (int)(mapModel.Width * 100);
+			viewHeight = (int)(mapModel.Height * 100);
+			cellWidth = (int)(SlamMap.CellSize * 100);
+			cellHeight = (int)(SlamMap.CellSize * 100);
 			centerX = (int)(viewWidth / 2);
 			centerY = (int)(viewHeight / 2);
+
+			SetSizeRequest (viewWidth, viewHeight);
 		}
 
 		#endregion
 
-		#region Public Methods
+		#region Private Event Handlers
 
 		/// <summary>
-		/// Draw the map and all of the sub elements.
+		/// Handles the map update event.
 		/// </summary>
-		/// <param name="cairoContext">Cairo context.</param>
-		/// <param name="x">The x coordinate.</param>
-		/// <param name="y">The y coordinate.</param>
-		public void Draw (Cairo.Context cairoContext, int x, int y)
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		private void Map_Update (object sender, MapUpdateEventArgs e)
 		{
+			QueueDraw ();
+		}
+
+		/// <summary>
+		/// Handles the robot update event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		private void Robot_Update (object sender, RobotUpdateEventArgs e)
+		{
+			QueueDraw ();
+		}
+
+		#endregion
+
+		#region Private Methods
+
+		/// <summary>
+		/// Raises the expose event and draws the map.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="args">Arguments.</param>
+		private void OnExpose (object sender, ExposeEventArgs args)
+		{
+			DrawingArea area = (DrawingArea)sender;
+			Cairo.Context cairoContext = Gdk.CairoHelper.Create (area.GdkWindow);
+
 			// Draw the background.
-			cairoContext.Rectangle (x, y, viewWidth, viewHeight);
+			cairoContext.Rectangle (0, 0, viewWidth, viewHeight);
 			cairoContext.SetSourceRGB(255, 255, 255);
 			cairoContext.StrokePreserve ();
 			cairoContext.Fill ();
@@ -161,34 +191,11 @@ namespace SLAM
 				cairoContext.Stroke ();
 			}
 
-			robotView.Draw (cairoContext, centerX + x, centerY + y, 1.0);
-			landmarkView.Draw (cairoContext, centerX + x, centerY + y, 1.0);
-		}
+			robotView.Draw (cairoContext, centerX, centerY, 1.0);
+			landmarkView.Draw (cairoContext, centerX, centerY, 1.0);
 
-		#endregion
-
-		#region Private Event Handlers
-
-		/// <summary>
-		/// Handles the map update event.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		private void Map_Update (object sender, MapUpdateEventArgs e)
-		{
-			// Do nothing for now.
-			//Console.WriteLine ("Map_Update called: " + this.ToString ());
-		}
-
-		/// <summary>
-		/// Handles the robot update event.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		private void Robot_Update (object sender, RobotUpdateEventArgs e)
-		{
-			// Do nothing for now.
-			//Console.WriteLine ("Robot_Update called: " + this.ToString ());
+			((IDisposable)cairoContext.GetTarget()).Dispose ();                                      
+			((IDisposable)cairoContext).Dispose ();
 		}
 
 		#endregion

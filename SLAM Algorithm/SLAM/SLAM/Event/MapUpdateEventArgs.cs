@@ -7,7 +7,7 @@ namespace SLAM
 	/// </summary>
 	public class MapUpdateEventArgs : EventArgs
 	{
-		private Map map;
+		private SlamMap map;
 
 		#region Public Properties
 
@@ -15,7 +15,7 @@ namespace SLAM
 		/// Gets the map.
 		/// </summary>
 		/// <value>The map.</value>
-		public Map Map
+		public SlamMap Map
 		{
 			get
 			{
@@ -31,7 +31,7 @@ namespace SLAM
 		/// Initializes a new instance of the <see cref="SLAM.MapUpdateEventArgs"/> class.
 		/// </summary>
 		/// <param name="updatedMap">Updated map.</param>
-		public MapUpdateEventArgs (Map updatedMap)
+		public MapUpdateEventArgs (SlamMap updatedMap)
 		{
 			map = updatedMap;
 		}

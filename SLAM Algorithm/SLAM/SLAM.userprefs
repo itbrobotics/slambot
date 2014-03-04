@@ -1,8 +1,8 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/Algorithm/EkfSlam.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/Contorller/SlamController.cs">
     <Files>
-      <File FileName="SLAM/Algorithm/EkfSlam.cs" Line="931" Column="5" />
+      <File FileName="SLAM/Contorller/SlamController.cs" Line="27" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

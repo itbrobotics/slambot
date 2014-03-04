@@ -7,7 +7,7 @@ namespace SLAM
 	/// <summary>
 	/// Map.
 	/// </summary>
-	public class Map
+	public class SlamMap
 	{
 		// Cell size for the map, this could be a public property but for
 		// simplicity it is like this for now.
@@ -86,7 +86,7 @@ namespace SLAM
 		/// Initializes a new instance of the <see cref="SLAM.Map"/> class.
 		/// </summary>
 		/// <param name="robotModel">Robot roaming on this map.</param>
-		public Map (Robot robotModel, double mapWidth, double mapHeight)
+		public SlamMap (Robot robotModel, double mapWidth, double mapHeight)
 		{
 			robot = robotModel;
 			landmarks = new List<Landmark>();

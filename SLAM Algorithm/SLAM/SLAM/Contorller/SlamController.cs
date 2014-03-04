@@ -7,7 +7,7 @@ namespace SLAM
 	public class SlamController
 	{
 		private Robot robot;
-		private Map map;
+		private SlamMap map;
 		private MapView mapView;
 		private MapWindow window;
 
@@ -21,7 +21,7 @@ namespace SLAM
 		public SlamController ()
 		{
 			robot = new Robot ();
-			map = new Map (robot, 7.0, 5.0);
+			map = new SlamMap (robot, 7.0, 5.0);
 			mapView = new MapView (map);
 
 			ekfSlam = new EkfSlam (1); // 1 degree per scan.
