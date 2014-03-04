@@ -20,7 +20,7 @@ namespace Driver
 
 		public override string ToString ()
 		{
-			return this.Readings.ToString ();
+			return this.Readings.ToArray().ToString ();
 		}
 
 		#endregion

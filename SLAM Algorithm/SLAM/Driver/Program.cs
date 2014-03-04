@@ -1,5 +1,6 @@
 using System;
 using Driver;
+using System.Threading;
 
 namespace Driver
 {
@@ -15,6 +16,9 @@ namespace Driver
 			Observer observer = new Observer (proxy);
 
 			Console.WriteLine ("Type QUIT to exit");
+		
+			Thread.Sleep (2000);
+			proxy.GoForward ();
 
 			while (continueCommunication)
 			{

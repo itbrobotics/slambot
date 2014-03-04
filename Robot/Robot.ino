@@ -48,6 +48,7 @@ void loop()
     }
     else
     {
+      Serial.println(character);
       command[index] = character;
       index++;
     }
@@ -80,15 +81,16 @@ void loop()
     theta -= 2 * PI;
   }
 
-  // Send odometry data to host.
-  Serial.print(odometryHeader);
-  Serial.print(separator);
-  Serial.print(x, DEC);
-  Serial.print(separator);
-  Serial.print(y, DEC);
-  Serial.print(separator);
-  Serial.print(theta, DEC);
-  Serial.println(); // Message terminated by CR/LF.
+//  // Send odometry data to host.
+//  Serial.print(odometryHeader);
+//  Serial.print(separator);
+//  Serial.print(x, DEC);
+//  Serial.print(separator);
+//  Serial.print(y, DEC);
+//  Serial.print(separator);
+//  Serial.print(theta, DEC);
+//  Serial.println(); // Message terminated by CR/LF.
+//  delay(500);
 }
 
 /************************************************************

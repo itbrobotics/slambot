@@ -36,6 +36,15 @@ public class SerialProxy
 		this.serialPort.Close ();
 	}
 
+	public void GoForward ()
+	{
+
+		serialPort.Write ("e");
+		serialPort.Write (";");
+		serialPort.Write ("e");
+		serialPort.Write (";");
+	}
+
 	#endregion
 
 	#region Protected Event Handlers
@@ -129,7 +138,8 @@ public class SerialProxy
 				this.serialPort.Write(toRover);
 
 			}
-			catch (Exception) {
+			catch (Exception) 
+			{
 				// figure out something later
 			}
 		}

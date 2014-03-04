@@ -12,6 +12,7 @@ namespace Driver
 		{
 			this.serialProxy = serialProxy;
 			this.serialProxy.OdometryUpdated += new EventHandler<OdometryUpdateEventArgs> (SerialProxy_OdometryUpdate);
+			this.serialProxy.Scanned += new EventHandler<ScanEventArgs> (SerialProxy_Scan);
 		}
 
 		#endregion

@@ -28,19 +28,19 @@ namespace SLAM
 
 			AddSampleLandmarks ();
 
-			//proxy = new SerialProxy ();
-			//proxy.OdometryUpdated += new EventHandler<OdometryUpdateEventArgs> (SerialProxy_OdometryUpdate);
-			//proxy.Scanned += new EventHandler<ScanEventArgs> (SerialProxy_Scan);
+			proxy = new SerialProxy ();
+			proxy.OdometryUpdated += new EventHandler<OdometryUpdateEventArgs> (SerialProxy_OdometryUpdate);
+			proxy.Scanned += new EventHandler<ScanEventArgs> (SerialProxy_Scan);
 
 			window = new MapWindow (mapView);
 
 			window.DeleteEvent += delegate
 			{
-				//StopSimulation (); // Kill the thread when the window closes.
+				StopSimulation (); // Kill the thread when the window closes.
 				proxy.Release ();
 			};
 
-			//StartSimulation ();
+			StartSimulation ();
 			window.ShowAll ();
 		}
 
