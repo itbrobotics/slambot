@@ -98,25 +98,6 @@ namespace SLAM
 
 		#region Public Methods
 
-//		/// <summary>
-//		/// Returns a copy of the landmarks on this map.
-//		/// </summary>
-//		/// <returns>The landmarks.</returns>
-//		public Landmark[] CopyLandmarks ()
-//		{
-//			// We do not want a user to have direct access to the landmarks
-//			// otherwise we cannot tell when a landmark has been added so
-//			// return a copy in the form of an array.
-//			//
-//			// Think of a better way to do this, the problem is that the 
-//			// caller could use .Add, .AddRange, and so on and we would
-//			// not be aware of the modification.
-//			Landmark[] copy = new Landmark[landmarks.Count];
-//			landmarks.CopyTo (copy);
-//
-//			return copy;
-//		}
-
 		/// <summary>
 		/// Adds a single landmark to the map.
 		/// </summary>

@@ -27,8 +27,7 @@ namespace SLAM
 
 		// Sensor specific.
 		private double mouseCpi; // Resolution of the sensor in Counts Per Inch (CPI).
-		private bool isSuppressNoise;
-
+	
 		// Event raised whenever there is a change on the robot model, any observers can 
 		// choose to act upon the changes.
 		public event EventHandler<RobotUpdateEventArgs> RobotUpdated;
@@ -175,7 +174,6 @@ namespace SLAM
 			width = 0.18;
 			height = 0.23;
 			mouseCpi = 400;
-			isSuppressNoise = true;
 		}
 
 		/// <summary>
@@ -198,7 +196,6 @@ namespace SLAM
 			width = robotWidth;
 			height = robotHeight;
 			mouseCpi = cpi;
-			isSuppressNoise = true;
 		}
 
 		#endregion
@@ -251,7 +248,7 @@ namespace SLAM
 				double change = e.Theta - relativeRotation;
 				relativeRotation = e.Theta;
 
-				if (change != 0)
+				if (change >= 0.02) // Radians, or 1 degree.
 				{
 					rotation += change;
 

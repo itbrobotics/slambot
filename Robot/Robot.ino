@@ -4,7 +4,7 @@
  * 
  *  
  * @author Joshua Michael Daly
- * @version 17/02/2014
+ * @version 05/03/2014
  */
 
 #include <ps2.h>
@@ -35,6 +35,11 @@ void setup()
 
 void loop()
 { 
+  if (timeCount == 0.0)
+  {
+     timeCount = millis(); // Store time since startup.
+  }
+  
   // Check to see if at least one character is available.
   if (Serial.available()) 
   {
@@ -48,7 +53,6 @@ void loop()
     }
     else
     {
-      Serial.println(character);
       command[index] = character;
       index++;
     }
@@ -58,8 +62,8 @@ void loop()
   mouse.write(0xeb);  // Give me data!
   mouse.read();       // Ignore ack.
   mouse.read();       // Ignore stat.
-  x = mouse.read();
-  y = mouse.read();
+  x += (char)mouse.read();
+  y += (char)mouse.read();
 
   // Read compass rotation.
   MagnetometerScaled scaled = compass.ReadScaledAxis();
@@ -81,16 +85,23 @@ void loop()
     theta -= 2 * PI;
   }
 
-//  // Send odometry data to host.
-//  Serial.print(odometryHeader);
-//  Serial.print(separator);
-//  Serial.print(x, DEC);
-//  Serial.print(separator);
-//  Serial.print(y, DEC);
-//  Serial.print(separator);
-//  Serial.print(theta, DEC);
-//  Serial.println(); // Message terminated by CR/LF.
-//  delay(500);
+  // To save bombarding the serial line.
+  if (millis() - timeCount >= messageRate)
+  {
+    // Send odometry data to host.
+    Serial.print(odometryHeader);
+    Serial.print(separator);
+    Serial.print(x, DEC);
+    Serial.print(separator);
+    Serial.print(y, DEC);
+    Serial.print(separator);
+    Serial.print(theta, DEC);
+    Serial.println(); // Message terminated by \n.
+    
+    timeCount = 0.0;
+    x = 0;
+    y = 0;
+  }
 }
 
 /************************************************************
@@ -175,7 +186,7 @@ void mouseInit()
 
 void compassInit()
 {
-  compass = HMC5883L(); // Construct a new HMC5883 compass.
+  compass = HMC5883L(); // Construct a new HMC5883L compass.
   error = compass.SetScale(0.88); // Set the scale of the compass.
 
   if (error != 0) // If there is an error, print it out.
@@ -185,7 +196,7 @@ void compassInit()
 
   error = compass.SetMeasurementMode(Measurement_Continuous); // Set the measurement mode to Continuous
 
-    if (error != 0) // If there is an error, print it out.
+  if (error != 0) // If there is an error, print it out.
   {
     Serial.println(compass.GetErrorText(error));
   }
@@ -211,7 +222,7 @@ void scan()
     Serial.print(distances[i], DEC); 
   }
 
-  Serial.println(); // Message terminated by CR/LF.
+  Serial.println(); // Message terminated by \n.
 }
 
 double takeReading()

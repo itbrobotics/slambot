@@ -36,7 +36,6 @@ namespace SLAM
 
 			window.DeleteEvent += delegate
 			{
-				StopSimulation (); // Kill the thread when the window closes.
 				proxy.Release ();
 			};
 

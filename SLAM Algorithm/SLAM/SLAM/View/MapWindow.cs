@@ -38,10 +38,11 @@ namespace SLAM
 			TextBuffer textBuffer = new TextBuffer (new TextTagTable ());
 
 			textView = new TextView ();
+			textView.Indent = 10;
 			textView.Editable = false;
 			textView.Buffer = textBuffer;
 			textView.CursorVisible = false;
-			textView.Indent = 10;
+			textView.SetSizeRequest (mapView.ViewWidth, 170);
 
 			foreach (Landmark landmark in mapView.MapModel.Landmarks)
 			{
@@ -80,27 +81,6 @@ namespace SLAM
 		private void Robot_Update (object sender, RobotUpdateEventArgs e)
 		{
 			// Do nothing for now.
-		}
-
-		#endregion
-
-		#region Private Methods
-
-		/// <summary>
-		/// Raises the expose event and draws the map.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="args">Arguments.</param>
-		private void OnExpose (object sender, ExposeEventArgs args)
-		{
-//			DrawingArea area = (DrawingArea)sender;
-//			Cairo.Context cairoContext = Gdk.CairoHelper.Create (area.GdkWindow);
-//
-//			// Draw the Map.
-//			mapView.Draw (cairoContext, 0, 0);
-//
-//			((IDisposable)cairoContext.GetTarget()).Dispose ();                                      
-//			((IDisposable)cairoContext).Dispose ();
 		}
 
 		#endregion

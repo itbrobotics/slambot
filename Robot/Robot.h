@@ -4,7 +4,7 @@
  * 
  *  
  * @author Joshua Michael Daly
- * @version 17/02/2014
+ * @version 05/03/2014
  */
 
 #include <ps2.h>
@@ -39,9 +39,13 @@ const int maxCharacters = 4;
 char command[maxCharacters]; 
 int index = 0;
 
+// Message timing.
+const unsigned long messageRate = 500.0; // Milliseconds.
+unsigned long timeCount = 0.0; // Time since last message was sent.
+
 // Odometry data.
-char x;          // X displacement.
-char y;          // Y displacement.
+int x;          // X displacement.
+int y;          // Y displacement.
 double theta;     // Current rotation.
 
 double distances[180]; // Stores range finder distances during scans.

@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 
 namespace Driver
@@ -20,7 +21,14 @@ namespace Driver
 
 		public override string ToString ()
 		{
-			return this.Readings.ToArray().ToString ();
+			StringBuilder builder = new StringBuilder();
+
+			foreach (double reading in Readings)
+			{
+				builder.Append(reading).Append(" ");
+			}
+
+			return builder.ToString ();
 		}
 
 		#endregion

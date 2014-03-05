@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.IO.Ports;
 using System.Threading;
 using System.Collections.Generic;
@@ -16,14 +17,21 @@ public class SerialProxy
 
 	public SerialProxy ()
 	{
-		// Create a new SerialPort object with default settings.
-		this.serialPort = new SerialPort ("/dev/ttyACM0", 9600);
-		this.serialPort.ReadTimeout = 500;
-		this.serialPort.WriteTimeout = 500;
-		this.serialPort.Open ();
+		try
+		{
+			// Create a new SerialPort object with default settings.
+			serialPort = new SerialPort ("/dev/ttyACM0", 9600);
+			serialPort.ReadTimeout = 500;
+			serialPort.WriteTimeout = 500;
+			serialPort.Open ();
 
-		this.readThread = new Thread (this.Read);
-		this.readThread.Start ();
+			readThread = new Thread (this.Read);
+			readThread.Start ();
+		}
+		catch (IOException)
+		{
+			Console.WriteLine ("Cannot open port: " + serialPort.PortName);
+		}
 	}
 
 	#endregion
@@ -32,8 +40,8 @@ public class SerialProxy
 
 	public void Release ()
 	{
-		this.readThread.Abort ();
-		this.serialPort.Close ();
+		readThread.Abort ();
+		serialPort.Close ();
 	}
 
 	public void GoForward ()
@@ -51,17 +59,17 @@ public class SerialProxy
 
 	protected virtual void OnOdometryUpdate (OdometryUpdateEventArgs e)
 	{
-		if (this.OdometryUpdated != null)
+		if (OdometryUpdated != null)
 		{
-			this.OdometryUpdated (this, e);
+			OdometryUpdated (this, e);
 		}
 	}
 
 	protected virtual void OnScanPerformed (ScanEventArgs e)
 	{
-		if (this.Scanned != null)
+		if (Scanned != null)
 		{
-			this.Scanned (this, e);
+			Scanned (this, e);
 		}
 	}
 
@@ -71,11 +79,11 @@ public class SerialProxy
 
 	private void Read ()
 	{
-		while (this.serialPort.IsOpen)
+		while (serialPort.IsOpen)
 		{
 			try
 			{
-				string message = this.serialPort.ReadLine ();
+				string message = serialPort.ReadLine ();
 
 				switch (message [0])
 				{
@@ -108,7 +116,7 @@ public class SerialProxy
 
 					ScanEventArgs args2 = new ScanEventArgs (readings);
 
-					this.OnScanPerformed (args2);
+					OnScanPerformed (args2);
 					break;
 				default:
 					break;
@@ -131,11 +139,11 @@ public class SerialProxy
 	// note not yet tested, get access to arduino
 	private void Write (String toRover)
 	{
-		if (this.serialPort.IsOpen)
+		if (serialPort.IsOpen)
 		{
 			try
 			{
-				this.serialPort.Write(toRover);
+				serialPort.Write(toRover);
 
 			}
 			catch (Exception) 
