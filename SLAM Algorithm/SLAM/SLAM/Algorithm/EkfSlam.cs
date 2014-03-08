@@ -330,7 +330,7 @@ namespace SLAM
 				// Compute model M1.
 				double a = 0;
 				double b = 0;
-				//y = a+ bx
+				//y = a + bx
 
 				LeastSquaresLineEstimate (laserdata, robotPosition, rndSelectedPoints, MAXSAMPLE, 
 				                         ref a, ref b);

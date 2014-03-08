@@ -9,9 +9,9 @@ namespace SLAM
 		{
 			Application.Init ();
 			SlamController controller = new SlamController ();
-			controller.StartSimulation ();
+			//controller.StartSimulation ();
 			Application.Run ();
-			controller.StopSimulation ();
+			//controller.StopSimulation ();
 		}
 	}
 }

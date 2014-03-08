@@ -88,7 +88,9 @@ namespace SLAM
 		/// <param name="robotModel">Robot roaming on this map.</param>
 		public SlamMap (Robot robotModel, double mapWidth, double mapHeight)
 		{
+			// Robot starts in the center of the map.
 			robot = robotModel;
+
 			landmarks = new List<Landmark>();
 			width = mapWidth;
 			height = mapHeight;

@@ -42,7 +42,7 @@ namespace SLAM
 			textView.Editable = false;
 			textView.Buffer = textBuffer;
 			textView.CursorVisible = false;
-			textView.SetSizeRequest (mapView.ViewWidth, 170);
+			textView.SetSizeRequest (mapView.ViewWidth, 150);
 
 			foreach (Landmark landmark in mapView.MapModel.Landmarks)
 			{

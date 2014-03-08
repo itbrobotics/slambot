@@ -134,7 +134,9 @@ namespace SLAM
 		{
 			get
 			{
-				double[] position = new double[3] { x, y, rotation };
+				// We are returning the rotation as degrees here because the EKF SLAM
+				// algorithm takes degrees not radians.
+				double[] position = new double[3] { x, y, rotation * 180 / Math.PI };
 
 				return position;
 			}
@@ -250,7 +252,7 @@ namespace SLAM
 
 				if (change >= 0.02) // Radians, or 1 degree.
 				{
-					rotation += change;
+					rotation = e.Theta;
 
 					// Correct for when signs are reversed.
 					if (rotation < 0)

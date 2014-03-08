@@ -71,10 +71,10 @@ namespace SLAM
 			cairoContext.Rotate (robot.Rotation); // Rotate the robot based on its orientation in radians.
 
 			// Draw the robot as a triangle.
-			cairoContext.MoveTo (0, 0);
+			cairoContext.MoveTo (0, -height / 2);
 			cairoContext.LineTo (-width / 2, height / 2);
 			cairoContext.LineTo (width / 2, height / 2);
-			cairoContext.LineTo (0, 0);
+			cairoContext.LineTo (0, -height / 2);
 			cairoContext.Stroke ();
 
 			// Reset the drawing context.
