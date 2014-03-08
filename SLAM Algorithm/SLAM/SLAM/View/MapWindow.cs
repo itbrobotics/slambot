@@ -70,7 +70,12 @@ namespace SLAM
 		/// <param name="e">E.</param>
 		private void Map_Update (object sender, MapUpdateEventArgs e)
 		{
-			// Do nothing for now.
+			this.textView.Buffer.Clear ();
+
+			foreach (Landmark landmark in mapView.MapModel.Landmarks)
+			{
+				this.textView.Buffer.Text += landmark.ToString ();
+			}
 		}
 
 		/// <summary>

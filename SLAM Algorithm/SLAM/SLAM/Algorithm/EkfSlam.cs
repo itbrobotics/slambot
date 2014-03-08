@@ -24,9 +24,7 @@ namespace SLAM
 		int[,] IDtoID = new int[MAXLANDMARKS, 2];
 		int EKFLandmarks = 0;
 
-		/************************************************************
-		 * Getters and Setters
-	     ***********************************************************/
+		#region Public Getters
 
 		public int GetSlamID (int id)
 		{
@@ -58,9 +56,9 @@ namespace SLAM
 			return temp;
 		}
 
-		/************************************************************
-		 * Public Constructors
-	     ***********************************************************/
+		#endregion
+
+		#region Public Constructors
 
 		public EkfSlam (double degreesPerScan)
 		{
@@ -72,9 +70,9 @@ namespace SLAM
 			}
 		}
 
-		/************************************************************
-		 * Public Methods
-	     ***********************************************************/
+		#endregion
+
+		#region Public Methods
 
 		public int AddSlamID (int landmarkID, int slamID)
 		{
@@ -257,6 +255,10 @@ namespace SLAM
 			// Two arrays corresponding to found lines.
 			double[] la = new double[100];
 			double[] lb = new double[100];
+			double[] lx1 = new double[100];
+			double[] ly1 = new double[100];
+			double[] lx2 = new double[100];
+			double[] ly2 = new double[100];
 			int totalLines = 0;
 
 			// Array of laser data points corresponding to the seen lines.
@@ -281,12 +283,12 @@ namespace SLAM
 			#region RANSAC
 
 			// RANSAC ALGORITHM
-			int noTrials = 0;
-			Random rnd = new Random ();
+			int numberOfTrials = 0;
+			Random random = new Random ();
 
-			while (noTrials < MAXTRIALS && totalLinepoints > MINLINEPOINTS)
+			while (numberOfTrials < MAXTRIALS && totalLinepoints > MINLINEPOINTS)
 			{
-				int[] rndSelectedPoints = new int[MAXSAMPLE];
+				int[] randomSelectedPoints = new int[MAXSAMPLE];
 				int temp = 0;
 				bool newpoint;
 
@@ -296,8 +298,8 @@ namespace SLAM
 				// Initial version chooses entirely randomly. Now choose
 				// one point randomly and then sample from neighbours within some defined
 				// radius.
-				int centerPoint = rnd.Next (MAXSAMPLE, totalLinepoints - 1);
-				rndSelectedPoints [0] = centerPoint;
+				int centerPoint = random.Next (MAXSAMPLE, totalLinepoints - 1);
+				randomSelectedPoints [0] = centerPoint;
 
 				for (int i = 1; i < MAXSAMPLE; i++)
 				{
@@ -305,11 +307,11 @@ namespace SLAM
 
 					while (!newpoint)
 					{
-						temp = centerPoint + (rnd.Next (2) - 1) * rnd.Next (0, MAXSAMPLE);
+						temp = centerPoint + (random.Next (2) - 1) * random.Next (0, MAXSAMPLE);
 
 						for (int j = 0; j < i; j++)
 						{
-							if (rndSelectedPoints [j] == temp)
+							if (randomSelectedPoints [j] == temp)
 							{
 								break;
 							}
@@ -324,16 +326,20 @@ namespace SLAM
 						}
 					}
 
-					rndSelectedPoints [i] = temp;
+					randomSelectedPoints [i] = temp;
 				}
 
 				// Compute model M1.
+				// y = a + bx
 				double a = 0;
 				double b = 0;
-				//y = a + bx
+				double x1 = 0;
+				double y1 = 0;
+				double x2 = 0;
+				double y2 = 0;
 
-				LeastSquaresLineEstimate (laserdata, robotPosition, rndSelectedPoints, MAXSAMPLE, 
-				                         ref a, ref b);
+				LeastSquaresLineEstimate (laserdata, robotPosition, randomSelectedPoints, MAXSAMPLE, 
+					ref a, ref b, ref x1, ref y1, ref x2, ref y2);
 
 				// Determine the consensus set S1* of points is P
 				// compatible with M1 (within some error tolerance).
@@ -376,7 +382,7 @@ namespace SLAM
 				{
 					// Calculate updated line equation based on consensus points.
 					LeastSquaresLineEstimate (laserdata, robotPosition, consensusPoints,
-					totalConsensusPoints, ref a, ref b);
+						totalConsensusPoints, ref a, ref b, ref x1, ref y1, ref x2, ref y2);
 
 					// For now add points associated to line as landmarks to see results. 
 					for (int i = 0; i < totalConsensusPoints; i++)
@@ -389,22 +395,18 @@ namespace SLAM
 					// Add line to found lines.
 					la [totalLines] = a;
 					lb [totalLines] = b;
+					lx1 [totalLines] = x1;
+					ly1 [totalLines] = y1;
+					lx2 [totalLines] = x2;
+					ly2 [totalLines] = y2;
 					totalLines++;
 
 					// Restart search since we found a line.
-					// noTrials = MAXTRIALS;
-					// When maxtrials = debugging
-					noTrials = 0;
+					numberOfTrials = 0;
 				}
 				else
 				{
-					// DEBUG add point that we chose as middle value
-					//tempLandmarks[centerPoint] = GetLandmark(laserdata[centerPoint], centerPoint, robotPosition);
-					// If #(S1*) < t, randomly select another subset S2 and
-					// repeat.
-					// If, after some predetermined number of trials there is
-					// no consensus set with t points, return with failure.
-					noTrials++;
+					numberOfTrials++;
 				}
 			}
 
@@ -415,7 +417,7 @@ namespace SLAM
 			// add this point as a landmark.
 			for (int i = 0; i < totalLines; i++)
 			{
-				tempLandmarks [i] = GetLineLandmark (la [i], lb [i], robotPosition);
+				tempLandmarks [i] = GetLineLandmark (la [i], lb [i], robotPosition, lx1[i], ly1[i], lx2[i], ly2[i]);
 			}
 
 			// Now return found landmarks in an array of correct dimensions.
@@ -632,6 +634,10 @@ namespace SLAM
 				((Landmark)landmarkDB [DBSize]).range = lm.range; // Set last range was seen at.
 				((Landmark)landmarkDB [DBSize]).a = lm.a; // Store landmarks wall equation.
 				((Landmark)landmarkDB [DBSize]).b = lm.b; // Store landmarks wall equation.
+				((Landmark)landmarkDB [DBSize]).x1y1[0] = lm.x1y1[0]; 
+				((Landmark)landmarkDB [DBSize]).x1y1[1] = lm.x1y1[1]; 
+				((Landmark)landmarkDB [DBSize]).x2y2[0] = lm.x2y2[0]; 
+				((Landmark)landmarkDB [DBSize]).x2y2[1] = lm.x2y2[1]; 
 
 				DBSize++;
 
@@ -641,9 +647,9 @@ namespace SLAM
 			return -1;
 		}
 
-		/************************************************************
-		 * Private Methods
-	     ***********************************************************/
+		#endregion
+
+		#region Private Methods
 
 		private Landmark UpdateLandmark (bool matched, int id, double distance, double readingNo, 
 		                                double[] robotPosition)
@@ -700,7 +706,8 @@ namespace SLAM
 		}
 
 		private void LeastSquaresLineEstimate (double[] laserdata, double[] robotPosition, 
-			int[] SelectedPoints, int arraySize, ref double a, ref double b)
+			int[] SelectedPoints, int arraySize, ref double a, ref double b, 
+			ref double x1, ref double y1, ref double x2, ref double y2)
 		{
 			double y; // y coordinate.
 			double x; // x coordinate.
@@ -718,6 +725,17 @@ namespace SLAM
 
 				y = (Math.Sin ((SelectedPoints [i] * degreesPerScan * conv) + robotPosition [2] * conv) *
 					laserdata [SelectedPoints [i]]) + robotPosition [1];
+
+				if (i == 0)
+				{
+					x1 = x;
+					y1 = y;
+				}
+				else if (i == arraySize - 1)
+				{
+					x2 = x;
+					y2 = y;
+				}
 
 				sumY += y;
 				sumYY += Math.Pow (y, 2);
@@ -779,7 +797,8 @@ namespace SLAM
 			return lm;
 		}
 
-		private Landmark GetLineLandmark (double a, double b, double[] robotPosition)
+		private Landmark GetLineLandmark (double a, double b, double[] robotPosition,
+			double x1, double y1, double x2, double y2)
 		{
 			// our goal is to calculate point on line closest to origin (0,0)
 			// calculate line perpendicular to input line. a * ao = -1.
@@ -809,6 +828,10 @@ namespace SLAM
 			// Convert landmark to map coordinate.
 			lm.pos [0] = x;
 			lm.pos [1] = y;
+			lm.x1y1 [0] = x1;
+			lm.x1y1 [1] = y1;
+			lm.x2y2 [0] = x2;
+			lm.x2y2 [1] = y2;
 			lm.range = range;
 			lm.bearing = bearing;
 			lm.a = a;
@@ -942,6 +965,8 @@ namespace SLAM
 		{
 			return Math.Sqrt (Math.Pow (lm1.pos [0] - lm2.pos [0], 2) + Math.Pow (lm1.pos [1] - lm2.pos [1], 2));
 		}
+
+		#endregion
 	}
 }
 

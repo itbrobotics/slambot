@@ -10,6 +10,8 @@ namespace SLAM
 		const int LIFE = 40;
 
 		public double[] pos; 			// Landmarks (x, y) position relative to the map.
+		public double[] x1y1;			// Landmarks (x1, y1) position relative to the map.
+		public double[] x2y2;			// Landmarks (x2, y2) position relative to the map.
 		public int id; 					// The landmarks unique ID.
 		public int life; 				// A life counter used to determine whether to discard a landmark.
 		public int totalTimesObserved; 	// The number of times we have seen a landmark.
@@ -36,6 +38,8 @@ namespace SLAM
 			id = -1;
 			life = LIFE;
 			pos = new double[2];
+			x1y1 = new double[2];
+			x2y2 = new double[2];
 			a = -1;
 			b = -1;
 		}
@@ -59,7 +63,11 @@ namespace SLAM
 		                   	+ "\trange = " + this.range + "\n"
 		                   	+ "\tbearing = " + this.bearing + "\n"
 		                   	+ "\ta = " + this.a + "\n"
-							+ "\tb = " + this.b + "\n\n";
+							+ "\tb = " + this.b + "\n"
+			              	+ "\tx1 = " + this.x1y1[0] + "\n"
+			              	+ "\ty1 = " + this.x1y1[1] + "\n"
+			              	+ "\tx2 = " + this.x2y2[0] + "\n"
+			              	+ "\ty2 = " + this.x2y2[1] + "\n\n";
 
 			return string.Format (text, this);
 		}

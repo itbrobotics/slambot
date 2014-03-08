@@ -11,7 +11,7 @@ namespace SLAM
 	{
 		// Cell size for the map, this could be a public property but for
 		// simplicity it is like this for now.
-		public const double CellSize = 0.5; // Meters, cells are square i.e. 0.5 x 0.5.
+		public const double CellSize = 0.3; // Meters, cells are square i.e. 0.5 x 0.5.
 
 		private Robot robot; // The robot roaming around on this map.
 		private List<Landmark> landmarks; // All the landmarks found so far.

@@ -71,7 +71,7 @@ void loop()
   int MilliGauss_OnThe_XAxis = scaled.XAxis; // (or YAxis, or ZAxis)
 
   // Calculate heading when the magnetometer is level, then correct for signs of axis.
-  float theta = atan2(scaled.YAxis, scaled.XAxis);
+  theta = atan2(scaled.YAxis, scaled.XAxis);
 
   // Correct for when signs are reversed.
   if(theta < 0)
@@ -143,7 +143,7 @@ void processCommand()
     halt();
     break;
   case 'r':
-    // Limits of the servo. Second byte is the angle to rotate to.
+    // Limits of the servo. Second byte is the angle to rotate too.
     if (command[1] >= 0 && command[1] <= 180)
     {
       sonarServo.write(command[1]);
@@ -170,7 +170,7 @@ void processCommand()
 }
 
 /************************************************************
- * Sensor Functions
+ * Robot Functions
  ************************************************************/
 
 void mouseInit()
@@ -199,6 +199,29 @@ void compassInit()
   if (error != 0) // If there is an error, print it out.
   {
     Serial.println(compass.GetErrorText(error));
+  }
+}
+
+void getHeading()
+{
+  // Read compass rotation.
+  MagnetometerScaled scaled = compass.ReadScaledAxis();
+
+  int MilliGauss_OnThe_XAxis = scaled.XAxis; // (or YAxis, or ZAxis)
+
+  // Calculate heading when the magnetometer is level, then correct for signs of axis.
+  theta = atan2(scaled.YAxis, scaled.XAxis);
+
+  // Correct for when signs are reversed.
+  if(theta < 0)
+  {
+    theta += 2 * PI;
+  }
+
+  // Check for wrap due to addition of declination.
+  if(theta > 2 * PI)
+  {
+    theta -= 2 * PI;
   }
 }
 
@@ -248,9 +271,94 @@ double takeReading()
   // The speed of sound is 340 m/s or 29 microseconds per centimeter.
   // The ping travels out and back, so to find the distance of the
   // object we take half of the distance travelled.
-  distance = (duration / 2) / 29;
+  distance = ((duration / 2) / 29) / 100;
 
   return distance;
+}
+
+void rotate(double heading)
+{
+  // Update theta.
+  getHeading();
+  double angle = heading - theta;
+  
+  #if DEBUG
+    Serial.print("Current Heading = ");
+    Serial.println(theta);
+  #endif
+  
+  /*
+  * Check to see if our angle has extended beyond the 0/360 degree 
+  * line. Our maximum turning arcs from right or left is 180 degrees,
+  * so if our angle has crossed the line we must "wrap" it around.
+  */
+  if (angle < -M_PI)
+  {
+     angle += M_PI * 2; 
+  }
+  else if (angle > M_PI)
+  {
+    angle -= M_PI * 2;
+  }
+  
+  #if DEBUG
+    Serial.print("Angle = ");
+    Serial.println(angle);
+  #endif
+  
+  // Set up a buffer on either side of our requested angle of 5 degrees.
+  // I've done this to stop the robot rotating for a long period of time
+  // because it may take several rotations before it reads an extact 
+  // match from the compass.
+  double leftBuffer = heading + 0.09;
+  double rightBuffer = heading - 0.09;
+  
+  // Wrap around the buffer values if needed.
+  if (leftBuffer > M_PI * 2)
+  {
+    leftBuffer -= M_PI * 2;
+  }
+  
+  if (rightBuffer < -(M_PI * 2))
+  {
+    rightBuffer += M_PI * 2;
+  }
+  
+  #if DEBUG
+    Serial.print("LeftBuffer = ");
+    Serial.println(leftBuffer);
+    Serial.print("RightBuffer = ");
+    Serial.println(rightBuffer);
+  #endif
+  
+  // Our circle is based on a left hand axis where all negative values
+  // indicated movement around the left of the circle.
+  if (angle < 0)
+  {
+    Serial.println("Turning Left");
+    turnLeft();  
+  }
+  else if (angle > 0)
+  {
+    Serial.println("Turning Right");
+    turnRight();
+  }
+  
+  while (!(theta >= rightBuffer && theta <= leftBuffer))
+  {
+    getHeading();
+    
+    #if DEBUG
+      Serial.println(theta);
+    #endif
+    
+    //delay(66); // To run at the 15HZ the HMC5883L works at.
+  }
+
+  halt();
+
+  Serial.print("Current Heading = ");
+  Serial.println(theta); // Output in degre
 }
 
 /************************************************************

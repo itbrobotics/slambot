@@ -35,7 +35,7 @@ const char odometryHeader = 'o';
 const char scanReadingsHeader = 's';
 
 // For processing commands on the serial line.
-const int maxCharacters = 4; 
+const int maxCharacters = 5; 
 char command[maxCharacters]; 
 int index = 0;
 
@@ -46,7 +46,7 @@ unsigned long timeCount = 0.0; // Time since last message was sent.
 // Odometry data.
 int x;          // X displacement.
 int y;          // Y displacement.
-double theta;     // Current rotation.
+double theta;   // Current rotation.
 
 double distances[180]; // Stores range finder distances during scans.
 

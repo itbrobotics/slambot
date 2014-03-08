@@ -13,23 +13,7 @@
     <property name="WindowPosition">CenterOnParent</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
-      <widget class="Gtk.Fixed" id="fixed1">
-        <property name="MemberName" />
-        <property name="HasWindow">False</property>
-        <child>
-          <widget class="Gtk.Button" id="button1">
-            <property name="MemberName" />
-            <property name="CanFocus">True</property>
-            <property name="Type">TextOnly</property>
-            <property name="Label" translatable="yes">GtkButton</property>
-            <property name="UseUnderline">True</property>
-          </widget>
-          <packing>
-            <property name="X">146</property>
-            <property name="Y">126</property>
-          </packing>
-        </child>
-      </widget>
+      <placeholder />
     </child>
   </widget>
 </stetic-interface>
