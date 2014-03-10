@@ -4,7 +4,7 @@
  * 
  *  
  * @author Joshua Michael Daly
- * @version 05/03/2014
+ * @version 08/03/2014
  */
 
 #include <ps2.h>
@@ -20,6 +20,7 @@
 
 void setup()
 {
+  Serial.setTimeout(500);
   Serial.begin(9600);
 
   sonarServo.attach(10);
@@ -43,18 +44,14 @@ void loop()
   // Check to see if at least one character is available.
   if (Serial.available()) 
   {
-    char character = Serial.read();
-
-    if (character == ';' || index >= maxCharacters)
+    // Redeclare this every time to clear the buffer.
+    char buffer[MAX_CHARACTERS]; 
+    
+    bytes = Serial.readBytesUntil(terminator, buffer, MAX_CHARACTERS);
+    
+    if (bytes > 0)
     {
-      // Here we have a full buffer or a terminator.
-      processCommand();
-      index = 0;
-    }
-    else
-    {
-      command[index] = character;
-      index++;
+      processCommand(buffer);
     }
   }
 
@@ -108,7 +105,7 @@ void loop()
  * Robot Functions
  ************************************************************/
 
-void processCommand()
+void processCommand(char command[])
 {
   switch (tolower(command[0]))
   {
@@ -143,16 +140,19 @@ void processCommand()
     halt();
     break;
   case 'r':
-    // Limits of the servo. Second byte is the angle to rotate too.
-    if (command[1] >= 0 && command[1] <= 180)
-    {
-      sonarServo.write(command[1]);
-    }
-    else
-    {
-      Serial.print("Rotation outside bounds of servo: ");
-      Serial.println((short)command[1]); 
-    }
+//    // Second byte is the angle to rotate too,
+//    // divide by 100 to get radians.
+//    double angle = command[1] / 100;
+//    
+//    if (command[1] >= 0 && command[1] <= 6.28)
+//    {
+//      // Rotate the robot to this position.
+//    }
+//    else
+//    {
+//      Serial.print("Rotation outside of bounds: ");
+//      Serial.println((short)command[1]); 
+//    }
     break;
   case 'e':
 #if DEBUG
@@ -165,7 +165,6 @@ void processCommand()
     Serial.print("Unknown command \"");
     Serial.print(command[0]);
     Serial.println("\"");
-    break;
   }  
 }
 
@@ -239,7 +238,7 @@ void scan()
   // Send readings back to the host.
   Serial.print(scanReadingsHeader);
 
-  for (int i = 0; i < 180; i++)
+  for (unsigned char i = 0; i < 180; i++)
   {
     Serial.print(",");
     Serial.print(distances[i], DEC); 

@@ -4,7 +4,7 @@
  * 
  *  
  * @author Joshua Michael Daly
- * @version 05/03/2014
+ * @version 08/03/2014
  */
 
 #include <ps2.h>
@@ -29,15 +29,17 @@
 // Sonar pin.
 #define SIG_PIN A1
 
+// Max characters on message line.
+#define MAX_CHARACTERS 5
+
+// Number of bytes read from the serial line.
+short bytes;
+
 // Message constants.
 const char separator = ',';
+const char terminator = '\n';
 const char odometryHeader = 'o';
 const char scanReadingsHeader = 's';
-
-// For processing commands on the serial line.
-const int maxCharacters = 5; 
-char command[maxCharacters]; 
-int index = 0;
 
 // Message timing.
 const unsigned long messageRate = 500.0; // Milliseconds.
