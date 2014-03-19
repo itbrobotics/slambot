@@ -46,47 +46,50 @@ public class SerialProxy
 
 	public void Scan ()
 	{
-
 		serialPort.Write ("e");
-		serialPort.Write (";");
-		serialPort.Write ("e");
-		serialPort.Write (";");
+		serialPort.Write ("\n");
 	}
+
 	public void GoForward ()
 	{
 
-		serialPort.Write ("e");
-		serialPort.Write (";");
+		serialPort.Write ("w");
+		serialPort.Write ("\n");
 
 	}
-	public void Reverse ()
+
+	public void GoBackward ()
 	{
 
 		serialPort.Write ("s");
-		serialPort.Write (";");
+		serialPort.Write ("\n");
 
 	}
+
 	public void TurnLeft ()
 	{
 
 		serialPort.Write ("a");
-		serialPort.Write (";");
+		serialPort.Write ("\n");
 
 	}
+
 	public void TurnRight ()
 	{
 
 		serialPort.Write ("d");
-		serialPort.Write (";");
+		serialPort.Write ("\n");
 
 	}
+
 	public void Stop ()
 	{
 
 		serialPort.Write ("q");
-		serialPort.Write (";");
+		serialPort.Write ("\n");
 
 	}
+
 	#endregion
 
 	#region Protected Event Handlers

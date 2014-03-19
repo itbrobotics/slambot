@@ -175,7 +175,7 @@ namespace SLAM
 			state = RobotState.Halted;
 			width = 0.18;
 			height = 0.23;
-			mouseCpi = 400;
+			mouseCpi = 800;
 		}
 
 		/// <summary>
@@ -243,7 +243,10 @@ namespace SLAM
 			// to the earth's magnetic field. We only want the change.
 			if (relativeRotation == -7)
 			{
-				relativeRotation = e.Theta;
+				rotation = e.Theta;
+
+				if (!raiseEvent)
+					raiseEvent = true;
 			}
 			else
 			{
