@@ -206,32 +206,38 @@ namespace SLAM
 
 		public void GoFoward ()
 		{
-
+			char[] command = { 'w', '\n' };
+			SerialProxy.GetInstance.Send (command);
 		}
 
 		public void GoBackward ()
 		{
-
+			char[] command = { 's', '\n' };
+			SerialProxy.GetInstance.Send (command);
 		}
 
 		public void RotateLeft ()
 		{
-
+			char[] command = { 'a', '\n' };
+			SerialProxy.GetInstance.Send (command);
 		}
 
 		public void RotateRight ()
 		{
-
+			char[] command = { 'd', '\n' };
+			SerialProxy.GetInstance.Send (command);
 		}
 
 		public void Halt ()
 		{
-
+			char[] command = { 'q', '\n' };
+			SerialProxy.GetInstance.Send (command);
 		}
 
 		public void Scan ()
 		{
-
+			char[] command = { 'e', '\n' };
+			SerialProxy.GetInstance.Send (command);
 		}
 
 		/// <summary>
