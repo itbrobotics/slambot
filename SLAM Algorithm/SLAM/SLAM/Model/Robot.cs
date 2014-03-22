@@ -204,6 +204,36 @@ namespace SLAM
 
 		#region Public Methods
 
+		public void GoFoward ()
+		{
+
+		}
+
+		public void GoBackward ()
+		{
+
+		}
+
+		public void RotateLeft ()
+		{
+
+		}
+
+		public void RotateRight ()
+		{
+
+		}
+
+		public void Halt ()
+		{
+
+		}
+
+		public void Scan ()
+		{
+
+		}
+
 		/// <summary>
 		/// Updates the odometry.
 		/// </summary>

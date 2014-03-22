@@ -12,6 +12,8 @@ namespace SLAM
 	{
 		private MapView mapView;
 		private TextView textView; // Textview to hold landmark information.
+		private Entry commandEntry;
+		private Button sendButton;
 
 		#region Public Constructors
 
@@ -52,9 +54,19 @@ namespace SLAM
 			ScrolledWindow scrolledWindow = new ScrolledWindow ();
 			scrolledWindow.Add (textView);
 
+			commandEntry = new Entry ();
+
+			sendButton = new Button ("Send");
+			sendButton.Clicked += SendButton_OnClick;
+
+			HBox hbox = new HBox (false, 0);
+			hbox.Add (commandEntry);
+			hbox.Add (sendButton);
+
 			VBox vbox = new VBox (false, 0);
 			vbox.Add (this.mapView);
 			vbox.Add (scrolledWindow);
+			vbox.Add (hbox);
 
 			Add (vbox);
 		}
@@ -62,6 +74,11 @@ namespace SLAM
 		#endregion
 
 		#region Private Event Handlers
+
+		private void SendButton_OnClick(object sender, EventArgs args)
+		{
+
+		}
 
 		/// <summary>
 		/// Handles the map update event.

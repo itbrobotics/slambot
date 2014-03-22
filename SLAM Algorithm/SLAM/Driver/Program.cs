@@ -12,13 +12,10 @@ namespace Driver
 			string message;
 			StringComparer stringComparer = StringComparer.OrdinalIgnoreCase;
 
-			SerialProxy proxy = new SerialProxy ();
+			SerialProxy proxy = SerialProxy.GetInstance;
 			Observer observer = new Observer (proxy);
 
 			Console.WriteLine ("Type QUIT to exit");
-		
-			Thread.Sleep (2000);
-			proxy.GoForward ();
 
 			while (continueCommunication)
 			{

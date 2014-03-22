@@ -5,21 +5,40 @@ using System.Threading;
 using System.Collections.Generic;
 using Driver;
 
+/// <summary>
+/// Serial proxy, singleton class.
+/// </summary>
 public class SerialProxy
 {
+	// Singleton instance.
+	private static SerialProxy proxy = new SerialProxy ();
+
 	private SerialPort serialPort;
 	private Thread readThread;
 
 	public event EventHandler<OdometryUpdateEventArgs> OdometryUpdated;
 	public event EventHandler<ScanEventArgs> Scanned;
 
-	#region Public Constructors
+	#region Public Properties
 
-	public SerialProxy ()
+	public static SerialProxy GetInstance
+	{
+		get
+		{
+			return proxy;
+		}
+	}
+
+	#endregion
+
+	#region Private Constructors
+
+	private SerialProxy ()
 	{
 		try
 		{
 			// Create a new SerialPort object with default settings.
+			// Assuming that serial port will always be /dev/ttyACM0 here!
 			serialPort = new SerialPort ("/dev/ttyACM0", 9600);
 			serialPort.ReadTimeout = 500;
 			serialPort.WriteTimeout = 500;
@@ -44,50 +63,19 @@ public class SerialProxy
 		serialPort.Close ();
 	}
 
-	public void Scan ()
+	public void Send (char[] commands)
 	{
-		serialPort.Write ("e");
-		serialPort.Write ("\n");
-	}
-
-	public void GoForward ()
-	{
-
-		serialPort.Write ("w");
-		serialPort.Write ("\n");
-
-	}
-
-	public void GoBackward ()
-	{
-
-		serialPort.Write ("s");
-		serialPort.Write ("\n");
-
-	}
-
-	public void TurnLeft ()
-	{
-
-		serialPort.Write ("a");
-		serialPort.Write ("\n");
-
-	}
-
-	public void TurnRight ()
-	{
-
-		serialPort.Write ("d");
-		serialPort.Write ("\n");
-
-	}
-
-	public void Stop ()
-	{
-
-		serialPort.Write ("q");
-		serialPort.Write ("\n");
-
+		if (serialPort.IsOpen)
+		{
+			try
+			{
+				serialPort.Write (commands, 0, commands.Length);
+			}
+			catch (IOException)
+			{
+				Console.WriteLine ("IOException on Send!");
+			}
+		}
 	}
 
 	#endregion

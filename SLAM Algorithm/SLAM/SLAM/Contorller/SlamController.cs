@@ -21,14 +21,14 @@ namespace SLAM
 		public SlamController ()
 		{
 			robot = new Robot ();
-			map = new SlamMap (robot, 7.5, 5.5);
+			map = new SlamMap (robot, 5.5, 3.5);
 			mapView = new MapView (map);
 
 			ekfSlam = new EkfSlam (1); // 1 degree per scan.
 
 			//AddSampleLandmarks ();
 
-			proxy = new SerialProxy ();
+			proxy = SerialProxy.GetInstance;
 			proxy.OdometryUpdated += new EventHandler<OdometryUpdateEventArgs> (SerialProxy_OdometryUpdate);
 			proxy.Scanned += new EventHandler<ScanEventArgs> (SerialProxy_Scan);
 
