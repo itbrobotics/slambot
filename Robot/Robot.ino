@@ -2,7 +2,7 @@
  * File: Robot.ino
  * 
  * 
- *  
+ * 
  * @author Joshua Michael Daly
  * @version 08/03/2014
  */
@@ -98,6 +98,8 @@ void loop()
     timeCount = 0.0;
     x = 0;
     y = 0;
+    
+    //scan();
   }
 }
 
