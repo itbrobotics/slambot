@@ -1,10 +1,15 @@
 ﻿<Properties GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ActiveRuntime="Mono 3.2.4" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Driver/Serial/SerialProxy.cs">
+    <Files>
+      <File FileName="Driver/Serial/SerialProxy.cs" Line="136" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="SLAM/View/MapWindow.cs" line="111" offsetX="486" offsetY="1980" expression="sender" liveUpdate="False" />
+    <Watch file="Driver/Serial/SerialProxy.cs" line="130" offsetX="598" offsetY="2268" expression="stringReadings[75]" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

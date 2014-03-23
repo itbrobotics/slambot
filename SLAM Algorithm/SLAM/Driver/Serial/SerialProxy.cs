@@ -12,7 +12,6 @@ public class SerialProxy
 {
 	// Singleton instance.
 	private static SerialProxy proxy = new SerialProxy ();
-
 	private SerialPort serialPort;
 	private Thread readThread;
 
@@ -76,6 +75,10 @@ public class SerialProxy
 				Console.WriteLine ("IOException on Send!");
 			}
 		}
+		else
+		{
+			Console.WriteLine ("SerialProxy: No serial port open.");
+		}
 	}
 
 	#endregion
@@ -113,9 +116,6 @@ public class SerialProxy
 				switch (message [0])
 				{
 				case 'o':
-					// TODO: FormatException can be thrown here if one of the parameters
-					// returned is garbage. IndexOutOfRangeException can also be thrown
-					// if the message is corrupt.
 					string[] parameters = message.Split (',');
 
 					OdometryUpdateEventArgs args = new OdometryUpdateEventArgs (
@@ -126,17 +126,14 @@ public class SerialProxy
 					this.OnOdometryUpdate (args);
 					break;
 				case 's':
-					// TODO: FormatException can be thrown here if one of the parameters
-					// returned is garbage. IndexOutOfRangeException can also be thrown
-					// if the message is corrupt.
-					string[] stringReadings = message.Split(',');
+					string[] stringReadings = message.Split (',');
 					List<double> readings = new List<double> ();
 
 					// Somewhat inefficient. Start from 1 to skip first character
 					// which is the message header.
 					for (int i = 1; i < stringReadings.Length; i++)
 					{
-						readings.Add (Double.Parse(stringReadings[i]));
+						readings.Add (Double.Parse (stringReadings [i]));
 					}
 
 					ScanEventArgs args2 = new ScanEventArgs (readings);
@@ -168,15 +165,16 @@ public class SerialProxy
 		{
 			try
 			{
-				serialPort.Write(toRover);
+				serialPort.Write (toRover);
 
 			}
-			catch (Exception) 
+			catch (Exception)
 			{
 				// figure out something later
 			}
 		}
 	}
+
 	#endregion
 
 }

@@ -29,6 +29,15 @@ namespace SLAM
 		}
 
 		#endregion
+
+		#region Public Methods
+
+		public override string ToString ()
+		{
+			return "x = " + robot.X + ", y = " + robot.Y + ", heading = " + robot.Heading + "\n";
+		}
+
+		#endregion
 	}
 }
 

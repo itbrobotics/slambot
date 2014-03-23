@@ -10,6 +10,8 @@ namespace SLAM
 	/// </summary>
 	public class MapWindow : Window
 	{
+		private Robot robot;
+
 		private MapView mapView;
 		private TextView textView; // Textview to hold landmark information.
 		private Entry commandEntry;
@@ -23,6 +25,8 @@ namespace SLAM
 		/// <param name="mapView">Map view contained in this window.</param>
 		public MapWindow (MapView mapView) : base("Map")
 		{
+			robot = mapView.RobotView.Robot;
+
 			this.mapView = mapView;
 
 			// Subscribe to events.
@@ -55,6 +59,7 @@ namespace SLAM
 			scrolledWindow.Add (textView);
 
 			commandEntry = new Entry ();
+			commandEntry.Activated += CommandEntry_OnActivated;
 
 			sendButton = new Button ("Send");
 			sendButton.Clicked += SendButton_OnClick;
@@ -69,15 +74,57 @@ namespace SLAM
 			vbox.Add (hbox);
 
 			Add (vbox);
+			Shown += OnShown;
 		}
 
 		#endregion
 
 		#region Private Event Handlers
 
-		private void SendButton_OnClick(object sender, EventArgs args)
+		private void OnShown (object sender, EventArgs args)
 		{
+			commandEntry.GrabFocus ();
+		}
 
+		private void SendButton_OnClick (object sender, EventArgs args)
+		{
+			if (commandEntry.Text.Length == 0)
+				return;
+
+			// Get the only character in lower case.
+			char command = commandEntry.Text.ToLower () [0];
+
+			switch (command)
+			{
+			case 'w':
+				robot.GoFoward ();
+				break;
+			case 's':
+				robot.GoBackward ();
+				break;
+			case 'a':
+				robot.RotateLeft ();
+				break;
+			case 'd':
+				robot.RotateRight ();
+				break;
+			case 'q':
+				robot.Halt ();
+				break;
+			case 'e':
+				robot.Scan ();
+				break;
+			default:
+				// Ignore it for now.
+				break;
+			}
+
+			commandEntry.DeleteText (0, commandEntry.Text.Length);
+		}
+
+		private void CommandEntry_OnActivated (object sender, EventArgs e)
+		{
+			SendButton_OnClick (sender, e);
 		}
 
 		/// <summary>
@@ -87,7 +134,7 @@ namespace SLAM
 		/// <param name="e">E.</param>
 		private void Map_Update (object sender, MapUpdateEventArgs e)
 		{
-			this.textView.Buffer.Clear ();
+			textView.Buffer.Clear ();
 
 			foreach (Landmark landmark in mapView.MapModel.Landmarks)
 			{
@@ -102,7 +149,13 @@ namespace SLAM
 		/// <param name="e">E.</param>
 		private void Robot_Update (object sender, RobotUpdateEventArgs e)
 		{
-			// Do nothing for now.
+//			if (IsRealized)
+//			{
+//				textView.Buffer.Text += "Robot: x = " + e.Robot.X +
+//				", y = " + e.Robot.Y +
+//				", rotation = " + e.Robot.Rotation +
+//				"\n";
+//			}
 		}
 
 		#endregion

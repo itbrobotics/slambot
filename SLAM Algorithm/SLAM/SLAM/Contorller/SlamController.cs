@@ -21,7 +21,7 @@ namespace SLAM
 		public SlamController ()
 		{
 			robot = new Robot ();
-			map = new SlamMap (robot, 5.5, 3.5);
+			map = new SlamMap (robot, 6.3, 3.3);
 			mapView = new MapView (map);
 
 			ekfSlam = new EkfSlam (1); // 1 degree per scan.
@@ -65,7 +65,6 @@ namespace SLAM
 		private void SerialProxy_OdometryUpdate (object sender, OdometryUpdateEventArgs e)
 		{
 			robot.UpdateOdometry (e);
-			Console.WriteLine (e.ToString ());
 		}
 
 		/// <summary>

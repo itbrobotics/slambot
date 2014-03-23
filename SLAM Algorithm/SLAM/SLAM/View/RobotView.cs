@@ -10,6 +10,8 @@ namespace SLAM
 	public class RobotView
 	{
 		private Robot robot; // Robot model that this view represents.
+		private double relativeRotation; // Rotation relative to the view.
+		private double lastRotation; // Last reported rotation of the robot.
 
 		#region Public Properties
 
@@ -32,6 +34,8 @@ namespace SLAM
 		public RobotView (Robot robotModel)
 		{
 			robot = robotModel;
+			relativeRotation = 0.0;
+			lastRotation = -7.0;
 			robot.RobotUpdated += new EventHandler<RobotUpdateEventArgs> (Robot_Update);
 		}
 
@@ -68,7 +72,7 @@ namespace SLAM
 			cairoContext.LineCap = LineCap.Butt; 
 
 			cairoContext.Translate (centerX + x, centerY - y);
-			cairoContext.Rotate (robot.Rotation); // Rotate the robot based on its orientation in radians.
+			cairoContext.Rotate (relativeRotation); // Rotate the robot based on its orientation in radians.
 
 			// Draw the robot as a triangle.
 			cairoContext.MoveTo (0, -height / 2);
@@ -78,7 +82,7 @@ namespace SLAM
 			cairoContext.Stroke ();
 
 			// Reset the drawing context.
-			cairoContext.Rotate (-robot.Rotation);
+			cairoContext.Rotate (-relativeRotation);
 			cairoContext.Translate (-(centerX + x), -(centerY - y));
 		}
 
@@ -93,7 +97,16 @@ namespace SLAM
 		/// <param name="e">E.</param>
 		private void Robot_Update (object sender, RobotUpdateEventArgs e)
 		{
-			// Do nothing for now.
+			// On the first update.
+			if (lastRotation == -7.0)
+			{
+				lastRotation = e.Robot.Heading;
+			}
+			else
+			{
+				relativeRotation += e.Robot.Heading - lastRotation;
+				lastRotation = e.Robot.Heading;
+			}
 		}
 
 		#endregion

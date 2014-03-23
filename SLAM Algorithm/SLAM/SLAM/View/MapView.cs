@@ -139,6 +139,7 @@ namespace SLAM
 		/// <param name="e">E.</param>
 		private void Robot_Update (object sender, RobotUpdateEventArgs e)
 		{
+			Console.Write (e.ToString ());
 			QueueDraw ();
 		}
 
