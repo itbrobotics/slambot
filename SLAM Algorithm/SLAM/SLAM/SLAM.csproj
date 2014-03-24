@@ -57,7 +57,6 @@
     <Compile Include="View\MapView.cs" />
     <Compile Include="View\LandmarkView.cs" />
     <Compile Include="SLAM.cs" />
-    <Compile Include="Contorller\SlamController.cs" />
     <Compile Include="Model\SlamMap.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -65,7 +64,6 @@
     <Folder Include="View\" />
     <Folder Include="Model\" />
     <Folder Include="Event\" />
-    <Folder Include="Contorller\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Driver\Driver.csproj">
