@@ -14,24 +14,28 @@ namespace SLAM
 	public class Robot
 	{
 		private const double inchToMeter = 0.0254;
-		private double x;
+
 		// Current x position in the grid.
-		private double y;
+		private double x;
 		// Current y position in the grid.
-		private double heading;
+		private double y;
 		// Robot rotation in radians.
-		private double originalRotation;
+		private double heading;
 		// Original rotation of the robot.
-		private RobotState state;
+		private double originalRotation;
 		// What are we currently doing?
+		private RobotState state;
+
 		// Physical dimensions of the robot in meters.
 		private double width;
 		private double height;
+
 		// Sensor specific.
 		private double mouseCpi;
+
 		// Resolution of the sensor in Counts Per Inch (CPI).
 		// Event raised whenever there is a change on the robot model, any observers can
-		// choose to act upon the changes.
+		// choose to act upon it.
 		public event EventHandler<RobotUpdateEventArgs> RobotUpdated;
 
 		#region Public Properties
@@ -173,7 +177,7 @@ namespace SLAM
 			x = 0;
 			y = 0;
 			heading = 0;
-			originalRotation = -7;
+			originalRotation = double.NaN;
 			state = RobotState.Halted;
 			width = 0.18;
 			height = 0.23;
@@ -210,36 +214,48 @@ namespace SLAM
 		{
 			char[] command = { 'w', '\n' };
 			SerialProxy.GetInstance.Send (command);
+
+			state = RobotState.MovingForward;
 		}
 
 		public void GoBackward ()
 		{
 			char[] command = { 's', '\n' };
 			SerialProxy.GetInstance.Send (command);
+
+			state = RobotState.MovingBackward;
 		}
 
 		public void RotateLeft ()
 		{
 			char[] command = { 'a', '\n' };
 			SerialProxy.GetInstance.Send (command);
+
+			state = RobotState.RotatingLeft;
 		}
 
 		public void RotateRight ()
 		{
 			char[] command = { 'd', '\n' };
 			SerialProxy.GetInstance.Send (command);
+
+			state = RobotState.RotatingRight;
 		}
 
 		public void Halt ()
 		{
 			char[] command = { 'q', '\n' };
 			SerialProxy.GetInstance.Send (command);
+
+			state = RobotState.Halted;
 		}
 
 		public void Scan ()
 		{
 			char[] command = { 'e', '\n' };
 			SerialProxy.GetInstance.Send (command);
+
+			state = RobotState.Scanning;
 		}
 
 		/// <summary>
@@ -251,7 +267,7 @@ namespace SLAM
 			bool raiseEvent = false;
 
 			// First update.
-			if (originalRotation == -7)
+			if (originalRotation == double.NaN)
 			{
 				originalRotation = e.Theta;
 				raiseEvent = true;
@@ -262,21 +278,9 @@ namespace SLAM
 				heading = e.Theta - originalRotation;
 				double change = e.Theta - originalRotation;
 
-				// Rotation by more than a degree?
+				// Rotated by more than a degree?
 				if (change >= 0.02 || change <= -0.02)
 					raiseEvent = true;
-
-//				// Correct for when signs are reversed.
-//				if (heading < 0)
-//				{
-//					heading += 2 * Math.PI;
-//				}
-//
-//				// Check for wrap due to addition of declination.
-//				if (heading > 2 * Math.PI)
-//				{
-//					heading -= 2 * Math.PI;
-//				}
 
 				/*				
 				 * Calculate the change as follows:
@@ -286,9 +290,10 @@ namespace SLAM
 				double xm = (e.X / mouseCpi) * inchToMeter;
 				double ym = (e.Y / mouseCpi) * inchToMeter;
 
-				bool hasMoved = calculateDisplacement (xm, ym);
+				bool hasMoved = CalculateDisplacement (xm, ym);
 
-				if (hasMoved && !raiseEvent)
+				if (hasMoved)
+				if (!raiseEvent)
 					raiseEvent = true;
 			}
 
@@ -329,9 +334,9 @@ namespace SLAM
 
 		#region Private Methods
 
-		private bool calculateDisplacement (double xm, double ym)
+		private bool CalculateDisplacement (double xm, double ym)
 		{
-			// We have moved along the y-axis.
+			// We have moved forwards or backwards.
 			if (ym != 0.0)
 			{
 				// Use Pythagoras's theorem to calculate our x and y displacement
