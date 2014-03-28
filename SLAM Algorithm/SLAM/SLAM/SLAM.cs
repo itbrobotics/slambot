@@ -19,10 +19,13 @@ namespace SLAM
 
 		public static void Main (String[] args)
 		{
+			Gdk.Threads.Init ();
+			Gdk.Threads.Enter ();
 			Application.Init ();
 			SLAM controller = new SLAM ();
 			controller.Start ();
 			Application.Run ();
+			Gdk.Threads.Leave ();
 		}
 
 		#endregion
@@ -67,7 +70,15 @@ namespace SLAM
 
 		private void SerialProxy_OdometryUpdate (object sender, OdometryUpdateEventArgs e)
 		{
-			robot.UpdateOdometry (e);
+			Gdk.Threads.Enter ();
+			try
+			{
+				robot.UpdateOdometry (e);
+			}
+			finally
+			{
+				Gdk.Threads.Leave ();
+			}
 		}
 
 		/// <summary>
@@ -78,12 +89,20 @@ namespace SLAM
 		/// <param name="e">E.</param>
 		private void SerialProxy_Scan (object sender, ScanEventArgs e)
 		{
-			// Extract any landmarks then update the slam database with any new landmarks.
-			ekfSlam.UpdateAndAddLineLandmarks (ekfSlam.ExtractLineLandmarks (e.Readings.ToArray (),
-				robot.Position));
+			Gdk.Threads.Enter ();
+			try
+			{
+				// Extract any landmarks then update the slam database with any new landmarks.
+				ekfSlam.UpdateAndAddLineLandmarks (ekfSlam.ExtractLineLandmarks (e.Readings.ToArray (),
+					robot.Position));
 
-			// Now update the model.
-			map.UpdateLandmarks (ekfSlam.GetDB ());
+				// Now update the model.
+				map.UpdateLandmarks (ekfSlam.GetDB ());
+			}
+			finally
+			{
+				Gdk.Threads.Leave ();
+			}
 		}
 
 		#endregion

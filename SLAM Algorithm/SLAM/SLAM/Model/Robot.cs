@@ -177,7 +177,7 @@ namespace SLAM
 			x = 0;
 			y = 0;
 			heading = 0;
-			originalRotation = double.NaN;
+			originalRotation = double.MaxValue;
 			state = RobotState.Halted;
 			width = 0.18;
 			height = 0.23;
@@ -267,7 +267,7 @@ namespace SLAM
 			bool raiseEvent = false;
 
 			// First update.
-			if (originalRotation == double.NaN)
+			if (originalRotation == double.MaxValue)
 			{
 				originalRotation = e.Theta;
 				raiseEvent = true;
@@ -282,6 +282,17 @@ namespace SLAM
 				if (change >= 0.02 || change <= -0.02)
 					raiseEvent = true;
 
+				if (heading < 0)
+				{
+					heading += Math.PI * 2; 
+				}
+				else if (heading > 2 * Math.PI)
+				{
+					heading -= Math.PI * 2;
+				}
+
+				heading = Math.Round (heading, 2);
+
 				/*				
 				 * Calculate the change as follows:
 				 *  xm = (displacement / sensor cpi) * conversion of inches to meters
@@ -293,8 +304,8 @@ namespace SLAM
 				bool hasMoved = CalculateDisplacement (xm, ym);
 
 				if (hasMoved)
-				if (!raiseEvent)
-					raiseEvent = true;
+					if (!raiseEvent)
+						raiseEvent = true;
 			}
 
 			if (raiseEvent)
@@ -341,8 +352,8 @@ namespace SLAM
 			{
 				// Use Pythagoras's theorem to calculate our x and y displacement
 				// relative to our heading.
-				x += ym * Math.Sin (heading);
-				y += ym * Math.Cos (heading);
+				x += Math.Round(ym * Math.Sin (heading), 3);
+				y += Math.Round(ym * Math.Cos (heading), 3);
 
 				return true;
 			}
