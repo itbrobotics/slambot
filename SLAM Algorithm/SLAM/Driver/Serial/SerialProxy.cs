@@ -12,6 +12,7 @@ public class SerialProxy
 {
 	// Singleton instance.
 	private static SerialProxy proxy = new SerialProxy ();
+
 	private SerialPort serialPort;
 	private Thread readThread;
 
@@ -46,9 +47,9 @@ public class SerialProxy
 			readThread = new Thread (this.Read);
 			readThread.Start ();
 		}
-		catch (IOException)
+		catch (IOException ex)
 		{
-			Console.WriteLine ("Cannot open port: " + serialPort.PortName);
+			Console.WriteLine (ex.ToString ());
 		}
 	}
 
@@ -70,9 +71,9 @@ public class SerialProxy
 			{
 				serialPort.Write (commands, 0, commands.Length);
 			}
-			catch (IOException)
+			catch (IOException ex)
 			{
-				Console.WriteLine ("IOException on Send!");
+				Console.WriteLine (ex.StackTrace);
 			}
 		}
 		else
@@ -119,9 +120,9 @@ public class SerialProxy
 					string[] parameters = message.Split (',');
 
 					OdometryUpdateEventArgs args = new OdometryUpdateEventArgs (
-						                               Int32.Parse (parameters [1]), 
-						                               Int32.Parse (parameters [2]), 
-						                               Double.Parse (parameters [3]));
+						Int32.Parse (parameters [1]), 
+						Int32.Parse (parameters [2]), 
+						Double.Parse (parameters [3]));
 
 					this.OnOdometryUpdate (args);
 					break;
@@ -144,33 +145,21 @@ public class SerialProxy
 					break;
 				}	
 			}
-			catch (TimeoutException)
+			catch (TimeoutException ex)
 			{ 
-				// Do nothing.
+				Console.WriteLine (ex.ToString ());
 			}
-			catch (FormatException)
+			catch (FormatException ex)
 			{
-				// Do nothing for now.
+				Console.WriteLine (ex.ToString ());
 			}
-			catch (IndexOutOfRangeException)
+			catch (IndexOutOfRangeException ex)
 			{
-				// Do nothing for now.
+				Console.WriteLine (ex.ToString ());
 			}
-		}
-	}
-	// note not yet tested, get access to arduino
-	private void Write (String toRover)
-	{
-		if (serialPort.IsOpen)
-		{
-			try
+			catch (Exception ex)
 			{
-				serialPort.Write (toRover);
-
-			}
-			catch (Exception)
-			{
-				// figure out something later
+				Console.WriteLine (ex.ToString ());
 			}
 		}
 	}

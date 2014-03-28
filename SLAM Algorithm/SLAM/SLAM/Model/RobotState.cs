@@ -9,8 +9,8 @@ namespace SLAM
 	{
 		MovingForward,
 		MovingBackward,
-		TurningLeft,
-		TuringRight,
+		RotatingLeft,
+		RotatingRight,
 		Halted,
 		Scanning
 	}
