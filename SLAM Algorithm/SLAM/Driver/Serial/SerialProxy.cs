@@ -42,9 +42,6 @@ public class SerialProxy
 			serialPort.ReadTimeout = 500;
 			serialPort.WriteTimeout = 500;
 			serialPort.Open ();
-
-			readThread = new Thread (this.Read);
-			readThread.Start ();
 		}
 		catch (IOException)
 		{
@@ -55,6 +52,12 @@ public class SerialProxy
 	#endregion
 
 	#region Public Methods
+
+	public void Start ()
+	{
+		readThread = new Thread (this.Read);
+		readThread.Start ();
+	}
 
 	public void Release ()
 	{

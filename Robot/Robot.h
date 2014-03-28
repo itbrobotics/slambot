@@ -29,7 +29,7 @@
 // Sonar pin.
 #define SIG_PIN A1
 
-// Max characters on message line.
+// Max characters on allowed message line.
 #define MAX_CHARACTERS 5
 
 // Number of bytes read from the serial line.
