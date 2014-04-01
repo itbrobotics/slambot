@@ -190,17 +190,18 @@ void compassInit()
   compass = HMC5883L(); // Construct a new HMC5883L compass.
   error = compass.SetScale(0.88); // Set the scale of the compass.
 
-  if (error != 0) // If there is an error, print it out.
-  {
-    Serial.println(compass.GetErrorText(error));
-  }
+    // Ignore the errors because they don't go away.
+//  if (error != 0) // If there is an error, print it out.
+//  {
+//    Serial.println(compass.GetErrorText(error));
+//  }
 
   error = compass.SetMeasurementMode(Measurement_Continuous); // Set the measurement mode to Continuous
 
-  if (error != 0) // If there is an error, print it out.
-  {
-    Serial.println(compass.GetErrorText(error));
-  }
+//  if (error != 0) // If there is an error, print it out.
+//  {
+//    Serial.println(compass.GetErrorText(error));
+//  }
 }
 
 void getHeading()
