@@ -313,6 +313,22 @@ namespace SLAM
 		}
 
 		#endregion
+		protected void go (){
+			double xx;
+			bool xy= true;
+
+			xx = x;
+			GoForward ();
+			do{
+				if((xx-x)>=5){
+					xy= false;
+						}
+
+			}while(xy);
+
+			Halt ();
+		}
+
 
 		#region Protected Event Handlers
 
