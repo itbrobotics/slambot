@@ -13,6 +13,8 @@ namespace SLAM
 		private double relativeRotation; // Rotation relative to the view.
 		private double lastRotation; // Last reported rotation of the robot.
 
+
+
 		#region Public Properties
 
 		public Robot Robot
@@ -84,6 +86,10 @@ namespace SLAM
 			// Reset the drawing context.
 			cairoContext.Rotate (-relativeRotation);
 			cairoContext.Translate (-(centerX + x), -(centerY - y));
+		
+
+		
+		
 		}
 
 		#endregion

@@ -1,18 +1,12 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/Model/Robot.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/View/PathView.cs">
     <Files>
-      <File FileName="Driver/Program.cs" Line="23" Column="5" />
-      <File FileName="SLAM/SLAM.cs" Line="1" Column="1" />
-      <File FileName="SLAM/Model/Robot.cs" Line="324" Column="16" />
-      <File FileName="SLAM/View/MapWindow.cs" Line="1" Column="1" />
-      <File FileName="Viewer/Program.cs" Line="1" Column="1" />
-      <File FileName="Viewer/Properties/AssemblyInfo.cs" Line="1" Column="1" />
-      <File FileName="Viewer/MainWindow.cs" Line="1" Column="1" />
-      <File FileName="SLAM/Model/RobotState.cs" Line="1" Column="1" />
-      <File FileName="SLAM/Model/Landmark.cs" Line="1" Column="1" />
-      <File FileName="Driver/Observer.cs" Line="17" Column="3" />
-      <File FileName="SLAM/View/RobotView.cs" Line="1" Column="1" />
+      <File FileName="SLAM/Model/Robot.cs" Line="47" Column="17" />
+      <File FileName="SLAM/View/PathView.cs" Line="12" Column="3" />
+      <File FileName="SLAM/View/RobotView.cs" Line="91" Column="3" />
+      <File FileName="SLAM/View/LandmarkView.cs" Line="67" Column="5" />
+      <File FileName="SLAM/View/MapView.cs" Line="207" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

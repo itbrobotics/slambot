@@ -12,6 +12,7 @@ namespace SLAM
 		private SlamMap mapModel; // Map model that this view represents.
 		private RobotView robotView;
 		private LandmarkView landmarkView;
+		private PathView pathView;
 
 		// Some dimensions and coordinates related to drawing the map.
 		private int viewWidth;
@@ -100,6 +101,7 @@ namespace SLAM
 			this.mapModel = mapModel;
 			robotView = new RobotView (mapModel.Robot);
 			landmarkView = new LandmarkView (mapModel.Landmarks);
+			pathView = new PathView (mapModel.Robot);
 
 			// Subscribe to events.
 			mapModel.MapUpdated += new EventHandler<MapUpdateEventArgs> (Map_Update);
@@ -194,6 +196,10 @@ namespace SLAM
 
 			robotView.Draw (cairoContext, centerX, centerY, 1.0);
 			landmarkView.Draw (cairoContext, centerX, centerY, 1.0);
+
+			if (robotView.Robot.PathPointList.Count > 1)
+				pathView.Draw (cairoContext, centerX, centerY, 1.0);
+
 
 			((IDisposable)cairoContext.GetTarget()).Dispose ();                                      
 			((IDisposable)cairoContext).Dispose ();

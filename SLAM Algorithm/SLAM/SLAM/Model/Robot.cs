@@ -1,5 +1,6 @@
 using System;
 using Driver;
+using System.Collections.Generic;
 
 namespace SLAM
 {
@@ -32,6 +33,7 @@ namespace SLAM
 
 		// Sensor specific.
 		private double mouseCpi;
+		private List<double[]> pathPointList = new List<double[]>();
 
 		// Resolution of the sensor in Counts Per Inch (CPI).
 		// Event raised whenever there is a change on the robot model, any observers can
@@ -161,6 +163,24 @@ namespace SLAM
 			set
 			{
 				mouseCpi = value;
+			}
+		}
+
+
+		/// <summary>
+		/// Gets or sets the x position of the robot in its environment.
+		/// </summary>
+		/// <value>The new x position in meters.</value>
+		public List<double[]> PathPointList
+		{
+			get
+			{
+				return pathPointList;
+			}
+			set
+			{
+				pathPointList = value;
+				RaiseRobotUpdate ();
 			}
 		}
 
@@ -302,8 +322,9 @@ namespace SLAM
 				double ym = (e.Y / mouseCpi) * inchToMeter;
 
 				bool hasMoved = CalculateDisplacement (xm, ym);
-
+			
 				if (hasMoved)
+					PathPointList.Add (new double[2] { x, y });
 					if (!raiseEvent)
 						raiseEvent = true;
 			}
@@ -313,7 +334,7 @@ namespace SLAM
 		}
 
 		#endregion
-		protected void go (){
+		/*protected void go (){
 			double xx;
 			bool xy= true;
 
@@ -327,7 +348,7 @@ namespace SLAM
 			}while(xy);
 
 			Halt ();
-		}
+		}*/
 
 
 		#region Protected Event Handlers
