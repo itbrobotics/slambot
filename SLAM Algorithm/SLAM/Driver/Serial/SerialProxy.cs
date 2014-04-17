@@ -140,6 +140,8 @@ public class SerialProxy
 						readings.Add (Double.Parse (stringReadings [i]));
 					}
 
+					readings.Reverse ();
+
 					ScanEventArgs args2 = new ScanEventArgs (readings);
 
 					OnScanPerformed (args2);

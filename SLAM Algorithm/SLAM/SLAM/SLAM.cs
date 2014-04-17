@@ -92,6 +92,8 @@ namespace SLAM
 			Gdk.Threads.Enter ();
 			try
 			{
+				ekfSlam.RemoveBadLandmarks (e.Readings.ToArray (), robot.Position);
+
 				// Extract any landmarks then update the slam database with any new landmarks.
 				ekfSlam.UpdateAndAddLineLandmarks (ekfSlam.ExtractLineLandmarks (e.Readings.ToArray (),
 					robot.Position));

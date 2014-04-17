@@ -26,7 +26,7 @@ void setup()
   sonarServo.attach(10);
 
   mouseInit();
-  compassInit();
+  //compassInit();
 
   motor1.setSpeed(MOTOR_SPEED);
   motor2.setSpeed(MOTOR_SPEED);
@@ -62,25 +62,25 @@ void loop()
   x += (char)mouse.read();
   y += (char)mouse.read();
 
-  // Read compass rotation.
-  MagnetometerScaled scaled = compass.ReadScaledAxis();
-
-  int MilliGauss_OnThe_XAxis = scaled.XAxis; // (or YAxis, or ZAxis)
-
-  // Calculate heading when the magnetometer is level, then correct for signs of axis.
-  theta = atan2(scaled.YAxis, scaled.XAxis);
-
-  // Correct for when signs are reversed.
-  if(theta < 0)
-  {
-    theta += 2 * PI;
-  }
-
-  // Check for wrap due to addition of declination.
-  if(theta > 2 * PI)
-  {
-    theta -= 2 * PI;
-  }
+//  // Read compass rotation.
+//  MagnetometerScaled scaled = compass.ReadScaledAxis();
+//
+//  int MilliGauss_OnThe_XAxis = scaled.XAxis; // (or YAxis, or ZAxis)
+//
+//  // Calculate heading when the magnetometer is level, then correct for signs of axis.
+//  theta = atan2(scaled.YAxis, scaled.XAxis);
+//
+//  // Correct for when signs are reversed.
+//  if(theta < 0)
+//  {
+//    theta += 2 * PI;
+//  }
+//
+//  // Check for wrap due to addition of declination.
+//  if(theta > 2 * PI)
+//  {
+//    theta -= 2 * PI;
+//  }
 
   // To save bombarding the serial line.
   if (millis() - timeCount >= messageRate)
@@ -98,8 +98,6 @@ void loop()
     timeCount = 0.0;
     x = 0;
     y = 0;
-    
-    //scan();
   }
 }
 
@@ -170,10 +168,6 @@ void processCommand(char command[])
   }  
 }
 
-/************************************************************
- * Robot Functions
- ************************************************************/
-
 void mouseInit()
 {
   mouse.write(0xff);  // Reset.
@@ -241,7 +235,7 @@ void scan()
   // Send readings back to the host.
   Serial.print(scanReadingsHeader);
 
-  for (unsigned char i = 0; i < 180; i++)
+  for (unsigned char i = 179; i >= 0; i++)
   {
     Serial.print(",");
     Serial.print(distances[i], DEC); 

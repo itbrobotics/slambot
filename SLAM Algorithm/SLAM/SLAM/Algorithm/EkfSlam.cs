@@ -11,7 +11,7 @@ namespace SLAM
 		const int MAXLANDMARKS = 3000;
 		const double MAXERROR = 0.5; // If a landmark is within 20 cm of another landmark its the same landmark.
 		public int MINOBSERVATIONS = 15; // Number of times a landmark must be observed to be recognized as a landmark.
-		const int LIFE = 40;
+		const int LIFE = 7;
 		const double MAX_RANGE = 1;
 		const int MAXTRIALS = 1000; // RANSAC: max times to run algorithm.
 		const int MAXSAMPLE = 10; // RANSAC: randomly select X points.
@@ -89,11 +89,11 @@ namespace SLAM
 
 			for (int i = 1; i < laserdata.Length - 1; i++)
 			{
-				// Distance further away than 8.1m we assume are failed returns
+				// Distance further away than 3m we assume are failed returns
 				// we get the laser data with max range.
-				if (laserdata [i - 1] < 8.1)
+				if (laserdata [i - 1] < 3)
 				{
-					if (laserdata [i + 1] < 8.1)
+					if (laserdata [i + 1] < 3)
 					{
 						if (laserdata [i] > maxrange)
 						{
@@ -447,9 +447,9 @@ namespace SLAM
 			for (int i = 1; i < laserdata.Length - 1; i++)
 			{
 				// Check for error measurement in laser data.
-				if (laserdata [i - 1] < 8.1)
+				if (laserdata [i - 1] < 3)
 				{
-					if (laserdata [i + 1] < 8.1)
+					if (laserdata [i + 1] < 3)
 					{
 						if ((laserdata [i - 1] - laserdata [i]) + (laserdata [i + 1] - laserdata [i]) > 0.5)
 						{ 
@@ -461,7 +461,7 @@ namespace SLAM
 							{
 								tempLandmarks [i] = GetLandmark (laserdata [i], i, robotPosition);
 							}
-							else if (laserdata [i + 1] < 8.1)
+							else if (laserdata [i + 1] < 3)
 							{
 								if ((laserdata [i + 1] - laserdata [i]) > 0.3)
 								{

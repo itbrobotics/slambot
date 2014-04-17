@@ -1,12 +1,12 @@
 ﻿<Properties GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/View/PathView.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ActiveRuntime="Mono 3.2.4" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/Algorithm/EkfSlam.cs">
     <Files>
-      <File FileName="SLAM/Model/Robot.cs" Line="47" Column="17" />
-      <File FileName="SLAM/View/PathView.cs" Line="12" Column="3" />
-      <File FileName="SLAM/View/RobotView.cs" Line="91" Column="3" />
-      <File FileName="SLAM/View/LandmarkView.cs" Line="67" Column="5" />
-      <File FileName="SLAM/View/MapView.cs" Line="207" Column="3" />
+      <File FileName="SLAM/SLAM.cs" Line="90" Column="26" />
+      <File FileName="Driver/Serial/SerialProxy.cs" Line="139" Column="7" />
+      <File FileName="SLAM/Algorithm/EkfSlam.cs" Line="269" Column="4" />
+      <File FileName="SLAM/View/LandmarkView.cs" Line="57" Column="33" />
+      <File FileName="SLAM/Model/Robot.cs" Line="215" Column="64" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
