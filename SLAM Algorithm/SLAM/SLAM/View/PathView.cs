@@ -33,12 +33,18 @@ namespace SLAM
 			cairoContext.LineWidth = 1.0;
 			cairoContext.LineCap = LineCap.Butt;
 			//cairoContext.MoveTo (OriginalX, -OriginalY);
+			//int x = centerX;
+			Console.WriteLine ("point: " + (robot.PathPointList [robot.PathPointList.Count-1] [1]*100));
+			if (30 <= (robot.PathPointList [robot.PathPointList.Count - 1] [1] * 100)) {
+				robot.Halt ();
+				Console.WriteLine ("\n\n Has Gone 30cm \n\n");
+			}
+			//Console.WriteLine ("Hello");
 
 			for (int i = 1; i < robot.PathPointList.Count; i++)
 			{
 				cairoContext.MoveTo (centerX - (robot.PathPointList [i - 1] [0] * 100), centerY - (robot.PathPointList [i - 1] [1] * 100));
 				cairoContext.LineTo (centerX - (robot.PathPointList [i] [0] * 100), centerY - (robot.PathPointList [i] [1] * 100));
-
 				//	Console.WriteLine (path[0]*100+" , "+ path[1]*100);
 				cairoContext.Stroke ();
 
