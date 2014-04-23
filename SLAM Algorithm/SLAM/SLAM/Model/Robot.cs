@@ -148,13 +148,6 @@ namespace SLAM
 
 				return position;
 			}
-			set
-			{
-				// This should be checked to make sure it is actually valid! 
-				x = value [0];
-				y = value [1];
-				heading = value [2];
-			}
 		}
 
 		/// <summary>

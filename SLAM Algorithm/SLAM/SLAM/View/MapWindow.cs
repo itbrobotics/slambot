@@ -114,6 +114,9 @@ namespace SLAM
 			case 'e':
 				robot.Scan ();
 				break;
+			case 'z':
+				robot.Reset ();
+				break;
 			default:
 				// Ignore it for now.
 				break;

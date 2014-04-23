@@ -22,8 +22,8 @@ namespace SLAM
 			Gdk.Threads.Init ();
 			Gdk.Threads.Enter ();
 			Application.Init ();
-			SLAM controller = new SLAM ();
-			controller.Start ();
+			SetupDialog setupDialog = new SetupDialog ();
+			setupDialog.ShowAll ();
 			Application.Run ();
 			Gdk.Threads.Leave ();
 		}
@@ -32,10 +32,10 @@ namespace SLAM
 
 		#region Public Constructors
 
-		public SLAM ()
+		public SLAM (double mapWidth, double mapHeight)
 		{
 			robot = new Robot ();
-			map = new SlamMap (robot, 6.3, 3.3);
+			map = new SlamMap (robot, mapWidth, mapHeight);
 			mapView = new MapView (map);
 
 			ekfSlam = new EkfSlam (1); // 1 degree per scan.
@@ -52,8 +52,6 @@ namespace SLAM
 			};
 
 			//AddSampleLandmarks ();
-
-			window.ShowAll ();
 		}
 
 		#endregion

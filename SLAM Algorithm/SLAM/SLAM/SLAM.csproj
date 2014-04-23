@@ -37,6 +37,7 @@
     <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="System" />
+    <Reference Include="Mono.Posix" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -53,6 +54,8 @@
     <Compile Include="SLAM.cs" />
     <Compile Include="Model\SlamMap.cs" />
     <Compile Include="View\PathView.cs" />
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="View\SetupDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Algorithm\" />
@@ -65,5 +68,10 @@
       <Project>{AA18CBBC-6940-442E-B9FA-ED87228A44E0}</Project>
       <Name>Driver</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

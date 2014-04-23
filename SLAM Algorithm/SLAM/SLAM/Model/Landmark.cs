@@ -19,6 +19,7 @@ namespace SLAM
 		public double bearing; 			// Last observed bearing to landmark.
 
 		// RANSAC: Now store equation of a line.
+		// slope (m) = -a / b
 		public double a;
 		public double b;
 		public double rangeError; 	// Distance from robot position to the wall we are using as 
