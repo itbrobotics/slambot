@@ -86,10 +86,6 @@ namespace SLAM
 			// Reset the drawing context.
 			cairoContext.Rotate (-relativeRotation);
 			cairoContext.Translate (-(centerX + x), -(centerY - y));
-		
-
-		
-		
 		}
 
 		#endregion

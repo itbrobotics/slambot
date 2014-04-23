@@ -12,7 +12,8 @@ namespace SLAM
 		RotatingLeft,
 		RotatingRight,
 		Halted,
-		Scanning
+		Scanning,
+		Resetting
 	}
 }
 

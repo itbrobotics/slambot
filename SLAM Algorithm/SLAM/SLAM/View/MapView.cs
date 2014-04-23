@@ -194,12 +194,11 @@ namespace SLAM
 				cairoContext.Stroke ();
 			}
 
-			robotView.Draw (cairoContext, centerX, centerY, 1.0);
-			landmarkView.Draw (cairoContext, centerX, centerY, 1.0);
-
 			if (robotView.Robot.PathPointList.Count > 1)
 				pathView.Draw (cairoContext, centerX, centerY, 1.0);
 
+			robotView.Draw (cairoContext, centerX, centerY, 1.0);
+			landmarkView.Draw (cairoContext, centerX, centerY, 1.0);
 
 			((IDisposable)cairoContext.GetTarget()).Dispose ();                                      
 			((IDisposable)cairoContext).Dispose ();

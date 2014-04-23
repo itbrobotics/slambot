@@ -29,6 +29,38 @@ public class SerialProxy
 		}
 	}
 
+	public string Port
+	{
+		get
+		{
+			return serialPort.PortName;
+		}
+		set
+		{
+			serialPort.PortName = value;
+		}
+	}
+
+	public int BaudRate
+	{
+		get
+		{
+			return serialPort.BaudRate;
+		}
+		set
+		{
+			serialPort.BaudRate = value;
+		}
+	}
+
+	public bool IsOpen
+	{
+		get
+		{
+			return serialPort.IsOpen;
+		}
+	}
+
 	#endregion
 
 	#region Private Constructors
@@ -39,10 +71,9 @@ public class SerialProxy
 		{
 			// Create a new SerialPort object with default settings.
 			// Assuming that serial port will always be /dev/ttyACM0 here!
-			serialPort = new SerialPort ("/dev/ttyACM0", 9600);
-			serialPort.ReadTimeout = 500;
-			serialPort.WriteTimeout = 500;
-			serialPort.Open ();
+			serialPort = new SerialPort ("/dev/ttyUSB0", 9600);
+			serialPort.ReadTimeout = 1000;
+			serialPort.WriteTimeout = 1000;
 		}
 		catch (IOException ex)
 		{
@@ -56,14 +87,23 @@ public class SerialProxy
 
 	public void Start ()
 	{
-		readThread = new Thread (this.Read);
-		readThread.Start ();
+		try
+		{
+			serialPort.Open ();
+
+			readThread = new Thread (this.Read);
+			readThread.Start ();
+		}
+		catch (IOException ex)
+		{
+			Console.WriteLine (ex.ToString ());
+		}
 	}
 
 	public void Release ()
 	{
-		readThread.Abort ();
 		serialPort.Close ();
+		readThread.Abort ();
 	}
 
 	public void Send (char[] commands)
@@ -161,6 +201,10 @@ public class SerialProxy
 			catch (IndexOutOfRangeException ex)
 			{
 				Console.WriteLine (ex.ToString ());
+			}
+			catch (ThreadAbortException)
+			{
+				// Ignore it.
 			}
 			catch (Exception ex)
 			{

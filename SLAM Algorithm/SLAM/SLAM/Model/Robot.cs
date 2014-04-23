@@ -148,6 +148,13 @@ namespace SLAM
 
 				return position;
 			}
+			set
+			{
+				// This should be checked to make sure it is actually valid! 
+				x = value [0];
+				y = value [1];
+				heading = value [2];
+			}
 		}
 
 		/// <summary>
@@ -278,6 +285,14 @@ namespace SLAM
 			state = RobotState.Scanning;
 		}
 
+		public void Reset ()
+		{
+			char[] command = { 'z', '\n' };
+			SerialProxy.GetInstance.Send (command);
+
+			state = RobotState.Resetting;
+		}
+
 		/// <summary>
 		/// Updates the odometry.
 		/// </summary>
@@ -289,6 +304,7 @@ namespace SLAM
 			// First update.
 			if (originalRotation == double.MaxValue)
 			{
+				PathPointList.Add (new double[2] { x, y });
 				originalRotation = e.Theta;
 				raiseEvent = true;
 			}
