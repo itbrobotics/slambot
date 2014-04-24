@@ -27,13 +27,24 @@ void setup()
 
   mouseInit();
   //compassInit();
-
-  motor1.setSpeed(MOTOR_SPEED);
+MoterSpeedSlow();
+ 
+}
+void MoterSpeedFast(){
+   motor1.setSpeed(MOTOR_SPEED);
   motor2.setSpeed(MOTOR_SPEED);
   motor3.setSpeed(MOTOR_SPEED);
   motor4.setSpeed(MOTOR_SPEED);
+  
 }
-
+void MoterSpeedSlow(){
+  motor1.setSpeed(128);
+  motor2.setSpeed(128);
+  motor3.setSpeed(128);
+  motor4.setSpeed(128);
+  
+  
+}
 void loop()
 { 
   if (timeCount == 0.0)
@@ -363,6 +374,7 @@ void rotate(double heading)
 
 void goForward()
 {
+  MoterSpeedSlow();
   motor1.run(FORWARD);
   motor2.run(FORWARD);
   motor3.run(FORWARD);
@@ -371,6 +383,7 @@ void goForward()
 
 void goBackward()
 {
+  MoterSpeedSlow();
   motor1.run(BACKWARD);
   motor2.run(BACKWARD);
   motor3.run(BACKWARD);
@@ -379,6 +392,7 @@ void goBackward()
 
 void turnLeft()
 {
+  MoterSpeedFast();
   motor1.run(BACKWARD);
   motor2.run(FORWARD);
   motor3.run(FORWARD);
@@ -387,6 +401,7 @@ void turnLeft()
 
 void turnRight()
 {
+  MoterSpeedFast();
   motor1.run(FORWARD);
   motor2.run(BACKWARD);
   motor3.run(BACKWARD);

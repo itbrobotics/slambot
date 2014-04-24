@@ -50,15 +50,28 @@ namespace SLAM
 		/// <param name="centerX">Center x.</param>
 		/// <param name="centerY">Center y.</param>
 		/// <param name="scale">Scale currently unused.</param>
-		public void Draw (Cairo.Context cairoContext, int centerX, int centerY, double scale)
+		public void Draw (Cairo.Context cairoContext, int centerX, int centerY, double scale, Landmark[] a)
 		{
 			cairoContext.SetSourceRGB (0, 255, 0);
 
 			cairoContext.LineWidth = 1.0;
 			cairoContext.LineCap = LineCap.Butt;
 
+			for (int i = 0; i < a.Length; i++) {
+				// Draw the slope.
+				cairoContext.MoveTo (centerX + ((a[i].a / -a[i].b) * 100), centerY);
+				cairoContext.LineTo (centerX, centerY - (a[i].b * 100));
+
+				// Draw the line.
+				//cairoContext.MoveTo (centerX - (landmark.x1y1[0] * 100), centerY - (landmark.x1y1[1] * 100));
+				//cairoContext.LineTo (centerX - (landmark.x2y2[0] * 100), centerY - (landmark.x2y2[1] * 100));
+
+				cairoContext.Stroke ();
+
+			}/*
 			foreach (Landmark landmark in landmarks)
 			{
+
 				// Draw the slope.
 				cairoContext.MoveTo (centerX + ((landmark.b / -landmark.a) * 100), centerY);
 				cairoContext.LineTo (centerX, centerY - (landmark.b * 100));
@@ -68,7 +81,7 @@ namespace SLAM
 				//cairoContext.LineTo (centerX - (landmark.x2y2[0] * 100), centerY - (landmark.x2y2[1] * 100));
 
 				cairoContext.Stroke ();
-			} 
+			} */
 		}
 
 		#endregion

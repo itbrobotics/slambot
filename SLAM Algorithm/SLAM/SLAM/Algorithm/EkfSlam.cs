@@ -949,6 +949,15 @@ namespace SLAM
 					((Landmark)landmarkDB [i]).bearing = lm.bearing; // Set last bearing seen at.
 					((Landmark)landmarkDB [i]).range = lm.range; // Set last range seen at.
 
+					((Landmark)landmarkDB [i]).pos[0] = lm.pos[0];
+					((Landmark)landmarkDB [i]).pos[1] = lm.pos[1];
+
+					((Landmark)landmarkDB [i]).a = (((Landmark)landmarkDB [i]).a + lm.a)/2;
+					((Landmark)landmarkDB [i]).b = (((Landmark)landmarkDB [i]).a+lm.b)/2;
+
+
+
+					Console.Write ("\n\nentered\n\n");
 					return ((Landmark)landmarkDB [i]).id;
 				}
 			}
