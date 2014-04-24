@@ -5,6 +5,9 @@ using System.Collections.ObjectModel;
 
 namespace SLAM
 {
+	/// <summary>
+	/// Path view. Keeps Track of where the robot has been visually on the map
+	/// </summary>
 	public class PathView
 	{
 		Robot robot;
@@ -14,7 +17,10 @@ namespace SLAM
 		#endregion
 
 		#region Public Constructors
-
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SLAM.PathView"/> class.
+		/// </summary>
+		/// <param name="robotModel">The instance oif the robot that will be followed.</param>
 		public PathView (Robot robotModel)
 		{
 			robot = robotModel;
@@ -25,7 +31,13 @@ namespace SLAM
 		#endregion
 
 		#region Public Methods
-
+		/// <summary>
+		/// Draw the specified cairoContext, centerX, centerY and scale.
+		/// </summary>
+		/// <param name="cairoContext">Cairo context.</param>
+		/// <param name="centerX">Center x.</param>
+		/// <param name="centerY">Center y.</param>
+		/// <param name="scale">Scale.</param>
 		public void Draw (Cairo.Context cairoContext, int centerX, int centerY, double scale)
 		{
  
@@ -56,7 +68,11 @@ namespace SLAM
 		}
 
 		#endregion
-
+		/// <summary>
+		/// Path_s the update.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		private void Path_Update (object sender, RobotUpdateEventArgs e)
 		{
 			// On the first update.
