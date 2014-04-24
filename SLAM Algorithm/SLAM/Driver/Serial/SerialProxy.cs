@@ -71,7 +71,7 @@ public class SerialProxy
 		{
 			// Create a new SerialPort object with default settings.
 			// Assuming that serial port will always be /dev/ttyACM0 here!
-			serialPort = new SerialPort ("/dev/ttyUSB0", 9600);
+			serialPort = new SerialPort ("/dev/ttyACM0", 9600);
 			serialPort.ReadTimeout = 1000;
 			serialPort.WriteTimeout = 1000;
 		}

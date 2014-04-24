@@ -11,7 +11,7 @@ namespace SLAM
 	{
 		// Cell size for the map, this could be a public property but for
 		// simplicity it is like this for now.
-		public const double CellSize = 0.3; // Meters, cells are square i.e. 0.5 x 0.5.
+		private double cellSize; // Meters, cells are square i.e. 0.5 x 0.5.
 
 		private Robot robot; // The robot roaming around on this map.
 		private List<Landmark> landmarks; // All the landmarks found so far.
@@ -43,6 +43,18 @@ namespace SLAM
 			get
 			{
 				return landmarks.AsReadOnly ();
+			}
+		}
+
+		public double CellSize
+		{
+			get
+			{
+				return cellSize;
+			}
+			set
+			{
+				cellSize = value;
 			}
 		}
 
@@ -86,12 +98,14 @@ namespace SLAM
 		/// Initializes a new instance of the <see cref="SLAM.Map"/> class.
 		/// </summary>
 		/// <param name="robotModel">Robot roaming on this map.</param>
-		public SlamMap (Robot robotModel, double mapWidth, double mapHeight)
+		public SlamMap (Robot robotModel, double mapWidth, double mapHeight, double mapCellSize)
 		{
 			// Robot starts in the center of the map.
 			robot = robotModel;
 
 			landmarks = new List<Landmark>();
+
+			cellSize = mapCellSize;
 			width = mapWidth;
 			height = mapHeight;
 		}

@@ -20,6 +20,8 @@ namespace SLAM
 
 		// RANSAC: Now store equation of a line.
 		// slope (m) = -a / b
+		// y = a + bx 
+		// same as y = mx + c ?
 		public double a;
 		public double b;
 		public double rangeError; 	// Distance from robot position to the wall we are using as 

@@ -330,7 +330,7 @@ namespace SLAM
 				}
 
 				// Compute model M1.
-				// y = a + bx
+				// y = ax + b same as y = mx + c
 				double a = 0;
 				double b = 0;
 				double x1 = 0;

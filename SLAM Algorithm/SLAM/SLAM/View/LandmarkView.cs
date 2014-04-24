@@ -59,11 +59,16 @@ namespace SLAM
 
 			foreach (Landmark landmark in landmarks)
 			{
-				double slope = (landmark.b / landmark.a);
-
 				// Draw the slope.
-				cairoContext.MoveTo (centerX + (slope * 100), centerY);
-				cairoContext.LineTo (centerX, centerY - (landmark.b * 100));
+				//cairoContext.MoveTo (centerX + (slope * 100), centerY);
+				//cairoContext.LineTo (centerX, centerY - (landmark.b * 100));
+
+				// Draw the real line.
+				double x1 = (((-centerY) / 100) - landmark.b) / landmark.a;
+				double x2 = (((centerY) / 100) - landmark.b) / landmark.a;
+
+				cairoContext.MoveTo (centerX + (-x1 * 100), centerY * 2);
+				cairoContext.LineTo (centerX - (x2 * 100), 0);
 
 				// Draw the length of the line.
 				//cairoContext.MoveTo (centerX - (landmark.x1y1[0] * 100), centerY - (landmark.x1y1[1] * 100));

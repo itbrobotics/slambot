@@ -1,14 +1,16 @@
 ﻿<Properties GitUserInfo="UsingGIT">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ActiveRuntime="Mono 3.2.4" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Driver/Serial/SerialProxy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SLAM/Model/Robot.cs">
     <Files>
-      <File FileName="SLAM/View/MapView.cs" Line="1" Column="1" />
-      <File FileName="SLAM/View/LandmarkView.cs" Line="1" Column="1" />
-      <File FileName="Driver/Serial/SerialProxy.cs" Line="32" Column="20" />
+      <File FileName="SLAM/View/SetupDialog.cs" Line="72" Column="1" />
+      <File FileName="SLAM/View/LandmarkView.cs" Line="68" Column="8" />
+      <File FileName="SLAM/Model/Robot.cs" Line="334" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/jmd/Documents/Computer Degree/Year 3/Major Group Project/source/SLAM Algorithm/SLAM/SLAM/View/SetupWindow.cs" line="6" column="39" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="SLAM/View/MapWindow.cs" line="111" offsetX="486" offsetY="1980" expression="sender" liveUpdate="False" />

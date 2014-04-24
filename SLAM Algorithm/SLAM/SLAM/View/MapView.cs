@@ -112,8 +112,8 @@ namespace SLAM
 			// 1 pixel to every centimeter, so scale up by 100.
 			viewWidth = (int)(mapModel.Width * 100);
 			viewHeight = (int)(mapModel.Height * 100);
-			cellWidth = (int)(SlamMap.CellSize * 100);
-			cellHeight = (int)(SlamMap.CellSize * 100);
+			cellWidth = (int)(mapModel.CellSize * 100);
+			cellHeight = (int)(mapModel.CellSize * 100);
 			centerX = (int)(viewWidth / 2);
 			centerY = (int)(viewHeight / 2);
 

@@ -11,6 +11,8 @@ namespace SLAM
 
 		private Button createButton;
 
+		private Entry portEntry;
+
 		public SetupDialog () : base ("Setup Map")
 		{
 			cellSizeSpin = new SpinButton (0.1, 1.0, 0.1);
@@ -18,7 +20,13 @@ namespace SLAM
 			cellSizeSpin.Changed += CellSizeSpin_Changed;
 
 			widthSpin = new SpinButton (3.0, 10.0, 0.3);
+			widthSpin.Value = 9.9;
+
 			heightSpin = new SpinButton (3.0, 10.0, 0.3);
+			heightSpin.Value = 4.5;
+
+			portEntry = new Entry ("/dev/tty");
+			portEntry.Activated += PortEntry_Activated;
 
 			createButton = new Button ("Create");
 			createButton.Clicked += CreateButton_Clicked;
@@ -35,13 +43,19 @@ namespace SLAM
 			cellHBox.Add (new Label ("Cell Size: "));
 			cellHBox.Add (cellSizeSpin);
 
+			HBox portHBox = new HBox (false, 60);
+			portHBox.Add (new Label ("Port: "));
+			portHBox.Add (portEntry);
+
 			HBox createHbox = new HBox (false, 0);
 			createHbox.Add (createButton);
 
 			VBox vBox = new VBox (false, 10);
+			vBox.BorderWidth = 10;
 			vBox.Add (widthHBox);
 			vBox.Add (heightHBox);
 			vBox.Add (cellHBox);
+			vBox.Add (portHBox);
 			vBox.Add (createHbox);
 
 			Add (vBox);
@@ -53,9 +67,17 @@ namespace SLAM
 			{
 				Application.Quit ();
 			};
+
+			Shown += OnShown;
 		}
 
 		#region Private Event Handlers
+
+		private void OnShown (object sender, EventArgs args)
+		{
+			portEntry.GrabFocus ();
+			portEntry.Position = portEntry.Text.Length;
+		}
 
 		private void CellSizeSpin_Changed (object sender, EventArgs args)
 		{
@@ -65,9 +87,14 @@ namespace SLAM
 
 		private void CreateButton_Clicked (object sender, EventArgs args)
 		{
-			SLAM slam = new SLAM (widthSpin.Value, heightSpin.Value);
+			SLAM slam = new SLAM (widthSpin.Value, heightSpin.Value, cellSizeSpin.Value, portEntry.Text);
 			slam.Start ();
 			Destroy ();
+		}
+
+		private void PortEntry_Activated (object sender, EventArgs args)
+		{
+			createButton.GrabFocus ();
 		}
 
 		#endregion
