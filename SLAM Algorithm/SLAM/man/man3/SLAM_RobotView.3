@@ -1,0 +1,75 @@
+.TH "SLAM.RobotView" 3 "Thu Apr 24 2014" "SLAM" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SLAM.RobotView \- 
+.PP
+\fBRobot\fP view\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRobotView\fP (\fBRobot\fP robotModel)"
+.br
+.RI "\fIInitializes a new instance of the \fBSLAM\&.RobotView\fP class\&. \fP"
+.ti -1c
+.RI "void \fBDraw\fP (Cairo\&.Context cairoContext, int centerX, int centerY, double scale)"
+.br
+.RI "\fIDraw the robot taking into account the center x and y position of the map which will be different from the true center x and y positions on the drawing context\&. This method will result in a red wheeled robot with black tyres being drawn at the robots location on the map\&. \fP"
+.in -1c
+.SS "Properties"
+
+.in +1c
+.ti -1c
+.RI "\fBRobot\fP \fBRobot\fP\fC [get]\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBRobot\fP view\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "SLAM\&.RobotView\&.RobotView (\fBRobot\fProbotModel)"
+
+.PP
+Initializes a new instance of the \fBSLAM\&.RobotView\fP class\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrobotModel\fP \fBRobot\fP model that this view represents\&.
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void SLAM\&.RobotView\&.Draw (Cairo\&.ContextcairoContext, intcenterX, intcenterY, doublescale)"
+
+.PP
+Draw the robot taking into account the center x and y position of the map which will be different from the true center x and y positions on the drawing context\&. This method will result in a red wheeled robot with black tyres being drawn at the robots location on the map\&. The scale value is currently unused but it could be useful if the map was scaled in some way for example a mini-map may be 10 times smaller than the original results in 1:10 scale robot\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcairoContext\fP Cairo context to draw to (assuming a map)\&.
+.br
+\fIcenterX\fP Center x position of map to draw onto\&.
+.br
+\fIcenterY\fP Center y position of map to draw onto\&.
+.br
+\fIscale\fP Scale currently unused\&.
+.RE
+.PP
+
+.SH "Property Documentation"
+.PP 
+.SS "\fBRobot\fP SLAM\&.RobotView\&.Robot\fC [get]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for SLAM from the source code\&.

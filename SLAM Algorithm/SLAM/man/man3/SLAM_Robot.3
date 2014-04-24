@@ -1,0 +1,216 @@
+.TH "SLAM.Robot" 3 "Thu Apr 24 2014" "SLAM" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SLAM.Robot \- 
+.PP
+Contains the exploration robot model as part of the Model-View-Controller (MVC) design pattern\&. This class does not contain any view specific code instead it acts as a state model for the robot recording its current x and y position, rotation, and state\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRobot\fP ()"
+.br
+.RI "\fIInitializes a new instance of the \fBSLAM\&.Robot\fP class with the default settings for the Pirate robot platform\&. \fP"
+.ti -1c
+.RI "\fBRobot\fP (double xPosition, double yPosition, double currentRotation, \fBRobotState\fP currentState, double robotWidth, double robotHeight, double cpi)"
+.br
+.RI "\fIInitializes a new instance of the \fBSLAM\&.Robot\fP class\&. \fP"
+.ti -1c
+.RI "void \fBGoFoward\fP ()"
+.br
+.ti -1c
+.RI "void \fBGoBackward\fP ()"
+.br
+.ti -1c
+.RI "void \fBRotateLeft\fP ()"
+.br
+.ti -1c
+.RI "void \fBRotateRight\fP ()"
+.br
+.ti -1c
+.RI "void \fBHalt\fP ()"
+.br
+.ti -1c
+.RI "void \fBScan\fP ()"
+.br
+.ti -1c
+.RI "void \fBUpdateOdometry\fP (OdometryUpdateEventArgs e)"
+.br
+.RI "\fIUpdates the odometry\&. \fP"
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBOnRobotUpdate\fP (\fBRobotUpdateEventArgs\fP e)"
+.br
+.RI "\fIRaises the robot update event\&. \fP"
+.in -1c
+.SS "Properties"
+
+.in +1c
+.ti -1c
+.RI "double \fBX\fP\fC [get, set]\fP"
+.br
+.RI "\fIGets or sets the x position of the robot in its environment\&. \fP"
+.ti -1c
+.RI "double \fBY\fP\fC [get, set]\fP"
+.br
+.RI "\fIGets or sets the y position of the robot in its environment\&. \fP"
+.ti -1c
+.RI "double \fBHeading\fP\fC [get, set]\fP"
+.br
+.RI "\fIGets or sets the rotation of the robot in radians\&. \fP"
+.ti -1c
+.RI "\fBRobotState\fP \fBState\fP\fC [get, set]\fP"
+.br
+.RI "\fIGets or sets the state of the robot \fBSLAM\&.RobotState\fP\&. \fP"
+.ti -1c
+.RI "double \fBWidth\fP\fC [get]\fP"
+.br
+.RI "\fIGets the width\&. \fP"
+.ti -1c
+.RI "double \fBHeight\fP\fC [get]\fP"
+.br
+.RI "\fIGets the height\&. \fP"
+.ti -1c
+.RI "double[] \fBPosition\fP\fC [get]\fP"
+.br
+.RI "\fIGets the robot's position as an array containing x, y, and rotation\&. \fP"
+.ti -1c
+.RI "double \fBCpi\fP\fC [get, set]\fP"
+.br
+.RI "\fIGets or sets the cpi of the mouse sensor\&. \fP"
+.ti -1c
+.RI "List< double[]> \fBPathPointList\fP\fC [get, set]\fP"
+.br
+.RI "\fIGets or sets the x position of the robot in its environment\&. \fP"
+.in -1c
+.SS "Events"
+
+.in +1c
+.ti -1c
+.RI "EventHandler
+.br
+< \fBRobotUpdateEventArgs\fP > \fBRobotUpdated\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Contains the exploration robot model as part of the Model-View-Controller (MVC) design pattern\&. This class does not contain any view specific code instead it acts as a state model for the robot recording its current x and y position, rotation, and state\&. 
+
+Whenever there is a change to the robot a \fC\fBRobotUpdateEventArgs\fP\fP is raised to inform any observers that there has been an update to the robot's state\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "SLAM\&.Robot\&.Robot ()"
+
+.PP
+Initializes a new instance of the \fBSLAM\&.Robot\fP class with the default settings for the Pirate robot platform\&. 
+.SS "SLAM\&.Robot\&.Robot (doublexPosition, doubleyPosition, doublecurrentRotation, \fBRobotState\fPcurrentState, doublerobotWidth, doublerobotHeight, doublecpi)"
+
+.PP
+Initializes a new instance of the \fBSLAM\&.Robot\fP class\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIxPosition\fP X position in meters\&.
+.br
+\fIyPosition\fP Y position in meters\&.
+.br
+\fIcurrentRotation\fP Current rotation in radians\&.
+.br
+\fIcurrentState\fP Current state \fBSLAM\&.RobotState\fP\&.
+.br
+\fIrobotWidth\fP \fBRobot\fP width in meters\&.
+.br
+\fIrobotHeight\fP \fBRobot\fP height in meters\&.
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void SLAM\&.Robot\&.GoBackward ()"
+
+.SS "void SLAM\&.Robot\&.GoFoward ()"
+
+.SS "void SLAM\&.Robot\&.Halt ()"
+
+.SS "virtual void SLAM\&.Robot\&.OnRobotUpdate (\fBRobotUpdateEventArgs\fPe)\fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Raises the robot update event\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP E\&.
+.RE
+.PP
+
+.SS "void SLAM\&.Robot\&.RotateLeft ()"
+
+.SS "void SLAM\&.Robot\&.RotateRight ()"
+
+.SS "void SLAM\&.Robot\&.Scan ()"
+
+.SS "void SLAM\&.Robot\&.UpdateOdometry (OdometryUpdateEventArgse)"
+
+.PP
+Updates the odometry\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP E\&.
+.RE
+.PP
+
+.SH "Property Documentation"
+.PP 
+.SS "double SLAM\&.Robot\&.Cpi\fC [get]\fP, \fC [set]\fP"
+
+.PP
+Gets or sets the cpi of the mouse sensor\&. The cpi resolution\&.
+.SS "double SLAM\&.Robot\&.Heading\fC [get]\fP, \fC [set]\fP"
+
+.PP
+Gets or sets the rotation of the robot in radians\&. The new rotation in radians\&.
+.SS "double SLAM\&.Robot\&.Height\fC [get]\fP"
+
+.PP
+Gets the height\&. The height of the robot in meters\&.
+.SS "List<double[]> SLAM\&.Robot\&.PathPointList\fC [get]\fP, \fC [set]\fP"
+
+.PP
+Gets or sets the x position of the robot in its environment\&. The new x position in meters\&.
+.SS "double [] SLAM\&.Robot\&.Position\fC [get]\fP"
+
+.PP
+Gets the robot's position as an array containing x, y, and rotation\&. The position as an array\&.
+.SS "\fBRobotState\fP SLAM\&.Robot\&.State\fC [get]\fP, \fC [set]\fP"
+
+.PP
+Gets or sets the state of the robot \fBSLAM\&.RobotState\fP\&. The new state of the robot\&.
+.SS "double SLAM\&.Robot\&.Width\fC [get]\fP"
+
+.PP
+Gets the width\&. The width of the robot in meters\&.
+.SS "double SLAM\&.Robot\&.X\fC [get]\fP, \fC [set]\fP"
+
+.PP
+Gets or sets the x position of the robot in its environment\&. The new x position in meters\&.
+.SS "double SLAM\&.Robot\&.Y\fC [get]\fP, \fC [set]\fP"
+
+.PP
+Gets or sets the y position of the robot in its environment\&. The new y position in meters\&.
+.SH "Event Documentation"
+.PP 
+.SS "EventHandler<\fBRobotUpdateEventArgs\fP> SLAM\&.Robot\&.RobotUpdated"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for SLAM from the source code\&.

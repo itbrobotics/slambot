@@ -1,0 +1,64 @@
+.TH "SLAM.PathView" 3 "Thu Apr 24 2014" "SLAM" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SLAM.PathView \- 
+.PP
+Path view\&. Keeps Track of where the robot has been visually on the map  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBPathView\fP (\fBRobot\fP robotModel)"
+.br
+.RI "\fIInitializes a new instance of the \fBSLAM\&.PathView\fP class\&. \fP"
+.ti -1c
+.RI "void \fBDraw\fP (Cairo\&.Context cairoContext, int centerX, int centerY, double scale)"
+.br
+.RI "\fIDraw the specified cairoContext, centerX, centerY and scale\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Path view\&. Keeps Track of where the robot has been visually on the map 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "SLAM\&.PathView\&.PathView (\fBRobot\fProbotModel)"
+
+.PP
+Initializes a new instance of the \fBSLAM\&.PathView\fP class\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrobotModel\fP The instance oif the robot that will be followed\&.
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void SLAM\&.PathView\&.Draw (Cairo\&.ContextcairoContext, intcenterX, intcenterY, doublescale)"
+
+.PP
+Draw the specified cairoContext, centerX, centerY and scale\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcairoContext\fP Cairo context\&.
+.br
+\fIcenterX\fP Center x\&.
+.br
+\fIcenterY\fP Center y\&.
+.br
+\fIscale\fP Scale\&.
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for SLAM from the source code\&.

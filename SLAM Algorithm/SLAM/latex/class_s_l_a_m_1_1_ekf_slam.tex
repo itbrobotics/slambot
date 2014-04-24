@@ -1,0 +1,177 @@
+\section{S\-L\-A\-M.\-Ekf\-Slam Class Reference}
+\label{class_s_l_a_m_1_1_ekf_slam}\index{S\-L\-A\-M.\-Ekf\-Slam@{S\-L\-A\-M.\-Ekf\-Slam}}
+
+
+Summary description for Landmarks.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf Get\-Slam\-I\-D} (int id)
+\item 
+int {\bf Get\-D\-B\-Size} ()
+\item 
+{\bf Landmark}[$\,$] {\bf Get\-D\-B} ()
+\item 
+{\bf Ekf\-Slam} (double degrees\-Per\-Scan)
+\item 
+int {\bf Add\-Slam\-I\-D} (int landmark\-I\-D, int slam\-I\-D)
+\item 
+int {\bf Remove\-Bad\-Landmarks} (double[$\,$] laserdata, double[$\,$] robot\-Position)
+\item 
+{\bf Landmark}[$\,$] {\bf Update\-And\-Add\-Line\-Landmarks} ({\bf Landmark}[$\,$] extracted\-Landmarks)
+\item 
+{\bf Landmark}[$\,$] {\bf Update\-And\-Add\-Landmarks\-Using\-E\-K\-F\-Results} (bool[$\,$] matched, int[$\,$] id, double[$\,$] ranges, double[$\,$] bearings, double[$\,$] robot\-Position)
+\item 
+int {\bf Update\-Line\-Landmark} ({\bf Landmark} lm)
+\item 
+{\bf Landmark}[$\,$] {\bf Extract\-Line\-Landmarks} (double[$\,$] laserdata, double[$\,$] robot\-Position)
+\item 
+{\bf Landmark}[$\,$] {\bf Extract\-Spike\-Landmarks} (double[$\,$] laserdata, double[$\,$] robot\-Position)
+\item 
+{\bf Landmark}[$\,$] {\bf Remove\-Doubles} ({\bf Landmark}[$\,$] extracted\-Landmarks)
+\item 
+int {\bf Align\-Landmark\-Data} ({\bf Landmark}[$\,$] extracted\-Landmarks, ref bool[$\,$] matched, ref int[$\,$] id, ref double[$\,$] ranges, ref double[$\,$] bearings, ref double[,] lmrks, ref double[,] exlmrks)
+\item 
+int {\bf Add\-To\-D\-B} ({\bf Landmark} lm)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf M\-I\-N\-O\-B\-S\-E\-R\-V\-A\-T\-I\-O\-N\-S} = 15
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Summary description for Landmarks. 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Ekf\-Slam@{Ekf\-Slam}}
+\index{Ekf\-Slam@{Ekf\-Slam}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Ekf\-Slam}]{\setlength{\rightskip}{0pt plus 5cm}S\-L\-A\-M.\-Ekf\-Slam.\-Ekf\-Slam (
+\begin{DoxyParamCaption}
+\item[{double}]{degrees\-Per\-Scan}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_a86644c7c3998c110c2c8676556bfac0d}
+
+
+\subsection{Member Function Documentation}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Add\-Slam\-I\-D@{Add\-Slam\-I\-D}}
+\index{Add\-Slam\-I\-D@{Add\-Slam\-I\-D}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Add\-Slam\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}int S\-L\-A\-M.\-Ekf\-Slam.\-Add\-Slam\-I\-D (
+\begin{DoxyParamCaption}
+\item[{int}]{landmark\-I\-D, }
+\item[{int}]{slam\-I\-D}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_acf8e4dd8c750892a2cf65b4dcac681e9}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Add\-To\-D\-B@{Add\-To\-D\-B}}
+\index{Add\-To\-D\-B@{Add\-To\-D\-B}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Add\-To\-D\-B}]{\setlength{\rightskip}{0pt plus 5cm}int S\-L\-A\-M.\-Ekf\-Slam.\-Add\-To\-D\-B (
+\begin{DoxyParamCaption}
+\item[{{\bf Landmark}}]{lm}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_a30209de08864411b6c5e9dd0c247fe7f}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Align\-Landmark\-Data@{Align\-Landmark\-Data}}
+\index{Align\-Landmark\-Data@{Align\-Landmark\-Data}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Align\-Landmark\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int S\-L\-A\-M.\-Ekf\-Slam.\-Align\-Landmark\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf Landmark}[$\,$]}]{extracted\-Landmarks, }
+\item[{ref bool[$\,$]}]{matched, }
+\item[{ref int[$\,$]}]{id, }
+\item[{ref double[$\,$]}]{ranges, }
+\item[{ref double[$\,$]}]{bearings, }
+\item[{ref double}]{lmrks[,], }
+\item[{ref double}]{exlmrks[,]}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_a0bd71b3fd15dba7c889e2243c4620244}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Extract\-Line\-Landmarks@{Extract\-Line\-Landmarks}}
+\index{Extract\-Line\-Landmarks@{Extract\-Line\-Landmarks}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Extract\-Line\-Landmarks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Landmark} [$\,$] S\-L\-A\-M.\-Ekf\-Slam.\-Extract\-Line\-Landmarks (
+\begin{DoxyParamCaption}
+\item[{double[$\,$]}]{laserdata, }
+\item[{double[$\,$]}]{robot\-Position}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_ae8903098ec84c567951260e42dccf73d}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Extract\-Spike\-Landmarks@{Extract\-Spike\-Landmarks}}
+\index{Extract\-Spike\-Landmarks@{Extract\-Spike\-Landmarks}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Extract\-Spike\-Landmarks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Landmark} [$\,$] S\-L\-A\-M.\-Ekf\-Slam.\-Extract\-Spike\-Landmarks (
+\begin{DoxyParamCaption}
+\item[{double[$\,$]}]{laserdata, }
+\item[{double[$\,$]}]{robot\-Position}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_a7b16899549979c6079f08c03aa9244ad}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Get\-D\-B@{Get\-D\-B}}
+\index{Get\-D\-B@{Get\-D\-B}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Get\-D\-B}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Landmark} [$\,$] S\-L\-A\-M.\-Ekf\-Slam.\-Get\-D\-B (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_a8baba89ebf17aaab0ddd4360ec5aafe3}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Get\-D\-B\-Size@{Get\-D\-B\-Size}}
+\index{Get\-D\-B\-Size@{Get\-D\-B\-Size}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Get\-D\-B\-Size}]{\setlength{\rightskip}{0pt plus 5cm}int S\-L\-A\-M.\-Ekf\-Slam.\-Get\-D\-B\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_a58b8e7181fab902ade2478dd85a4663d}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Get\-Slam\-I\-D@{Get\-Slam\-I\-D}}
+\index{Get\-Slam\-I\-D@{Get\-Slam\-I\-D}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Get\-Slam\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}int S\-L\-A\-M.\-Ekf\-Slam.\-Get\-Slam\-I\-D (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_a6210b25d5a2606d4972cf169792660a0}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Remove\-Bad\-Landmarks@{Remove\-Bad\-Landmarks}}
+\index{Remove\-Bad\-Landmarks@{Remove\-Bad\-Landmarks}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Remove\-Bad\-Landmarks}]{\setlength{\rightskip}{0pt plus 5cm}int S\-L\-A\-M.\-Ekf\-Slam.\-Remove\-Bad\-Landmarks (
+\begin{DoxyParamCaption}
+\item[{double[$\,$]}]{laserdata, }
+\item[{double[$\,$]}]{robot\-Position}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_ae0d5dd8c5b8170776da3cd67119b6311}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Remove\-Doubles@{Remove\-Doubles}}
+\index{Remove\-Doubles@{Remove\-Doubles}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Remove\-Doubles}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Landmark} [$\,$] S\-L\-A\-M.\-Ekf\-Slam.\-Remove\-Doubles (
+\begin{DoxyParamCaption}
+\item[{{\bf Landmark}[$\,$]}]{extracted\-Landmarks}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_a8bbf545d0ee3d996d32ecd4722adf567}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Update\-And\-Add\-Landmarks\-Using\-E\-K\-F\-Results@{Update\-And\-Add\-Landmarks\-Using\-E\-K\-F\-Results}}
+\index{Update\-And\-Add\-Landmarks\-Using\-E\-K\-F\-Results@{Update\-And\-Add\-Landmarks\-Using\-E\-K\-F\-Results}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Update\-And\-Add\-Landmarks\-Using\-E\-K\-F\-Results}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Landmark} [$\,$] S\-L\-A\-M.\-Ekf\-Slam.\-Update\-And\-Add\-Landmarks\-Using\-E\-K\-F\-Results (
+\begin{DoxyParamCaption}
+\item[{bool[$\,$]}]{matched, }
+\item[{int[$\,$]}]{id, }
+\item[{double[$\,$]}]{ranges, }
+\item[{double[$\,$]}]{bearings, }
+\item[{double[$\,$]}]{robot\-Position}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_a16ec3dbf9abdb7d4f57f2ed6c97b9632}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Update\-And\-Add\-Line\-Landmarks@{Update\-And\-Add\-Line\-Landmarks}}
+\index{Update\-And\-Add\-Line\-Landmarks@{Update\-And\-Add\-Line\-Landmarks}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Update\-And\-Add\-Line\-Landmarks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Landmark} [$\,$] S\-L\-A\-M.\-Ekf\-Slam.\-Update\-And\-Add\-Line\-Landmarks (
+\begin{DoxyParamCaption}
+\item[{{\bf Landmark}[$\,$]}]{extracted\-Landmarks}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_aa9182544bf8297701b04eb87391a7941}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!Update\-Line\-Landmark@{Update\-Line\-Landmark}}
+\index{Update\-Line\-Landmark@{Update\-Line\-Landmark}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{Update\-Line\-Landmark}]{\setlength{\rightskip}{0pt plus 5cm}int S\-L\-A\-M.\-Ekf\-Slam.\-Update\-Line\-Landmark (
+\begin{DoxyParamCaption}
+\item[{{\bf Landmark}}]{lm}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_ekf_slam_aac6d404cd9bc07a96a75e9ab7426f6bd}
+
+
+\subsection{Member Data Documentation}
+\index{S\-L\-A\-M\-::\-Ekf\-Slam@{S\-L\-A\-M\-::\-Ekf\-Slam}!M\-I\-N\-O\-B\-S\-E\-R\-V\-A\-T\-I\-O\-N\-S@{M\-I\-N\-O\-B\-S\-E\-R\-V\-A\-T\-I\-O\-N\-S}}
+\index{M\-I\-N\-O\-B\-S\-E\-R\-V\-A\-T\-I\-O\-N\-S@{M\-I\-N\-O\-B\-S\-E\-R\-V\-A\-T\-I\-O\-N\-S}!SLAM::EkfSlam@{S\-L\-A\-M\-::\-Ekf\-Slam}}
+\subsubsection[{M\-I\-N\-O\-B\-S\-E\-R\-V\-A\-T\-I\-O\-N\-S}]{\setlength{\rightskip}{0pt plus 5cm}int S\-L\-A\-M.\-Ekf\-Slam.\-M\-I\-N\-O\-B\-S\-E\-R\-V\-A\-T\-I\-O\-N\-S = 15}\label{class_s_l_a_m_1_1_ekf_slam_af69d628cdb6376158868e9bafde91280}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+S\-L\-A\-M/\-Algorithm/{\bf Ekf\-Slam.\-cs}\end{DoxyCompactItemize}

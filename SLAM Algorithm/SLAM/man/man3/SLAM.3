@@ -1,0 +1,91 @@
+.TH "SLAM" 3 "Thu Apr 24 2014" "SLAM" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SLAM \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBEkfSlam\fP"
+.br
+.RI "\fISummary description for Landmarks\&. \fP"
+.ti -1c
+.RI "class \fBMapUpdateEventArgs\fP"
+.br
+.RI "\fIAn event to handle any updates to the map\&. \fP"
+.ti -1c
+.RI "class \fBRobotUpdateEventArgs\fP"
+.br
+.RI "\fIAn event to handle any updates to the robot\&. \fP"
+.ti -1c
+.RI "class \fBLandmark\fP"
+.br
+.RI "\fI\fBLandmark\fP\&. \fP"
+.ti -1c
+.RI "class \fBRobot\fP"
+.br
+.RI "\fIContains the exploration robot model as part of the Model-View-Controller (MVC) design pattern\&. This class does not contain any view specific code instead it acts as a state model for the robot recording its current x and y position, rotation, and state\&. \fP"
+.ti -1c
+.RI "class \fBSlamMap\fP"
+.br
+.RI "\fIMap\&. \fP"
+.ti -1c
+.RI "class \fBSLAM\fP"
+.br
+.ti -1c
+.RI "class \fBLandmarkView\fP"
+.br
+.RI "\fI\fBLandmark\fP view\&. \fP"
+.ti -1c
+.RI "class \fBMapView\fP"
+.br
+.RI "\fIMap view\&. \fP"
+.ti -1c
+.RI "class \fBMapWindow\fP"
+.br
+.RI "\fIMap window\&. \fP"
+.ti -1c
+.RI "class \fBPathView\fP"
+.br
+.RI "\fIPath view\&. Keeps Track of where the robot has been visually on the map \fP"
+.ti -1c
+.RI "class \fBRobotView\fP"
+.br
+.RI "\fI\fBRobot\fP view\&. \fP"
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBRobotState\fP { \fBRobotState\&.MovingForward\fP, \fBRobotState\&.MovingBackward\fP, \fBRobotState\&.RotatingLeft\fP, \fBRobotState\&.RotatingRight\fP, \fBRobotState\&.Halted\fP, \fBRobotState\&.Scanning\fP }"
+.br
+.RI "\fIRobot state\&. \fP"
+.in -1c
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBSLAM\&.RobotState\fP"
+
+.PP
+\fBRobot\fP state\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIMovingForward \fP\fP
+.TP
+\fB\fIMovingBackward \fP\fP
+.TP
+\fB\fIRotatingLeft \fP\fP
+.TP
+\fB\fIRotatingRight \fP\fP
+.TP
+\fB\fIHalted \fP\fP
+.TP
+\fB\fIScanning \fP\fP
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for SLAM from the source code\&.

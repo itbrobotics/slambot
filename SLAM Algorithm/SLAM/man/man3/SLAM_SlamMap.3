@@ -1,0 +1,194 @@
+.TH "SLAM.SlamMap" 3 "Thu Apr 24 2014" "SLAM" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SLAM.SlamMap \- 
+.PP
+Map\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSlamMap\fP (\fBRobot\fP robotModel, double mapWidth, double mapHeight)"
+.br
+.RI "\fIInitializes a new instance of the SLAM\&.Map class\&. \fP"
+.ti -1c
+.RI "void \fBAddLandmark\fP (\fBLandmark\fP landmark)"
+.br
+.RI "\fIAdds a single landmark to the map\&. \fP"
+.ti -1c
+.RI "void \fBAddLandmarks\fP (\fBLandmark\fP[] landmarkArray)"
+.br
+.RI "\fIAdds a range of landmarks to the map\&. \fP"
+.ti -1c
+.RI "void \fBAddLandmarks\fP (List< \fBLandmark\fP > landmarkList)"
+.br
+.RI "\fIAdds a range of landmarks to the map\&. \fP"
+.ti -1c
+.RI "void \fBUpdateLandmarks\fP (\fBLandmark\fP[] landmarkArray)"
+.br
+.RI "\fIUpdates the landmarks\&. \fP"
+.ti -1c
+.RI "void \fBUpdateLandmarks\fP (List< \fBLandmark\fP > landmarkList)"
+.br
+.RI "\fIUpdates the landmarks\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "const double \fBCellSize\fP = 0\&.3"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBOnMapUpdate\fP (\fBMapUpdateEventArgs\fP e)"
+.br
+.RI "\fIRaises the map update event\&. \fP"
+.in -1c
+.SS "Properties"
+
+.in +1c
+.ti -1c
+.RI "\fBRobot\fP \fBRobot\fP\fC [get]\fP"
+.br
+.RI "\fIGet the robot on this map\&. \fP"
+.ti -1c
+.RI "ReadOnlyCollection< \fBLandmark\fP > \fBLandmarks\fP\fC [get]\fP"
+.br
+.ti -1c
+.RI "double \fBWidth\fP\fC [get, set]\fP"
+.br
+.RI "\fIGets or sets the width\&. \fP"
+.ti -1c
+.RI "double \fBHeight\fP\fC [get, set]\fP"
+.br
+.RI "\fIGets or sets the height\&. \fP"
+.in -1c
+.SS "Events"
+
+.in +1c
+.ti -1c
+.RI "EventHandler< \fBMapUpdateEventArgs\fP > \fBMapUpdated\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Map\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "SLAM\&.SlamMap\&.SlamMap (\fBRobot\fProbotModel, doublemapWidth, doublemapHeight)"
+
+.PP
+Initializes a new instance of the SLAM\&.Map class\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrobotModel\fP \fBRobot\fP roaming on this map\&.
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void SLAM\&.SlamMap\&.AddLandmark (\fBLandmark\fPlandmark)"
+
+.PP
+Adds a single landmark to the map\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlandmark\fP \fBLandmark\fP\&.
+.RE
+.PP
+
+.SS "void SLAM\&.SlamMap\&.AddLandmarks (\fBLandmark\fP[]landmarkArray)"
+
+.PP
+Adds a range of landmarks to the map\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlandmarkArray\fP \fBLandmark\fP array\&.
+.RE
+.PP
+
+.SS "void SLAM\&.SlamMap\&.AddLandmarks (List< \fBLandmark\fP >landmarkList)"
+
+.PP
+Adds a range of landmarks to the map\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlandmarkList\fP \fBLandmark\fP list\&.
+.RE
+.PP
+
+.SS "virtual void SLAM\&.SlamMap\&.OnMapUpdate (\fBMapUpdateEventArgs\fPe)\fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Raises the map update event\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIe\fP E\&.
+.RE
+.PP
+
+.SS "void SLAM\&.SlamMap\&.UpdateLandmarks (\fBLandmark\fP[]landmarkArray)"
+
+.PP
+Updates the landmarks\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlandmarkArray\fP \fBLandmark\fP array\&.
+.RE
+.PP
+
+.SS "void SLAM\&.SlamMap\&.UpdateLandmarks (List< \fBLandmark\fP >landmarkList)"
+
+.PP
+Updates the landmarks\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlandmarkList\fP \fBLandmark\fP list\&.
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "const double SLAM\&.SlamMap\&.CellSize = 0\&.3"
+
+.SH "Property Documentation"
+.PP 
+.SS "double SLAM\&.SlamMap\&.Height\fC [get]\fP, \fC [set]\fP"
+
+.PP
+Gets or sets the height\&. The height in meters\&.
+.SS "ReadOnlyCollection<\fBLandmark\fP> SLAM\&.SlamMap\&.Landmarks\fC [get]\fP"
+
+.SS "\fBRobot\fP SLAM\&.SlamMap\&.Robot\fC [get]\fP"
+
+.PP
+Get the robot on this map\&. The robot\&.
+.SS "double SLAM\&.SlamMap\&.Width\fC [get]\fP, \fC [set]\fP"
+
+.PP
+Gets or sets the width\&. The width in meters\&.
+.SH "Event Documentation"
+.PP 
+.SS "EventHandler<\fBMapUpdateEventArgs\fP> SLAM\&.SlamMap\&.MapUpdated"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for SLAM from the source code\&.
