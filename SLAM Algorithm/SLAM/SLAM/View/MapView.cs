@@ -13,7 +13,7 @@ namespace SLAM
 		private RobotView robotView;
 		private LandmarkView landmarkView;
 		private PathView pathView;
-		private EkfSlam currSlam;
+		/*private EkfSlam currSlam;*/
 
 		// Some dimensions and coordinates related to drawing the map.
 		private int viewWidth;
@@ -97,10 +97,10 @@ namespace SLAM
 		/// Initializes a new instance of the <see cref="SLAM.MapView"/> class.
 		/// </summary>
 		/// <param name="mapModel">Map model.</param>
-		public MapView (SlamMap mapModel, EkfSlam SlamInstance)
+		public MapView (SlamMap mapModel/*/, EkfSlam SlamInstance*/)
 		{
 			this.mapModel = mapModel;
-			currSlam = SlamInstance;
+			//currSlam = SlamInstance;
 			//mapModel.Landmarks = SlamInstance.GetDB ();
 			robotView = new RobotView (mapModel.Robot);
 			landmarkView = new LandmarkView (mapModel.Landmarks);
@@ -196,9 +196,9 @@ namespace SLAM
 				cairoContext.LineTo (viewWidth, position + 0.5);
 				cairoContext.Stroke ();
 			}
-			Landmark[] a = currSlam.GetDB ();
+			/*Landmark[] a = currSlam.GetDB ();*/
 			robotView.Draw (cairoContext, centerX, centerY, 1.0);
-			landmarkView.Draw (cairoContext, centerX, centerY, 1.0, a );
+			landmarkView.Draw (cairoContext, centerX, centerY, 1.0/*, a*/ );
 		    
 			if (robotView.Robot.PathPointList.Count > 1)
 				pathView.Draw (cairoContext, centerX, centerY, 1.0);

@@ -38,7 +38,7 @@ namespace SLAM
 			map = new SlamMap (robot, 6.3, 3.3);
 
 			ekfSlam = new EkfSlam (1); // 1 degree per scan.
-			mapView = new MapView (map,ekfSlam);
+			mapView = new MapView (map/*,ekfSlam*/);
 
 			proxy = SerialProxy.GetInstance;
 			proxy.OdometryUpdated += new EventHandler<OdometryUpdateEventArgs> (SerialProxy_OdometryUpdate);
