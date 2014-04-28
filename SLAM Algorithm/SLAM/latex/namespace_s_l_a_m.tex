@@ -1,0 +1,69 @@
+\section{Package S\-L\-A\-M}
+\label{namespace_s_l_a_m}\index{S\-L\-A\-M@{S\-L\-A\-M}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bf Ekf\-Slam}
+\begin{DoxyCompactList}\small\item\em Summary description for Landmarks. \end{DoxyCompactList}\item 
+class {\bf Map\-Update\-Event\-Args}
+\begin{DoxyCompactList}\small\item\em An event to handle any updates to the map. \end{DoxyCompactList}\item 
+class {\bf Robot\-Update\-Event\-Args}
+\begin{DoxyCompactList}\small\item\em An event to handle any updates to the robot. \end{DoxyCompactList}\item 
+class {\bf Landmark}
+\begin{DoxyCompactList}\small\item\em \doxyref{Landmark}{p.}{class_s_l_a_m_1_1_landmark}. \end{DoxyCompactList}\item 
+class {\bf Robot}
+\begin{DoxyCompactList}\small\item\em Contains the exploration robot model as part of the Model-\/\-View-\/\-Controller (M\-V\-C) design pattern. This class does not contain any view specific code instead it acts as a state model for the robot recording its current x and y position, rotation, and state. \end{DoxyCompactList}\item 
+class {\bf Slam\-Map}
+\begin{DoxyCompactList}\small\item\em Map. \end{DoxyCompactList}\item 
+class {\bf S\-L\-A\-M}
+\item 
+class {\bf Landmark\-View}
+\begin{DoxyCompactList}\small\item\em \doxyref{Landmark}{p.}{class_s_l_a_m_1_1_landmark} view. \end{DoxyCompactList}\item 
+class {\bf Map\-View}
+\begin{DoxyCompactList}\small\item\em Map view. \end{DoxyCompactList}\item 
+class {\bf Map\-Window}
+\begin{DoxyCompactList}\small\item\em Map window. \end{DoxyCompactList}\item 
+class {\bf Path\-View}
+\begin{DoxyCompactList}\small\item\em Path view. Keeps Track of where the robot has been visually on the map \end{DoxyCompactList}\item 
+class {\bf Robot\-View}
+\begin{DoxyCompactList}\small\item\em \doxyref{Robot}{p.}{class_s_l_a_m_1_1_robot} view. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf Robot\-State} \{ \\*
+{\bf Robot\-State.\-Moving\-Forward}, 
+{\bf Robot\-State.\-Moving\-Backward}, 
+{\bf Robot\-State.\-Rotating\-Left}, 
+{\bf Robot\-State.\-Rotating\-Right}, 
+\\*
+{\bf Robot\-State.\-Halted}, 
+{\bf Robot\-State.\-Scanning}
+ \}
+\begin{DoxyCompactList}\small\item\em Robot state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\index{S\-L\-A\-M@{S\-L\-A\-M}!Robot\-State@{Robot\-State}}
+\index{Robot\-State@{Robot\-State}!SLAM@{S\-L\-A\-M}}
+\subsubsection[{Robot\-State}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf S\-L\-A\-M.\-Robot\-State}}\label{namespace_s_l_a_m_af423bd61f5623a682e45a0d9430cf946}
+
+
+\doxyref{Robot}{p.}{class_s_l_a_m_1_1_robot} state. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Moving\-Forward@{Moving\-Forward}!S\-L\-A\-M@{S\-L\-A\-M}}\index{S\-L\-A\-M@{S\-L\-A\-M}!Moving\-Forward@{Moving\-Forward}}\item[{\em 
+Moving\-Forward\label{namespace_s_l_a_m_af423bd61f5623a682e45a0d9430cf946af132ce714faeb12ac8ce177f29829e71}
+}]\index{Moving\-Backward@{Moving\-Backward}!S\-L\-A\-M@{S\-L\-A\-M}}\index{S\-L\-A\-M@{S\-L\-A\-M}!Moving\-Backward@{Moving\-Backward}}\item[{\em 
+Moving\-Backward\label{namespace_s_l_a_m_af423bd61f5623a682e45a0d9430cf946a534be42511e11f8aeb9bfded064ffe8e}
+}]\index{Rotating\-Left@{Rotating\-Left}!S\-L\-A\-M@{S\-L\-A\-M}}\index{S\-L\-A\-M@{S\-L\-A\-M}!Rotating\-Left@{Rotating\-Left}}\item[{\em 
+Rotating\-Left\label{namespace_s_l_a_m_af423bd61f5623a682e45a0d9430cf946a339a617e811591202f56ee2f98eadd26}
+}]\index{Rotating\-Right@{Rotating\-Right}!S\-L\-A\-M@{S\-L\-A\-M}}\index{S\-L\-A\-M@{S\-L\-A\-M}!Rotating\-Right@{Rotating\-Right}}\item[{\em 
+Rotating\-Right\label{namespace_s_l_a_m_af423bd61f5623a682e45a0d9430cf946a0b6635f25a1093922de170c6ea857cf0}
+}]\index{Halted@{Halted}!S\-L\-A\-M@{S\-L\-A\-M}}\index{S\-L\-A\-M@{S\-L\-A\-M}!Halted@{Halted}}\item[{\em 
+Halted\label{namespace_s_l_a_m_af423bd61f5623a682e45a0d9430cf946a5f0dc0c7e4e48e1ea3e8b451ecb2b782}
+}]\index{Scanning@{Scanning}!S\-L\-A\-M@{S\-L\-A\-M}}\index{S\-L\-A\-M@{S\-L\-A\-M}!Scanning@{Scanning}}\item[{\em 
+Scanning\label{namespace_s_l_a_m_af423bd61f5623a682e45a0d9430cf946a495c55c275d09a00aaeb7482365ab300}
+}]\end{description}
+\end{Desc}

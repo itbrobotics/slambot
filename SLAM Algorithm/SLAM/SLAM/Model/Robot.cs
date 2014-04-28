@@ -201,7 +201,7 @@ namespace SLAM
 			state = RobotState.Halted;
 			width = 0.18;
 			height = 0.23;
-			mouseCpi = 800;
+			mouseCpi = 400;
 		}
 
 		/// <summary>

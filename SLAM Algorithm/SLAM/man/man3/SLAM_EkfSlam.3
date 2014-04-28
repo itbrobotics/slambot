@@ -1,0 +1,109 @@
+.TH "SLAM.EkfSlam" 3 "Thu Apr 24 2014" "SLAM" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SLAM.EkfSlam \- 
+.PP
+Summary description for Landmarks\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBGetSlamID\fP (int id)"
+.br
+.ti -1c
+.RI "int \fBGetDBSize\fP ()"
+.br
+.ti -1c
+.RI "\fBLandmark\fP[] \fBGetDB\fP ()"
+.br
+.ti -1c
+.RI "\fBEkfSlam\fP (double degreesPerScan)"
+.br
+.ti -1c
+.RI "int \fBAddSlamID\fP (int landmarkID, int slamID)"
+.br
+.ti -1c
+.RI "int \fBRemoveBadLandmarks\fP (double[] laserdata, double[] robotPosition)"
+.br
+.ti -1c
+.RI "\fBLandmark\fP[] \fBUpdateAndAddLineLandmarks\fP (\fBLandmark\fP[] extractedLandmarks)"
+.br
+.ti -1c
+.RI "\fBLandmark\fP[] \fBUpdateAndAddLandmarksUsingEKFResults\fP (bool[] matched, int[] id, double[] ranges, double[] bearings, double[] robotPosition)"
+.br
+.ti -1c
+.RI "int \fBUpdateLineLandmark\fP (\fBLandmark\fP lm)"
+.br
+.ti -1c
+.RI "\fBLandmark\fP[] \fBExtractLineLandmarks\fP (double[] laserdata, double[] robotPosition)"
+.br
+.ti -1c
+.RI "\fBLandmark\fP[] \fBExtractSpikeLandmarks\fP (double[] laserdata, double[] robotPosition)"
+.br
+.ti -1c
+.RI "\fBLandmark\fP[] \fBRemoveDoubles\fP (\fBLandmark\fP[] extractedLandmarks)"
+.br
+.ti -1c
+.RI "int \fBAlignLandmarkData\fP (\fBLandmark\fP[] extractedLandmarks, ref bool[] matched, ref int[] id, ref double[] ranges, ref double[] bearings, ref double[,] lmrks, ref double[,] exlmrks)"
+.br
+.ti -1c
+.RI "int \fBAddToDB\fP (\fBLandmark\fP lm)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBMINOBSERVATIONS\fP = 15"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Summary description for Landmarks\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "SLAM\&.EkfSlam\&.EkfSlam (doubledegreesPerScan)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "int SLAM\&.EkfSlam\&.AddSlamID (intlandmarkID, intslamID)"
+
+.SS "int SLAM\&.EkfSlam\&.AddToDB (\fBLandmark\fPlm)"
+
+.SS "int SLAM\&.EkfSlam\&.AlignLandmarkData (\fBLandmark\fP[]extractedLandmarks, ref bool[]matched, ref int[]id, ref double[]ranges, ref double[]bearings, ref doublelmrks[,], ref doubleexlmrks[,])"
+
+.SS "\fBLandmark\fP [] SLAM\&.EkfSlam\&.ExtractLineLandmarks (double[]laserdata, double[]robotPosition)"
+
+.SS "\fBLandmark\fP [] SLAM\&.EkfSlam\&.ExtractSpikeLandmarks (double[]laserdata, double[]robotPosition)"
+
+.SS "\fBLandmark\fP [] SLAM\&.EkfSlam\&.GetDB ()"
+
+.SS "int SLAM\&.EkfSlam\&.GetDBSize ()"
+
+.SS "int SLAM\&.EkfSlam\&.GetSlamID (intid)"
+
+.SS "int SLAM\&.EkfSlam\&.RemoveBadLandmarks (double[]laserdata, double[]robotPosition)"
+
+.SS "\fBLandmark\fP [] SLAM\&.EkfSlam\&.RemoveDoubles (\fBLandmark\fP[]extractedLandmarks)"
+
+.SS "\fBLandmark\fP [] SLAM\&.EkfSlam\&.UpdateAndAddLandmarksUsingEKFResults (bool[]matched, int[]id, double[]ranges, double[]bearings, double[]robotPosition)"
+
+.SS "\fBLandmark\fP [] SLAM\&.EkfSlam\&.UpdateAndAddLineLandmarks (\fBLandmark\fP[]extractedLandmarks)"
+
+.SS "int SLAM\&.EkfSlam\&.UpdateLineLandmark (\fBLandmark\fPlm)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "int SLAM\&.EkfSlam\&.MINOBSERVATIONS = 15"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for SLAM from the source code\&.

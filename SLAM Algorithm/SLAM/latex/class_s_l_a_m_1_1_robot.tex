@@ -1,0 +1,265 @@
+\section{S\-L\-A\-M.\-Robot Class Reference}
+\label{class_s_l_a_m_1_1_robot}\index{S\-L\-A\-M.\-Robot@{S\-L\-A\-M.\-Robot}}
+
+
+Contains the exploration robot model as part of the Model-\/\-View-\/\-Controller (M\-V\-C) design pattern. This class does not contain any view specific code instead it acts as a state model for the robot recording its current x and y position, rotation, and state.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf Robot} ()
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \doxyref{S\-L\-A\-M.\-Robot}{p.}{class_s_l_a_m_1_1_robot} class with the default settings for the Pirate robot platform. \end{DoxyCompactList}\item 
+{\bf Robot} (double x\-Position, double y\-Position, double current\-Rotation, {\bf Robot\-State} current\-State, double robot\-Width, double robot\-Height, double cpi)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \doxyref{S\-L\-A\-M.\-Robot}{p.}{class_s_l_a_m_1_1_robot} class. \end{DoxyCompactList}\item 
+void {\bf Go\-Foward} ()
+\item 
+void {\bf Go\-Backward} ()
+\item 
+void {\bf Rotate\-Left} ()
+\item 
+void {\bf Rotate\-Right} ()
+\item 
+void {\bf Halt} ()
+\item 
+void {\bf Scan} ()
+\item 
+void {\bf Update\-Odometry} (Odometry\-Update\-Event\-Args e)
+\begin{DoxyCompactList}\small\item\em Updates the odometry. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bf On\-Robot\-Update} ({\bf Robot\-Update\-Event\-Args} e)
+\begin{DoxyCompactList}\small\item\em Raises the robot update event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+double {\bf X}\hspace{0.3cm}{\ttfamily  [get, set]}
+\begin{DoxyCompactList}\small\item\em Gets or sets the x position of the robot in its environment. \end{DoxyCompactList}\item 
+double {\bf Y}\hspace{0.3cm}{\ttfamily  [get, set]}
+\begin{DoxyCompactList}\small\item\em Gets or sets the y position of the robot in its environment. \end{DoxyCompactList}\item 
+double {\bf Heading}\hspace{0.3cm}{\ttfamily  [get, set]}
+\begin{DoxyCompactList}\small\item\em Gets or sets the rotation of the robot in radians. \end{DoxyCompactList}\item 
+{\bf Robot\-State} {\bf State}\hspace{0.3cm}{\ttfamily  [get, set]}
+\begin{DoxyCompactList}\small\item\em Gets or sets the state of the robot \doxyref{S\-L\-A\-M.\-Robot\-State}{p.}{namespace_s_l_a_m_af423bd61f5623a682e45a0d9430cf946}. \end{DoxyCompactList}\item 
+double {\bf Width}\hspace{0.3cm}{\ttfamily  [get]}
+\begin{DoxyCompactList}\small\item\em Gets the width. \end{DoxyCompactList}\item 
+double {\bf Height}\hspace{0.3cm}{\ttfamily  [get]}
+\begin{DoxyCompactList}\small\item\em Gets the height. \end{DoxyCompactList}\item 
+double[$\,$] {\bf Position}\hspace{0.3cm}{\ttfamily  [get]}
+\begin{DoxyCompactList}\small\item\em Gets the robot's position as an array containing x, y, and rotation. \end{DoxyCompactList}\item 
+double {\bf Cpi}\hspace{0.3cm}{\ttfamily  [get, set]}
+\begin{DoxyCompactList}\small\item\em Gets or sets the cpi of the mouse sensor. \end{DoxyCompactList}\item 
+List$<$ double[$\,$]$>$ {\bf Path\-Point\-List}\hspace{0.3cm}{\ttfamily  [get, set]}
+\begin{DoxyCompactList}\small\item\em Gets or sets the x position of the robot in its environment. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+Event\-Handler\\*
+$<$ {\bf Robot\-Update\-Event\-Args} $>$ {\bf Robot\-Updated}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains the exploration robot model as part of the Model-\/\-View-\/\-Controller (M\-V\-C) design pattern. This class does not contain any view specific code instead it acts as a state model for the robot recording its current x and y position, rotation, and state. 
+
+Whenever there is a change to the robot a {\ttfamily \doxyref{Robot\-Update\-Event\-Args}{p.}{class_s_l_a_m_1_1_robot_update_event_args}} is raised to inform any observers that there has been an update to the robot's state. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Robot@{Robot}}
+\index{Robot@{Robot}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Robot}]{\setlength{\rightskip}{0pt plus 5cm}S\-L\-A\-M.\-Robot.\-Robot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_robot_a3c15a152318e456a7cadfdbe29813764}
+
+
+Initializes a new instance of the \doxyref{S\-L\-A\-M.\-Robot}{p.}{class_s_l_a_m_1_1_robot} class with the default settings for the Pirate robot platform. 
+
+\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Robot@{Robot}}
+\index{Robot@{Robot}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Robot}]{\setlength{\rightskip}{0pt plus 5cm}S\-L\-A\-M.\-Robot.\-Robot (
+\begin{DoxyParamCaption}
+\item[{double}]{x\-Position, }
+\item[{double}]{y\-Position, }
+\item[{double}]{current\-Rotation, }
+\item[{{\bf Robot\-State}}]{current\-State, }
+\item[{double}]{robot\-Width, }
+\item[{double}]{robot\-Height, }
+\item[{double}]{cpi}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_robot_aca6e01be616c4c8dcc669f8d4e8c9a2f}
+
+
+Initializes a new instance of the \doxyref{S\-L\-A\-M.\-Robot}{p.}{class_s_l_a_m_1_1_robot} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\-Position} & X position in meters.\\
+\hline
+{\em y\-Position} & Y position in meters.\\
+\hline
+{\em current\-Rotation} & Current rotation in radians.\\
+\hline
+{\em current\-State} & Current state \doxyref{S\-L\-A\-M.\-Robot\-State}{p.}{namespace_s_l_a_m_af423bd61f5623a682e45a0d9430cf946}.\\
+\hline
+{\em robot\-Width} & \doxyref{Robot}{p.}{class_s_l_a_m_1_1_robot} width in meters.\\
+\hline
+{\em robot\-Height} & \doxyref{Robot}{p.}{class_s_l_a_m_1_1_robot} height in meters.\\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Go\-Backward@{Go\-Backward}}
+\index{Go\-Backward@{Go\-Backward}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Go\-Backward}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Robot.\-Go\-Backward (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_robot_ac6b53f4da55b7bae6a1df213c848c01e}
+\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Go\-Foward@{Go\-Foward}}
+\index{Go\-Foward@{Go\-Foward}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Go\-Foward}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Robot.\-Go\-Foward (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_robot_a779c298c447a967cef34a12cf7fbea0b}
+\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Halt@{Halt}}
+\index{Halt@{Halt}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Halt}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Robot.\-Halt (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_robot_a0c2a5aaa45c36522f2f35b14aa7c9d87}
+\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!On\-Robot\-Update@{On\-Robot\-Update}}
+\index{On\-Robot\-Update@{On\-Robot\-Update}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{On\-Robot\-Update}]{\setlength{\rightskip}{0pt plus 5cm}virtual void S\-L\-A\-M.\-Robot.\-On\-Robot\-Update (
+\begin{DoxyParamCaption}
+\item[{{\bf Robot\-Update\-Event\-Args}}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\label{class_s_l_a_m_1_1_robot_aa2298cbc031eddc7407141c85df0f696}
+
+
+Raises the robot update event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & E.\\
+\hline
+\end{DoxyParams}
+\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Rotate\-Left@{Rotate\-Left}}
+\index{Rotate\-Left@{Rotate\-Left}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Rotate\-Left}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Robot.\-Rotate\-Left (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_robot_aefc7b6664cecc2ad987367174bebc28c}
+\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Rotate\-Right@{Rotate\-Right}}
+\index{Rotate\-Right@{Rotate\-Right}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Rotate\-Right}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Robot.\-Rotate\-Right (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_robot_a0c94d92a5bba9e2e8a324f6c8e0d3f84}
+\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Scan@{Scan}}
+\index{Scan@{Scan}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Scan}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Robot.\-Scan (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_robot_ae41d52d452d35705f619705d9d5f1bb0}
+\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Update\-Odometry@{Update\-Odometry}}
+\index{Update\-Odometry@{Update\-Odometry}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Update\-Odometry}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Robot.\-Update\-Odometry (
+\begin{DoxyParamCaption}
+\item[{Odometry\-Update\-Event\-Args}]{e}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_robot_a2ddc0e9dacffa9dac975525d1ab8ec5f}
+
+
+Updates the odometry. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & E.\\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Property Documentation}
+\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Cpi@{Cpi}}
+\index{Cpi@{Cpi}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Cpi}]{\setlength{\rightskip}{0pt plus 5cm}double S\-L\-A\-M.\-Robot.\-Cpi\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\label{class_s_l_a_m_1_1_robot_a02c042efe44ab418544f1258af6c5bc4}
+
+
+Gets or sets the cpi of the mouse sensor. 
+
+The cpi resolution.\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Heading@{Heading}}
+\index{Heading@{Heading}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Heading}]{\setlength{\rightskip}{0pt plus 5cm}double S\-L\-A\-M.\-Robot.\-Heading\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\label{class_s_l_a_m_1_1_robot_a08d9e43c5ffb45a413b9850a0c1b3200}
+
+
+Gets or sets the rotation of the robot in radians. 
+
+The new rotation in radians.\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Height@{Height}}
+\index{Height@{Height}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Height}]{\setlength{\rightskip}{0pt plus 5cm}double S\-L\-A\-M.\-Robot.\-Height\hspace{0.3cm}{\ttfamily [get]}}\label{class_s_l_a_m_1_1_robot_ad26ede2b897b030613c5591346343ef7}
+
+
+Gets the height. 
+
+The height of the robot in meters.\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Path\-Point\-List@{Path\-Point\-List}}
+\index{Path\-Point\-List@{Path\-Point\-List}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Path\-Point\-List}]{\setlength{\rightskip}{0pt plus 5cm}List$<$double[$\,$]$>$ S\-L\-A\-M.\-Robot.\-Path\-Point\-List\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\label{class_s_l_a_m_1_1_robot_a6376d1570c96ecca55cbccb11dbbd6f7}
+
+
+Gets or sets the x position of the robot in its environment. 
+
+The new x position in meters.\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Position@{Position}}
+\index{Position@{Position}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Position}]{\setlength{\rightskip}{0pt plus 5cm}double [$\,$] S\-L\-A\-M.\-Robot.\-Position\hspace{0.3cm}{\ttfamily [get]}}\label{class_s_l_a_m_1_1_robot_a997078dbe427376750c5a145ad0123fd}
+
+
+Gets the robot's position as an array containing x, y, and rotation. 
+
+The position as an array.\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!State@{State}}
+\index{State@{State}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Robot\-State} S\-L\-A\-M.\-Robot.\-State\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\label{class_s_l_a_m_1_1_robot_a1d29b1831bf203faec06a9e59dd37255}
+
+
+Gets or sets the state of the robot \doxyref{S\-L\-A\-M.\-Robot\-State}{p.}{namespace_s_l_a_m_af423bd61f5623a682e45a0d9430cf946}. 
+
+The new state of the robot.\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Width@{Width}}
+\index{Width@{Width}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Width}]{\setlength{\rightskip}{0pt plus 5cm}double S\-L\-A\-M.\-Robot.\-Width\hspace{0.3cm}{\ttfamily [get]}}\label{class_s_l_a_m_1_1_robot_ad606a04d3b6f349f9e9a93f613aa40e2}
+
+
+Gets the width. 
+
+The width of the robot in meters.\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!X@{X}}
+\index{X@{X}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{X}]{\setlength{\rightskip}{0pt plus 5cm}double S\-L\-A\-M.\-Robot.\-X\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\label{class_s_l_a_m_1_1_robot_a65a2fb5de14325f68d83b36c7751bd96}
+
+
+Gets or sets the x position of the robot in its environment. 
+
+The new x position in meters.\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Y@{Y}}
+\index{Y@{Y}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Y}]{\setlength{\rightskip}{0pt plus 5cm}double S\-L\-A\-M.\-Robot.\-Y\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\label{class_s_l_a_m_1_1_robot_a5bf2a77534812a416dcbf90651966e4e}
+
+
+Gets or sets the y position of the robot in its environment. 
+
+The new y position in meters.
+
+\subsection{Event Documentation}
+\index{S\-L\-A\-M\-::\-Robot@{S\-L\-A\-M\-::\-Robot}!Robot\-Updated@{Robot\-Updated}}
+\index{Robot\-Updated@{Robot\-Updated}!SLAM::Robot@{S\-L\-A\-M\-::\-Robot}}
+\subsubsection[{Robot\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}Event\-Handler$<${\bf Robot\-Update\-Event\-Args}$>$ S\-L\-A\-M.\-Robot.\-Robot\-Updated}\label{class_s_l_a_m_1_1_robot_a27f408587eafb528ab62dd3568293e37}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+S\-L\-A\-M/\-Model/{\bf Robot.\-cs}\end{DoxyCompactItemize}

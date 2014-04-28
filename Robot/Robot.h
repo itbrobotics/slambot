@@ -17,6 +17,7 @@
 
 // Speed to run motors at.
 #define MOTOR_SPEED 255
+#define MOTER_SPEED_SLOW 128
 
 // IC2 Uno pins.
 #define IC2_CLOCK A4

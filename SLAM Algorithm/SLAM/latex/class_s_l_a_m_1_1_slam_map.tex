@@ -1,0 +1,217 @@
+\section{S\-L\-A\-M.\-Slam\-Map Class Reference}
+\label{class_s_l_a_m_1_1_slam_map}\index{S\-L\-A\-M.\-Slam\-Map@{S\-L\-A\-M.\-Slam\-Map}}
+
+
+Map.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf Slam\-Map} ({\bf Robot} robot\-Model, double map\-Width, double map\-Height)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the S\-L\-A\-M.\-Map class. \end{DoxyCompactList}\item 
+void {\bf Add\-Landmark} ({\bf Landmark} landmark)
+\begin{DoxyCompactList}\small\item\em Adds a single landmark to the map. \end{DoxyCompactList}\item 
+void {\bf Add\-Landmarks} ({\bf Landmark}[$\,$] landmark\-Array)
+\begin{DoxyCompactList}\small\item\em Adds a range of landmarks to the map. \end{DoxyCompactList}\item 
+void {\bf Add\-Landmarks} (List$<$ {\bf Landmark} $>$ landmark\-List)
+\begin{DoxyCompactList}\small\item\em Adds a range of landmarks to the map. \end{DoxyCompactList}\item 
+void {\bf Update\-Landmarks} ({\bf Landmark}[$\,$] landmark\-Array)
+\begin{DoxyCompactList}\small\item\em Updates the landmarks. \end{DoxyCompactList}\item 
+void {\bf Update\-Landmarks} (List$<$ {\bf Landmark} $>$ landmark\-List)
+\begin{DoxyCompactList}\small\item\em Updates the landmarks. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const double {\bf Cell\-Size} = 0.\-3
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bf On\-Map\-Update} ({\bf Map\-Update\-Event\-Args} e)
+\begin{DoxyCompactList}\small\item\em Raises the map update event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+{\bf Robot} {\bf Robot}\hspace{0.3cm}{\ttfamily  [get]}
+\begin{DoxyCompactList}\small\item\em Get the robot on this map. \end{DoxyCompactList}\item 
+Read\-Only\-Collection$<$ {\bf Landmark} $>$ {\bf Landmarks}\hspace{0.3cm}{\ttfamily  [get]}
+\item 
+double {\bf Width}\hspace{0.3cm}{\ttfamily  [get, set]}
+\begin{DoxyCompactList}\small\item\em Gets or sets the width. \end{DoxyCompactList}\item 
+double {\bf Height}\hspace{0.3cm}{\ttfamily  [get, set]}
+\begin{DoxyCompactList}\small\item\em Gets or sets the height. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+Event\-Handler$<$ {\bf Map\-Update\-Event\-Args} $>$ {\bf Map\-Updated}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Map. 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!Slam\-Map@{Slam\-Map}}
+\index{Slam\-Map@{Slam\-Map}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{Slam\-Map}]{\setlength{\rightskip}{0pt plus 5cm}S\-L\-A\-M.\-Slam\-Map.\-Slam\-Map (
+\begin{DoxyParamCaption}
+\item[{{\bf Robot}}]{robot\-Model, }
+\item[{double}]{map\-Width, }
+\item[{double}]{map\-Height}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_slam_map_a761c7efe086ef318670bf8539d63d7c6}
+
+
+Initializes a new instance of the S\-L\-A\-M.\-Map class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em robot\-Model} & \doxyref{Robot}{p.}{class_s_l_a_m_1_1_robot} roaming on this map.\\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!Add\-Landmark@{Add\-Landmark}}
+\index{Add\-Landmark@{Add\-Landmark}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{Add\-Landmark}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Slam\-Map.\-Add\-Landmark (
+\begin{DoxyParamCaption}
+\item[{{\bf Landmark}}]{landmark}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_slam_map_ae356b17ebbdcb78b9609065e13fd496f}
+
+
+Adds a single landmark to the map. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em landmark} & \doxyref{Landmark}{p.}{class_s_l_a_m_1_1_landmark}.\\
+\hline
+\end{DoxyParams}
+\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!Add\-Landmarks@{Add\-Landmarks}}
+\index{Add\-Landmarks@{Add\-Landmarks}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{Add\-Landmarks}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Slam\-Map.\-Add\-Landmarks (
+\begin{DoxyParamCaption}
+\item[{{\bf Landmark}[$\,$]}]{landmark\-Array}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_slam_map_a622cd6bf876d2e9c41bce907393ec98c}
+
+
+Adds a range of landmarks to the map. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em landmark\-Array} & \doxyref{Landmark}{p.}{class_s_l_a_m_1_1_landmark} array.\\
+\hline
+\end{DoxyParams}
+\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!Add\-Landmarks@{Add\-Landmarks}}
+\index{Add\-Landmarks@{Add\-Landmarks}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{Add\-Landmarks}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Slam\-Map.\-Add\-Landmarks (
+\begin{DoxyParamCaption}
+\item[{List$<$ {\bf Landmark} $>$}]{landmark\-List}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_slam_map_a50811e8fb147e4c4e79f441fb89a35b8}
+
+
+Adds a range of landmarks to the map. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em landmark\-List} & \doxyref{Landmark}{p.}{class_s_l_a_m_1_1_landmark} list.\\
+\hline
+\end{DoxyParams}
+\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!On\-Map\-Update@{On\-Map\-Update}}
+\index{On\-Map\-Update@{On\-Map\-Update}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{On\-Map\-Update}]{\setlength{\rightskip}{0pt plus 5cm}virtual void S\-L\-A\-M.\-Slam\-Map.\-On\-Map\-Update (
+\begin{DoxyParamCaption}
+\item[{{\bf Map\-Update\-Event\-Args}}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\label{class_s_l_a_m_1_1_slam_map_a1ee9f03fc2f3749b6d1df6308128147d}
+
+
+Raises the map update event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & E.\\
+\hline
+\end{DoxyParams}
+\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!Update\-Landmarks@{Update\-Landmarks}}
+\index{Update\-Landmarks@{Update\-Landmarks}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{Update\-Landmarks}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Slam\-Map.\-Update\-Landmarks (
+\begin{DoxyParamCaption}
+\item[{{\bf Landmark}[$\,$]}]{landmark\-Array}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_slam_map_ace2645ba1fffffe3b4f53906147a99d8}
+
+
+Updates the landmarks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em landmark\-Array} & \doxyref{Landmark}{p.}{class_s_l_a_m_1_1_landmark} array.\\
+\hline
+\end{DoxyParams}
+\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!Update\-Landmarks@{Update\-Landmarks}}
+\index{Update\-Landmarks@{Update\-Landmarks}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{Update\-Landmarks}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Slam\-Map.\-Update\-Landmarks (
+\begin{DoxyParamCaption}
+\item[{List$<$ {\bf Landmark} $>$}]{landmark\-List}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_slam_map_a2aa75901f583eea2cbb853b64f4b386b}
+
+
+Updates the landmarks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em landmark\-List} & \doxyref{Landmark}{p.}{class_s_l_a_m_1_1_landmark} list.\\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!Cell\-Size@{Cell\-Size}}
+\index{Cell\-Size@{Cell\-Size}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{Cell\-Size}]{\setlength{\rightskip}{0pt plus 5cm}const double S\-L\-A\-M.\-Slam\-Map.\-Cell\-Size = 0.\-3}\label{class_s_l_a_m_1_1_slam_map_a6ae63db96602efe32d31aa7743a26b6f}
+
+
+\subsection{Property Documentation}
+\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!Height@{Height}}
+\index{Height@{Height}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{Height}]{\setlength{\rightskip}{0pt plus 5cm}double S\-L\-A\-M.\-Slam\-Map.\-Height\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\label{class_s_l_a_m_1_1_slam_map_af8ed64fc6a19faca537ee8a38eeb128b}
+
+
+Gets or sets the height. 
+
+The height in meters.\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!Landmarks@{Landmarks}}
+\index{Landmarks@{Landmarks}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{Landmarks}]{\setlength{\rightskip}{0pt plus 5cm}Read\-Only\-Collection$<${\bf Landmark}$>$ S\-L\-A\-M.\-Slam\-Map.\-Landmarks\hspace{0.3cm}{\ttfamily [get]}}\label{class_s_l_a_m_1_1_slam_map_a15414f65bd417fa719d79f7df06b1cad}
+\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!Robot@{Robot}}
+\index{Robot@{Robot}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{Robot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Robot} S\-L\-A\-M.\-Slam\-Map.\-Robot\hspace{0.3cm}{\ttfamily [get]}}\label{class_s_l_a_m_1_1_slam_map_af3609125ebc5c4804531fb6b894a18e8}
+
+
+Get the robot on this map. 
+
+The robot.\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!Width@{Width}}
+\index{Width@{Width}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{Width}]{\setlength{\rightskip}{0pt plus 5cm}double S\-L\-A\-M.\-Slam\-Map.\-Width\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\label{class_s_l_a_m_1_1_slam_map_aee9fb232d501925e290fdb8a434d6d7b}
+
+
+Gets or sets the width. 
+
+The width in meters.
+
+\subsection{Event Documentation}
+\index{S\-L\-A\-M\-::\-Slam\-Map@{S\-L\-A\-M\-::\-Slam\-Map}!Map\-Updated@{Map\-Updated}}
+\index{Map\-Updated@{Map\-Updated}!SLAM::SlamMap@{S\-L\-A\-M\-::\-Slam\-Map}}
+\subsubsection[{Map\-Updated}]{\setlength{\rightskip}{0pt plus 5cm}Event\-Handler$<${\bf Map\-Update\-Event\-Args}$>$ S\-L\-A\-M.\-Slam\-Map.\-Map\-Updated}\label{class_s_l_a_m_1_1_slam_map_a64ded9c8243af097ddf25e52c82d0dd9}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+S\-L\-A\-M/\-Model/{\bf Slam\-Map.\-cs}\end{DoxyCompactItemize}

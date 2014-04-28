@@ -1,0 +1,78 @@
+.TH "SLAM.LandmarkView" 3 "Thu Apr 24 2014" "SLAM" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SLAM.LandmarkView \- 
+.PP
+\fBLandmark\fP view\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBLandmarkView\fP (ReadOnlyCollection< \fBLandmark\fP > mapLandmarks)"
+.br
+.RI "\fIInitializes a new instance of the \fBSLAM\&.LandmarkView\fP class\&. \fP"
+.ti -1c
+.RI "void \fBDraw\fP (Cairo\&.Context cairoContext, int centerX, int centerY, double scale, \fBLandmark\fP[] a)"
+.br
+.RI "\fIDraw every landmark contained within this class\&. \fP"
+.in -1c
+.SS "Properties"
+
+.in +1c
+.ti -1c
+.RI "ReadOnlyCollection< \fBLandmark\fP > \fBLandmarks\fP\fC [get]\fP"
+.br
+.RI "\fIGets or sets the landmarks\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBLandmark\fP view\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "SLAM\&.LandmarkView\&.LandmarkView (ReadOnlyCollection< \fBLandmark\fP >mapLandmarks)"
+
+.PP
+Initializes a new instance of the \fBSLAM\&.LandmarkView\fP class\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImapLandmarks\fP Map landmarks list\&.
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void SLAM\&.LandmarkView\&.Draw (Cairo\&.ContextcairoContext, intcenterX, intcenterY, doublescale, \fBLandmark\fP[]a)"
+
+.PP
+Draw every landmark contained within this class\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcairoContext\fP Cairo context\&.
+.br
+\fIcenterX\fP Center x\&.
+.br
+\fIcenterY\fP Center y\&.
+.br
+\fIscale\fP Scale currently unused\&.
+.RE
+.PP
+
+.SH "Property Documentation"
+.PP 
+.SS "ReadOnlyCollection<\fBLandmark\fP> SLAM\&.LandmarkView\&.Landmarks\fC [get]\fP"
+
+.PP
+Gets or sets the landmarks\&. The landmarks\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for SLAM from the source code\&.

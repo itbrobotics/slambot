@@ -1,0 +1,84 @@
+\section{S\-L\-A\-M.\-Robot\-View Class Reference}
+\label{class_s_l_a_m_1_1_robot_view}\index{S\-L\-A\-M.\-Robot\-View@{S\-L\-A\-M.\-Robot\-View}}
+
+
+\doxyref{Robot}{p.}{class_s_l_a_m_1_1_robot} view.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf Robot\-View} ({\bf Robot} robot\-Model)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \doxyref{S\-L\-A\-M.\-Robot\-View}{p.}{class_s_l_a_m_1_1_robot_view} class. \end{DoxyCompactList}\item 
+void {\bf Draw} (Cairo.\-Context cairo\-Context, int center\-X, int center\-Y, double scale)
+\begin{DoxyCompactList}\small\item\em Draw the robot taking into account the center x and y position of the map which will be different from the true center x and y positions on the drawing context. This method will result in a red wheeled robot with black tyres being drawn at the robots location on the map. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+{\bf Robot} {\bf Robot}\hspace{0.3cm}{\ttfamily  [get]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\doxyref{Robot}{p.}{class_s_l_a_m_1_1_robot} view. 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{S\-L\-A\-M\-::\-Robot\-View@{S\-L\-A\-M\-::\-Robot\-View}!Robot\-View@{Robot\-View}}
+\index{Robot\-View@{Robot\-View}!SLAM::RobotView@{S\-L\-A\-M\-::\-Robot\-View}}
+\subsubsection[{Robot\-View}]{\setlength{\rightskip}{0pt plus 5cm}S\-L\-A\-M.\-Robot\-View.\-Robot\-View (
+\begin{DoxyParamCaption}
+\item[{{\bf Robot}}]{robot\-Model}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_robot_view_a953679008e209198a94274612300486f}
+
+
+Initializes a new instance of the \doxyref{S\-L\-A\-M.\-Robot\-View}{p.}{class_s_l_a_m_1_1_robot_view} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em robot\-Model} & \doxyref{Robot}{p.}{class_s_l_a_m_1_1_robot} model that this view represents.\\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{S\-L\-A\-M\-::\-Robot\-View@{S\-L\-A\-M\-::\-Robot\-View}!Draw@{Draw}}
+\index{Draw@{Draw}!SLAM::RobotView@{S\-L\-A\-M\-::\-Robot\-View}}
+\subsubsection[{Draw}]{\setlength{\rightskip}{0pt plus 5cm}void S\-L\-A\-M.\-Robot\-View.\-Draw (
+\begin{DoxyParamCaption}
+\item[{Cairo.\-Context}]{cairo\-Context, }
+\item[{int}]{center\-X, }
+\item[{int}]{center\-Y, }
+\item[{double}]{scale}
+\end{DoxyParamCaption}
+)}\label{class_s_l_a_m_1_1_robot_view_a83c9cda0b93b15cc76b1f3f6a4a45add}
+
+
+Draw the robot taking into account the center x and y position of the map which will be different from the true center x and y positions on the drawing context. This method will result in a red wheeled robot with black tyres being drawn at the robots location on the map. 
+
+The scale value is currently unused but it could be useful if the map was scaled in some way for example a mini-\/map may be 10 times smaller than the original results in 1\-:10 scale robot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cairo\-Context} & Cairo context to draw to (assuming a map).\\
+\hline
+{\em center\-X} & Center x position of map to draw onto.\\
+\hline
+{\em center\-Y} & Center y position of map to draw onto.\\
+\hline
+{\em scale} & Scale currently unused.\\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Property Documentation}
+\index{S\-L\-A\-M\-::\-Robot\-View@{S\-L\-A\-M\-::\-Robot\-View}!Robot@{Robot}}
+\index{Robot@{Robot}!SLAM::RobotView@{S\-L\-A\-M\-::\-Robot\-View}}
+\subsubsection[{Robot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Robot} S\-L\-A\-M.\-Robot\-View.\-Robot\hspace{0.3cm}{\ttfamily [get]}}\label{class_s_l_a_m_1_1_robot_view_a31232262f149bda4b3233b4ca105d764}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+S\-L\-A\-M/\-View/{\bf Robot\-View.\-cs}\end{DoxyCompactItemize}
