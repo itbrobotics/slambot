@@ -69,6 +69,7 @@ namespace SLAM
 				cairoContext.Stroke ();
 
 			}*/
+
 			foreach (Landmark landmark in landmarks)
 			{
 

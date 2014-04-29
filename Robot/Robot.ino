@@ -202,11 +202,12 @@ void getHeading()
 {
   // Read compass rotation.
   MagnetometerScaled scaled = compass.ReadScaledAxis();
-
+ 
   int MilliGauss_OnThe_XAxis = scaled.XAxis; // (or YAxis, or ZAxis)
 
   // Calculate heading when the magnetometer is level, then correct for signs of axis.
   theta = atan2(scaled.YAxis, scaled.XAxis);
+  //theta = atan2(scaled.ZAxis, scaled.XAxis);
 
   // Correct for when signs are reversed.
   if(theta < 0)
@@ -240,7 +241,7 @@ void scan()
   for (pos = 0; pos < 180; pos++)
   {
     Serial.print(",");
-    Serial.print(distances[i], DEC); 
+    Serial.print(distances[pos], DEC); 
   }
 
   Serial.println(); // Message terminated by \n.
@@ -367,38 +368,38 @@ void goForward()
 {
   motor1.run(FORWARD);
   motor2.run(FORWARD);
-  //motor3.run(FORWARD);
-  //motor4.run(FORWARD);
+  motor3.run(FORWARD);
+  motor4.run(FORWARD);
 }
 
 void goBackward()
 {
   motor1.run(BACKWARD);
   motor2.run(BACKWARD);
-  //motor3.run(BACKWARD);
-  //motor4.run(BACKWARD);
+  motor3.run(BACKWARD);
+  motor4.run(BACKWARD);
 }
 
 void turnLeft()
 {
   motor1.run(BACKWARD);
   motor2.run(FORWARD);
-  //motor3.run(FORWARD);
-  //motor4.run(BACKWARD);
+  motor3.run(FORWARD);
+  motor4.run(BACKWARD);
 }
 
 void turnRight()
 {
   motor1.run(FORWARD);
   motor2.run(BACKWARD);
-  //motor3.run(BACKWARD);
-  //motor4.run(FORWARD);
+  motor3.run(BACKWARD);
+  motor4.run(FORWARD);
 }
 
 void halt()
 {
   motor1.run(RELEASE);
   motor2.run(RELEASE);
-  //motor3.run(RELEASE);
-  //motor4.run(RELEASE);
+  motor3.run(RELEASE);
+  motor4.run(RELEASE);
 }
